@@ -1,9 +1,11 @@
+import 'package:apprutas/Models/book_model.dart';
 import 'package:apprutas/Models/foto_model.dart';
 import 'package:apprutas/Utils/Global/strings.dart' as globalStr;
 import 'dart:convert';      // required to encode/decode json data
 import 'package:http/http.dart' as http;
 
 Future<List<FotoModel>> fotosFuture = getFotos();
+Future<List<BookModel>> booksFuture = getBooks();
 
 Future<List<FotoModel>> getFotos() async {
   var url = Uri.parse(globalStr.urlApiFotos);
@@ -12,3 +14,12 @@ Future<List<FotoModel>> getFotos() async {
 
   return body.map((item) => FotoModel.fromJson(item)).toList();
 }
+
+Future<List<BookModel>> getBooks() async {
+  var url = Uri.parse("https://freetestapi.com/api/v1/books");
+  final response = await http.get(url, headers: {"Content-Type": "application/json"});
+  final List body = json.decode(response.body);
+
+  return body.map((book) => BookModel.fromJson(book)).toList();
+}
+

@@ -1,9 +1,14 @@
 
 import 'dart:core';
+import 'dart:ffi';
 
+import 'package:apprutas/Screens/AlertsScreen/alerts_screen.dart';
 import 'package:apprutas/Screens/ListViewScreen/listview_screen.dart';
 import 'package:apprutas/Screens/MapScreen/map_screen.dart';
+import 'package:apprutas/Styles/theme.dart';
 import 'package:apprutas/Styles/theme_manager.dart';
+import 'package:apprutas/Styles/theme_manager2.dart';
+import 'package:apprutas/Utils/global_context.dart';
 import 'package:flutter/material.dart';
 
 part 'navigation_controller.dart';
@@ -28,12 +33,17 @@ class _NavigationScreen extends State<NavigationScreen> {
       }
     });
   }
-
+  //bool light = true;
+  bool darkMode = thmManager.thMode == ThemeMode.dark;
+  bool darkMode2 = thmManager2.myAttrs.mode == ThemeMode.dark;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("App Rutas"),
+        title: Text(
+          "App Rutas",
+          style: TextStyle(fontSize: 24),
+        ),
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
@@ -51,9 +61,9 @@ class _NavigationScreen extends State<NavigationScreen> {
             currentPageIndexNavBar = index;
           });
         },
-        indicatorColor: Colors.deepPurple[300],
+        indicatorColor: COLOR_SENCONDARY,
         selectedIndex: currentPageIndexNavBar,
-        destinations: const <Widget>[
+        destinations: <Widget>[
           NavigationDestination(
               icon: Icon(Icons.list_alt_rounded),
               label: "Unidades"
@@ -97,7 +107,7 @@ class _NavigationScreen extends State<NavigationScreen> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.map_outlined),
+              leading: Icon(Icons.map_outlined,),
               title: const Text("Monitoreo"),
               onTap: () {
                 onTapDrawer(-1);
@@ -106,11 +116,23 @@ class _NavigationScreen extends State<NavigationScreen> {
             ),
             SwitchListTile(
               title: Text("Modo oscuro"),
-                value: thmManager.myThMode == ThemeMode.dark,
+                value: darkMode2,
                 onChanged: (newValue) {
-                  thmManager.toggleMode(newValue);
+                  // thmManager.toggleMode(newValue);
+                  // print("SWITCH presionado, valor: ${newValue}");
+                  //
+                  thmManager2.toggleTheme();
+                  setState(() {
+                    darkMode2 = newValue;
+                  });
                 }
-            )
+            ),
+            // ElevatedButton(
+            //     onPressed: () {
+            //       thmManager2.toggleTheme();
+            //     },
+            //     child: const Text("Toggle Theme")
+            // )
           ],
         ),
       ),

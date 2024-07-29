@@ -4,7 +4,9 @@ int currentPageIndexDrawer = -1;
 int currentPageIndexNavBar = 0;
 
 ThemeManager thmManager = ThemeManager();
-
+ThemeManager2 thmManager2 = ThemeManager2();
+TextTheme txtTheme = Theme.of(GlobalContext.navKey.currentContext!).textTheme;
+bool isDark = Theme.of(GlobalContext.navKey.currentContext!).brightness == Brightness.dark;
 
 List<Widget> widgetOptionsDawer = [
   Center(
@@ -13,15 +15,13 @@ List<Widget> widgetOptionsDawer = [
   Center(
     child: Text("Cerrar sesión"),
   ),
-  NavigationScreen()
+  NavigationScreen(),
 ];
 
 List<Widget> widgetOptionsNavBar = [
   ListviewScreen(),
   MapScreen(),
-  Center(
-    child: Text("Alertas screen"),
-  )
+  AlertsScreen()
 ];
 
 

@@ -1,18 +1,42 @@
+import 'package:apprutas/Models/unidad_model.dart';
+import 'package:apprutas/Screens/AlertsScreen/alerts_manager.dart';
+import 'package:apprutas/Screens/HistorialScreen/validator_manager.dart';
+import 'package:apprutas/Screens/InicioSesionScreen/inicio_sesion2_screen.dart';
+import 'package:apprutas/Screens/InicioSesionScreen/inicio_sesion_screen.dart';
+import 'package:apprutas/Screens/ListViewScreen/last_report_manager.dart';
+import 'package:apprutas/Screens/ListViewScreen/listview_manager.dart';
+import 'package:apprutas/Screens/ListViewScreen/listview_manager2.dart';
 import 'package:apprutas/Screens/ListViewScreen/listview_screen.dart';
 import 'package:apprutas/Screens/LogInScreen/login_screen.dart';
 import 'package:apprutas/Screens/LogInScreen/login_screen_widget.dart';
+import 'package:apprutas/Screens/MapScreen/map_manager.dart';
 import 'package:apprutas/Screens/NavigationScreen/navigation_screen.dart';
 import 'package:apprutas/Screens/MapScreen/map_screen.dart';
 import 'package:apprutas/Screens/home_screen.dart';
+import 'package:apprutas/Services/road_api.dart';
 import 'package:apprutas/Styles/theme.dart';
+import 'package:apprutas/Styles/theme_manager2.dart';
 import 'package:apprutas/Utils/global_context.dart';
 import 'package:apprutas/Widgets/foto_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
+import 'package:provider/provider.dart' as provider;
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'Styles/theme_manager.dart';
 
+/** VARIABLES DE SESION **/
+/**
+ * tokenUser (String)
+ * **/
+
 void main() {
-  runApp(const MyApp());
+  runApp(
+    riverpod.ProviderScope(
+        child: MyApp()
+    )
+  );
 }
 
 ThemeManager thmManager = ThemeManager();
@@ -29,16 +53,14 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   themeListener() {
     if(mounted){
-      print("I'm Mouted, whateve it means");
+      print("I'm Mouted, whatever it means");
       setState(() {
 
       });
     }
   }
-
   @override
   void dispose() {
     print("Listener removed");
@@ -50,18 +72,69 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     thmManager.addListener(themeListener);
     print("Listener added");
+    initialization();
     super.initState();
+  }
+
+  void initialization() async {
+    // This is where you can initialize the resources needed by your app while
+    // the splash screen is displayed.  Remove the following example because
+    // delaying the user experience is a bad design practice!
+    // ignore_for_file: avoid_print
+    print('ready in 3...');
+    await Future.delayed(const Duration(seconds: 1));
+    print('ready in 2...');
+    await Future.delayed(const Duration(seconds: 1));
+    print('ready in 1...');
+    await Future.delayed(const Duration(seconds: 1));
+    print('go!');
+    FlutterNativeSplash.remove();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      navigatorKey: GlobalContext.navKey,
-      theme: lightMyAppTheme,
-      darkTheme: darkMyAppTheme,
-      themeMode: thmManager.thMode,
-      home: NavigationScreen(),
+    return provider.MultiProvider(
+      providers: [
+        provider.ChangeNotifierProvider(
+            create: (context) => ListviewManager2(),
+        ),
+        provider.ChangeNotifierProvider(
+            create: (context) => ListviewManager()
+        ),
+        provider.ChangeNotifierProvider(
+            create: (context) => AlertsManager()
+        ),
+        provider.ChangeNotifierProvider(
+          create: (context) => MapManager(),
+        ),
+        provider.ChangeNotifierProvider(
+          create: (context) => ValidatorManager(),
+        ),
+        provider.ChangeNotifierProvider(
+          create: (context) => ThemeManager2(),
+        ),
+        provider.ChangeNotifierProvider(
+          create: (context) => LastReportManager(),
+        )
+      ],
+      // child: MaterialApp(
+      //   debugShowCheckedModeBanner: false,
+      //   navigatorKey: GlobalContext.navKey,
+      //   theme: lightMyAppTheme,
+      //   darkTheme: darkMyAppTheme,
+      //   themeMode: thmManager.thMode,
+      //   home: InicioSesionScreen(),
+      // ),
+      child: provider.Consumer<ThemeManager2>(
+        builder: (context, themeProvider, child) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            navigatorKey: GlobalContext.navKey,
+            theme: themeProvider.attrs.mycolors,
+            home: const InicioSesion2Screen(),
+          );
+        },
+      ),
     );
   }
 

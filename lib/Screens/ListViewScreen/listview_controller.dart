@@ -28,7 +28,7 @@ class UnitStatus {
 }
 UnitStatus determineUnitStatus(String lastReport) {
   Duration tiempo = parsearDuracion(lastReport);
-  print("ULTIMO REPORTE FUE HACE: ${tiempo.inMinutes} minutos. ");
+  //print("ULTIMO REPORTE FUE HACE: ${tiempo.inMinutes} minutos. ");
   if(tiempo.inMinutes <= 5){
     Color code = Color(0xFF2ECC71);
     return UnitStatus(color: code, tiempo: lastReport);

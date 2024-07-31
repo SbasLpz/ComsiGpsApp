@@ -19,11 +19,12 @@ TextTheme txtTheme = Theme.of(GlobalContext.navKey.currentContext!).textTheme;
 
 UnidadModel unit = UnidadModel();
 
-  Widget buildFotos(List<UnidadModel> unidades, BuildContext context) {
+  Widget buildFotos(List<UnidadModel> unidades, BuildContext context, Key key) {
     final unitsManager = context.watch<ListviewManager>();
 
     //print("Cantidad Units: ${searchManager.units.length}, AllUnits ${searchManager.allUnits.length}");
     return ListView.builder(
+      key: key,
       itemCount: unidades.length,
       //itemCount: searchManager.units.isEmpty ? searchManager.allUnits.length : searchManager.units.length,
       itemBuilder: (context, index) {
@@ -54,19 +55,22 @@ UnidadModel unit = UnidadModel();
                           ),
                           Flexible(
                               flex: 1,
-                              child: unitsManager.selectedIds.contains(int.parse(unidad.id_gps!)) || unitsManager.isChecked ? IconButton(
-                                  onPressed: () {
-
-                                  },
-                                  icon: Icon(Icons.check_circle, size: 30,)
-                              ): IconButton(
-                                  onPressed: (){
-
-                                  },
-                                  alignment: Alignment.topRight,
-                                  icon: Icon(Icons.circle_outlined, size: 30,)
+                              child: unitsManager.selectedIds.contains(int.parse(unidad.id_gps!)) || unitsManager.isChecked ?
+                              Align(
+                                alignment: Alignment.topRight,
+                                  child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(10, 10, 30, 0),
+                                    child: Icon(Icons.check_circle, size: 30,),
+                                  )
+                              ) :
+                              Align(
+                                alignment: Alignment.topRight,
+                                  child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(10, 10, 30, 0),
+                                    child: Icon(Icons.circle_outlined, size: 30,),
+                                  )
+                              )
                               ),
-                          ),
                         ],
                       ),
                     ),

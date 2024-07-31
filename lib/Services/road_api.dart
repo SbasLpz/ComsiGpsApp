@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:apprutas/Models/alert_model.dart';
+import 'package:apprutas/Models/command_model.dart';
 import 'package:apprutas/Models/historial_model.dart';
+import 'package:apprutas/Models/send_model.dart';
 import 'package:apprutas/Models/unidad_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:session_manager/session_manager.dart';
@@ -88,4 +90,34 @@ Future<List<AlertModel>> getAlerts() async {
   print("ACTUALICE LAS ALERTAS !");
 
   return dataResp.map((alerta) => AlertModel.fromJson(alerta)).toList();
+}
+
+Future<List<CommandModel>> getCommands(String id) async {
+  String token = await SessionManager().getString("tokenUser");
+  Map<String, dynamic> request = {
+    'id': id
+  };
+  var url = Uri.parse("https://roadcontrol.co/tracking-es/api/commands/getList/"+token);
+
+  final response = await http.post(url, headers: {}, body: request);
+
+  final List<dynamic> dataResp = response.statusCode == 200 ? json.decode(response.body)['data'] : [];
+
+  return dataResp.map((cmd)=>CommandModel.fromJson(cmd)).toList();
+}
+
+Future<SendModel> sendCommand(String id, String sms) async {
+  String token = await SessionManager().getString("tokenUser");
+  Map<String, dynamic> request = {
+    'id': id,
+    'sms': sms
+  };
+  var url = Uri.parse("https://roadcontrol.co/tracking-es/api/commands/sendcommand/"+token);
+
+  final response = await http.post(url, headers: {}, body: request);
+  final body = jsonDecode(response.body);
+  //final List<dynamic> dataResp = response.statusCode == 200 ? json.decode(response.body)['data'] : [];
+
+  print("Envie le COMANDO ${sms}, SUCCESS: ${SendModel.fromJson(body).success}");
+  return SendModel.fromJson(body);
 }

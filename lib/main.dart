@@ -1,5 +1,7 @@
 import 'package:apprutas/Models/unidad_model.dart';
 import 'package:apprutas/Screens/AlertsScreen/alerts_manager.dart';
+import 'package:apprutas/Screens/CommandScreen/command_manager.dart';
+import 'package:apprutas/Screens/CommandScreen/command_screen.dart';
 import 'package:apprutas/Screens/HistorialScreen/validator_manager.dart';
 import 'package:apprutas/Screens/InicioSesionScreen/inicio_sesion2_screen.dart';
 import 'package:apprutas/Screens/InicioSesionScreen/inicio_sesion_screen.dart';
@@ -10,6 +12,7 @@ import 'package:apprutas/Screens/ListViewScreen/listview_screen.dart';
 import 'package:apprutas/Screens/LogInScreen/login_screen.dart';
 import 'package:apprutas/Screens/LogInScreen/login_screen_widget.dart';
 import 'package:apprutas/Screens/MapScreen/map_manager.dart';
+import 'package:apprutas/Screens/NavigationScreen/navigation_manager.dart';
 import 'package:apprutas/Screens/NavigationScreen/navigation_screen.dart';
 import 'package:apprutas/Screens/MapScreen/map_screen.dart';
 import 'package:apprutas/Screens/home_screen.dart';
@@ -32,6 +35,7 @@ import 'Styles/theme_manager.dart';
  * **/
 
 void main() {
+  //WidgetsFlutterBinding.ensureInitialized();
   runApp(
     riverpod.ProviderScope(
         child: MyApp()
@@ -81,6 +85,7 @@ class _MyAppState extends State<MyApp> {
     // the splash screen is displayed.  Remove the following example because
     // delaying the user experience is a bad design practice!
     // ignore_for_file: avoid_print
+    //comandos = await getCommands();
     print('ready in 3...');
     await Future.delayed(const Duration(seconds: 1));
     print('ready in 2...');
@@ -115,6 +120,12 @@ class _MyAppState extends State<MyApp> {
         ),
         provider.ChangeNotifierProvider(
           create: (context) => LastReportManager(),
+        ),
+        provider.ChangeNotifierProvider(
+          create: (context) => CommandManager(),
+        ),
+        provider.ChangeNotifierProvider(
+          create: (context) => NavigationManager(),
         )
       ],
       // child: MaterialApp(
@@ -125,12 +136,15 @@ class _MyAppState extends State<MyApp> {
       //   themeMode: thmManager.thMode,
       //   home: InicioSesionScreen(),
       // ),
+
+
       child: provider.Consumer<ThemeManager2>(
         builder: (context, themeProvider, child) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             navigatorKey: GlobalContext.navKey,
             theme: themeProvider.attrs.mycolors,
+            darkTheme: DarkThemeAttrs().mycolors,
             home: const InicioSesion2Screen(),
           );
         },

@@ -1,4 +1,5 @@
 import 'package:apprutas/Models/unidad_model.dart';
+import 'package:apprutas/Screens/CommandScreen/command_screen.dart';
 import 'package:apprutas/Screens/HistorialScreen/historial_screen.dart';
 import 'package:apprutas/Screens/InfoUnitScreen/unit_info_screen.dart';
 import 'package:apprutas/Styles/theme.dart';
@@ -12,7 +13,7 @@ Widget infoDialog2 (UnidadModel unidad, BuildContext context) {
   const padd = 8.0;
   const widd = 100.0;
   return Container(
-    color: Colors.white,
+    color: Theme.of(context).colorScheme.onPrimary,
     child: Padding(
       padding: EdgeInsets.all(15.0),
       child: Container(
@@ -282,7 +283,10 @@ Widget infoDialog2 (UnidadModel unidad, BuildContext context) {
                   Expanded(
                     child: IconButton(
                       onPressed: (){
-
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => CommandScreen(id_vehiculo: unidad.id!,))
+                        );
                       },
                       icon: Icon(Icons.terminal),
                     ),

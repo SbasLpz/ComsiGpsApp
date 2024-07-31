@@ -5,11 +5,13 @@ import 'dart:ffi';
 import 'package:apprutas/Screens/AlertsScreen/alerts_screen.dart';
 import 'package:apprutas/Screens/ListViewScreen/listview_screen.dart';
 import 'package:apprutas/Screens/MapScreen/map_screen.dart';
+import 'package:apprutas/Screens/NavigationScreen/navigation_manager.dart';
 import 'package:apprutas/Styles/theme.dart';
 import 'package:apprutas/Styles/theme_manager.dart';
 import 'package:apprutas/Styles/theme_manager2.dart';
 import 'package:apprutas/Utils/global_context.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 part 'navigation_controller.dart';
 
@@ -38,6 +40,7 @@ class _NavigationScreen extends State<NavigationScreen> {
   bool darkMode2 = thmManager2.myAttrs.mode == ThemeMode.dark;
   @override
   Widget build(BuildContext context) {
+    final navManager = context.watch<NavigationManager>();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -55,14 +58,14 @@ class _NavigationScreen extends State<NavigationScreen> {
           },
         ),
       ),
-      bottomNavigationBar: currentPageIndexNavBar != -1 ? NavigationBar(
+      bottomNavigationBar: navManager.currentPageIndexNavBar0 != -1 ? NavigationBar(
         onDestinationSelected: (int index){
           setState(() {
-            currentPageIndexNavBar = index;
+            navManager.setIndex(index);
           });
         },
         indicatorColor: COLOR_SENCONDARY,
-        selectedIndex: currentPageIndexNavBar,
+        selectedIndex: navManager.currentPageIndexNavBar0,
         destinations: <Widget>[
           NavigationDestination(
               icon: Icon(Icons.list_alt_rounded),
@@ -138,7 +141,7 @@ class _NavigationScreen extends State<NavigationScreen> {
       ),
       body: Container(
         child: currentPageIndexDrawer >= 0
-            ? widgetOptionsDawer[currentPageIndexDrawer] : widgetOptionsNavBar[currentPageIndexNavBar],
+            ? widgetOptionsDawer[currentPageIndexDrawer] : widgetOptionsNavBar[navManager.currentPageIndexNavBar0],
       ),
     );
   }

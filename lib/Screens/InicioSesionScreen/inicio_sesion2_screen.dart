@@ -68,7 +68,7 @@ class _InicioSesionScreenState extends State<InicioSesion2Screen> {
                         alignment: Alignment.bottomCenter,
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.onPrimary,
                             borderRadius: BorderRadius.circular(20)
                           ),
                           child: Padding(
@@ -122,7 +122,7 @@ class _InicioSesionScreenState extends State<InicioSesion2Screen> {
                                     onPressed: () {
                                       ingresar(context);
                                     },
-                                    child: Text("Ingresar", style: TextStyle(color: Colors.white),)
+                                    child: Text("Ingresar", style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),)
                                 )
                               ],
                             ),

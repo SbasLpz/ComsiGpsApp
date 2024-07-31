@@ -25,7 +25,7 @@ class LightThemeAttrs implements ThemeAttrs {
         useMaterial3: true,
         brightness: Brightness.light,
         scaffoldBackgroundColor: Color(0xffE8E8E8),
-        colorScheme: const ColorScheme.light(
+        colorScheme: ColorScheme.light(
           primary: Color(0xff1B3239),
           onPrimary: Color(0xffFFFFFF),
           secondary: COLOR_SENCONDARY,
@@ -60,7 +60,17 @@ class LightThemeAttrs implements ThemeAttrs {
           backgroundColor: WidgetStateProperty.all(COLOR_SENCONDARY),
           //textStyle: WidgetStateProperty.all(TextStyle(color: Colors.white)),
           shape: WidgetStateProperty.all(
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
+        )),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+        style: ButtonStyle(
+          padding: WidgetStateProperty.all(
+              EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0)),
+          side: WidgetStateProperty.all(BorderSide(color: COLOR_SENCONDARY, width: 2),),
+          //backgroundColor: WidgetStateProperty.all(COLOR_SENCONDARY),
+          //textStyle: WidgetStateProperty.all(TextStyle(color: Colors.white)),
+          shape: WidgetStateProperty.all(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
         )),
         cardTheme: CardTheme(color: Color(0xFFE5E0C9)),
       );
@@ -74,10 +84,11 @@ class DarkThemeAttrs implements ThemeAttrs {
   ThemeData get mycolors => ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
-      colorScheme: const ColorScheme.dark(
+      colorScheme: ColorScheme.dark(
           primary: Color(0xFFFFFFFF),
-          background: Color(0xFF202020),
-          surface: Color(0xFF202020),
+          onPrimary: Color(0xff1B3239),
+          background: Color(0xFF16282e),
+          surface: Color(0xFF16282e),
           tertiary: Color(0xFF3B3B3B)),
       textTheme: TextTheme(
           titleLarge: TextStyle(
@@ -94,16 +105,19 @@ class DarkThemeAttrs implements ThemeAttrs {
             fontWeight: FontWeight.bold,
           )),
       cardTheme: CardTheme(
-          color: Color(0xFF292929)
+          color: Color(0xff1B3239)
       ),
     elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
+          //textStyle: WidgetStateProperty.all(TextStyle(color: Color(0xff1B3239))),
           padding: WidgetStateProperty.all(
               EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0)),
-          backgroundColor: WidgetStateProperty.all(COLOR_PRIMARY),
+          backgroundColor: WidgetStateProperty.all(Color(0xFFE5E0C9)),
           //textStyle: WidgetStateProperty.all(TextStyle(color: Colors.white)),
           shape: WidgetStateProperty.all(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
         )),
   );
 }
+
+

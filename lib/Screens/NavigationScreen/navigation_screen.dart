@@ -2,6 +2,7 @@
 import 'dart:core';
 import 'dart:ffi';
 
+import 'package:apprutas/Screens/AjustesScreen/ajustes_screen.dart';
 import 'package:apprutas/Screens/AlertsScreen/alerts_screen.dart';
 import 'package:apprutas/Screens/ListViewScreen/listview_screen.dart';
 import 'package:apprutas/Screens/MapScreen/map_screen.dart';
@@ -11,7 +12,9 @@ import 'package:apprutas/Styles/theme_manager.dart';
 import 'package:apprutas/Styles/theme_manager2.dart';
 import 'package:apprutas/Utils/global_context.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'navigation_controller.dart';
 
@@ -38,15 +41,36 @@ class _NavigationScreen extends State<NavigationScreen> {
   //bool light = true;
   bool darkMode = thmManager.thMode == ThemeMode.dark;
   bool darkMode2 = thmManager2.myAttrs.mode == ThemeMode.dark;
+  
+  @override
+  void initState() {
+    // TODO: implement initState
+    _loadThemeMode();
+    super.initState();
+  }
+
+  void _loadThemeMode() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      darkMode2 = prefs.getBool('isDarkMode') ?? false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final navManager = context.watch<NavigationManager>();
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "App Rutas",
-          style: TextStyle(fontSize: 24),
+        title: ValueListenableBuilder<String>(
+          valueListenable: GlobalContext.appBar,
+          builder: (context, value, child){
+            return Text(value, style: TextStyle(fontSize: 24),);
+          },
         ),
+        // title: Text(
+        //
+        //   style: TextStyle(fontSize: 24),
+        // ),
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
@@ -58,38 +82,69 @@ class _NavigationScreen extends State<NavigationScreen> {
           },
         ),
       ),
-      bottomNavigationBar: navManager.currentPageIndexNavBar0 != -1 ? NavigationBar(
-        onDestinationSelected: (int index){
-          setState(() {
-            navManager.setIndex(index);
-          });
-        },
-        indicatorColor: COLOR_SENCONDARY,
-        selectedIndex: navManager.currentPageIndexNavBar0,
-        destinations: <Widget>[
-          NavigationDestination(
-              icon: Icon(Icons.list_alt_rounded),
-              label: "Unidades"
-          ),
-          NavigationDestination(
-              icon: Icon(Icons.map_rounded),
-              label: "Mapa"
-          ),
-          NavigationDestination(
-              icon: Icon(Icons.notifications_active_rounded),
-              label: "Alertas"
-          )
-        ],
+      bottomNavigationBar: navManager.currentPageIndexNavBar0 != -1 ? NavigationBarTheme(
+        data: NavigationBarThemeData(
+          indicatorColor: COLOR_PRIMARY,
+          iconTheme: MaterialStateProperty.resolveWith<IconThemeData>((states){
+            if (states.contains(MaterialState.selected)) {
+              return IconThemeData(color: Theme.of(context).colorScheme.onPrimary); // Color del icono seleccionado
+            }
+            return IconThemeData(color: Theme.of(context).colorScheme.secondary);
+          }),
+        ),
+        child: NavigationBar(
+          onDestinationSelected: (int index){
+            setState(() {
+              navManager.setIndex(index);
+            });
+          },
+          indicatorColor: COLOR_PRIMARY,
+          selectedIndex: navManager.currentPageIndexNavBar0,
+          destinations: <Widget>[
+            NavigationDestination(
+                icon: Icon(Icons.list_alt_rounded),
+                label: "Unidades"
+            ),
+            NavigationDestination(
+                icon: Icon(Icons.map_rounded),
+                label: "Mapa"
+            ),
+            NavigationDestination(
+                icon: Icon(Icons.notifications_active_rounded),
+                label: "Alertas"
+            )
+          ],
+        ),
       ) : null,
       drawer: Drawer(
         child: ListView (
           padding: EdgeInsets.zero,
           children: [
-            const DrawerHeader(
+            DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.deepPurpleAccent
+                color: COLOR_PRIMARY
               ),
-              child: Text("Opciones App Rutas", style: TextStyle(color: Colors.white),),
+              child: Column(
+                  children: [
+                    SizedBox(height: 20,),
+                    SizedBox(
+                      height: 50,
+                      width: 110,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage('assets/images/logo_white.png'),
+                                fit: BoxFit.cover
+                            )
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20,),
+                    Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Text("Opciones de la app", style: TextStyle(color: Colors.white),)
+                    ),
+                  ]),
             ),
             ListTile(
               leading: Icon(Icons.settings),
@@ -98,6 +153,7 @@ class _NavigationScreen extends State<NavigationScreen> {
               onTap: () {
                 onTapDrawer(0);
                 Navigator.pop(context);
+                navManager.currentPageIndexNavBar0 = -1;
               },
             ),
             ListTile(
@@ -105,21 +161,37 @@ class _NavigationScreen extends State<NavigationScreen> {
               selected: currentPageIndexDrawer == 1,
               title: const Text("Cerrar sesión"),
               onTap: () {
-                onTapDrawer(1);
-                Navigator.pop(context);
+                //onTapDrawer(1);
+                //Navigator.pop(context);
+                SystemNavigator.pop();
               },
             ),
             ListTile(
               leading: Icon(Icons.map_outlined,),
               title: const Text("Monitoreo"),
               onTap: () {
-                onTapDrawer(-1);
+                //onTapDrawer(0);
+
+                //currentPageIndexDrawer = 2;
+
                 Navigator.pop(context);
+                currentPageIndexDrawer = -1;
+                navManager.currentPageIndexNavBar0 = 0;
+                setState(() {
+
+                });
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => NavigationScreen()),
+                // );
               },
             ),
             SwitchListTile(
               title: Text("Modo oscuro"),
-                value: darkMode2,
+                //value: darkMode2,
+                value: thmManager2.isDarkMode,
+                activeTrackColor: Theme.of(context).colorScheme.onTertiary,
+                //inactiveTrackColor: Theme.of(context).colorScheme.onTertiary,
                 onChanged: (newValue) {
                   // thmManager.toggleMode(newValue);
                   // print("SWITCH presionado, valor: ${newValue}");
@@ -128,8 +200,12 @@ class _NavigationScreen extends State<NavigationScreen> {
                   setState(() {
                     darkMode2 = newValue;
                   });
+
                 }
             ),
+            ListTile(
+              title: Text("Versión: ${GlobalContext.version}"),
+            )
             // ElevatedButton(
             //     onPressed: () {
             //       thmManager2.toggleTheme();

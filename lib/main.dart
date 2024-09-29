@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:apprutas/Models/unidad_model.dart';
 import 'package:apprutas/Screens/AlertsScreen/alerts_manager.dart';
 import 'package:apprutas/Screens/CommandScreen/command_manager.dart';
@@ -21,11 +23,16 @@ import 'package:apprutas/Styles/theme.dart';
 import 'package:apprutas/Styles/theme_manager2.dart';
 import 'package:apprutas/Utils/global_context.dart';
 import 'package:apprutas/Widgets/foto_item.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:session_manager/session_manager.dart';
+import 'package:upgrader/upgrader.dart';
 
 import 'Styles/theme_manager.dart';
 
@@ -34,8 +41,21 @@ import 'Styles/theme_manager.dart';
  * tokenUser (String)
  * **/
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await thmManager2.loadThemeMode();
   //WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp();
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+  // FlutterError.onError = (errorDetails) {
+  //   FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  // };
+  // PlatformDispatcher.instance.onError = (error, stack){
+  //   FirebaseCrashlytics.instance.recordError(error, stack);
+  //   return true;
+  // };
+
   runApp(
     riverpod.ProviderScope(
         child: MyApp()
@@ -86,6 +106,10 @@ class _MyAppState extends State<MyApp> {
     // delaying the user experience is a bad design practice!
     // ignore_for_file: avoid_print
     //comandos = await getCommands();
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    SessionManager.sessionManager.setString("version", packageInfo.version);
+    GlobalContext.version = "v-"+packageInfo.version;
+    print("VERSION : ${packageInfo.version}");
     print('ready in 3...');
     await Future.delayed(const Duration(seconds: 1));
     print('ready in 2...');
@@ -143,9 +167,14 @@ class _MyAppState extends State<MyApp> {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             navigatorKey: GlobalContext.navKey,
+            //themeMode: ThemeMode.light,
+            themeMode: thmManager2.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+
             theme: themeProvider.attrs.mycolors,
             darkTheme: DarkThemeAttrs().mycolors,
-            home: const InicioSesion2Screen(),
+            home: UpgradeAlert(
+              child: InicioSesion2Screen(),
+            ),
           );
         },
       ),

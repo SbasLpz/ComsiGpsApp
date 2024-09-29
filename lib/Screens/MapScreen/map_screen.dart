@@ -9,8 +9,10 @@ import 'package:apprutas/Widgets/info2_dialog.dart';
 import 'package:apprutas/Widgets/info_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
+import 'package:session_manager/session_manager.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../Models/location_model.dart';
@@ -29,8 +31,13 @@ class _MapScreen extends State<MapScreen>  {
 
   @override
   void initState() {
-    mpMan.stopTimer = false;
-    mpMan.intervalUpdate();
+    //SessionManager().setInt("intervalo", 10);
+    GlobalContext.appBar.value = "Mapa";
+    getIntevalo().then((onValue) {
+      mpMan.intervalo = onValue ?? 10;
+      mpMan.stopTimer = false;
+      mpMan.intervalUpdate();
+    });
     super.initState();
   }
 

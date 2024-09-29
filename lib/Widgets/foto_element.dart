@@ -49,13 +49,13 @@ UnidadModel unit = UnidadModel();
                           Expanded(
                             child: Text(
                               unidad.desc.toString(),
-                              style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.primary)
+                              style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.secondary)
                             ),
                             flex: 3,
                           ),
                           Flexible(
                               flex: 1,
-                              child: unitsManager.selectedIds.contains(int.parse(unidad.id_gps!)) || unitsManager.isChecked ?
+                              child: unitsManager.selectedIds.contains(int.parse(unidad.id_gps!)) || unitsManager.isChecked == true ?
                               Align(
                                 alignment: Alignment.topRight,
                                   child: Padding(
@@ -81,21 +81,17 @@ UnidadModel unit = UnidadModel();
                         children: [
                           Flexible(
                               flex: 1,
-                              child: Container(
-                                //color: Colors.purpleAccent,
-                                child: ListTile(
-                                  minTileHeight: double.minPositive,
-                                  contentPadding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                                  leading: Icon(
-                                    Icons.location_on_sharp,
-                                    color: Theme.of(context).colorScheme.primary,
-                                    size: 20,
-                                  ),
-                                  title: Text(
-                                    unidad.lugar!.isNotEmpty ? "${unidad.lugar}" : unidad.lat.toString()+","+unidad.long.toString(),
-                                    //unidad.lat.toString()+",fsdfdsfsdf "+unidad.long.toString(),
-                                    style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.primary)
-                                  ),
+                              child: ListTile(
+                                minTileHeight: double.minPositive,
+                                //contentPadding: EdgeInsets.all(0.0),
+                                leading: Icon(
+                                  Icons.car_crash,
+                                  color: Theme.of(context).colorScheme.secondary,
+                                  size: 20,
+                                ),
+                                title: Text(
+                                    unidad.placa.toString(),
+                                    style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.secondary)
                                 ),
                               )
                           ),
@@ -110,7 +106,7 @@ UnidadModel unit = UnidadModel();
                                 ),
                                 title: Text(
                                     determineUnitStatus(unidad.last!).tiempo,
-                                    style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.primary)
+                                    style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.secondary)
                                 ),
                               )
                           )
@@ -125,17 +121,21 @@ UnidadModel unit = UnidadModel();
                         children: [
                           Flexible(
                               flex: 1,
-                              child: ListTile(
-                                minTileHeight: double.minPositive,
-                                //contentPadding: EdgeInsets.all(0.0),
-                                leading: Icon(
-                                    Icons.car_crash,
-                                    color: Theme.of(context).colorScheme.primary,
-                                  size: 20,
-                                ),
-                                title: Text(
-                                    unidad.placa.toString(),
-                                    style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.primary)
+                              child: Container(
+                                //color: Colors.purpleAccent,
+                                child: ListTile(
+                                  minTileHeight: double.minPositive,
+                                  contentPadding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                                  leading: Icon(
+                                    Icons.location_on_sharp,
+                                    color: Theme.of(context).colorScheme.secondary,
+                                    size: 20,
+                                  ),
+                                  title: Text(
+                                      unidad.lugar!.isNotEmpty ? "${unidad.lugar}" : unidad.lat.toString()+","+unidad.long.toString(),
+                                      //unidad.lat.toString()+",fsdfdsfsdf "+unidad.long.toString(),
+                                      style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.secondary)
+                                  ),
                                 ),
                               )
                           ),
@@ -146,12 +146,12 @@ UnidadModel unit = UnidadModel();
                                 //contentPadding: EdgeInsets.all(0.0),
                                 leading: Icon(
                                   Icons.key,
-                                  color: Theme.of(context).colorScheme.primary,
+                                  color: Theme.of(context).colorScheme.secondary,
                                   size: 20,
                                 ),
                                 title: Text(
                                     unidad.id_gps.toString(),
-                                    style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.primary)
+                                    style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.secondary)
                                 ),
                               )
                           )

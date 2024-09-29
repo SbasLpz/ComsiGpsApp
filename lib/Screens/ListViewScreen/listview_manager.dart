@@ -25,6 +25,7 @@ class ListviewManager extends ChangeNotifier {
 
   void quitarSelecteds() {
     selectedIds = {};
+    selectedIds.clear();
     notifyListeners();
   }
 

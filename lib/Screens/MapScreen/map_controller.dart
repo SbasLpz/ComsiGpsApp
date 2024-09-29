@@ -61,3 +61,18 @@ Stream<List<UnidadModel>> untisAvailable() async* {
   print("Stream: ACTUALICE UBICACIÓN");
   await unidadesFuture;
 }
+
+String convertDateFormat(String date) {
+  // Define el formato de la fecha original y el formato deseado
+  DateFormat originalFormat = DateFormat('MM-dd-yy hh:mm a');
+  DateFormat desiredFormat = DateFormat('dd-MM-yy hh:mm a');
+
+  // Parsear la fecha original y formatearla en el nuevo formato
+  DateTime dateTime = originalFormat.parse(date);
+  return desiredFormat.format(dateTime);
+}
+
+Future<int?> getIntevalo() async {
+  int? intervalo = await SessionManager().getInt("intervalo");
+  return intervalo;
+}

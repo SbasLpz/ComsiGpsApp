@@ -24,8 +24,11 @@ List<LatLng> pointsToPoly(List<HistorialModel> lista) {
   puntoInicio = puntos.first;
   puntoFinal = puntos.last;
 
-  toMarker(puntoInicio, Icon(Icons.flag_circle_rounded, color: Colors.green, size: 40,));
-  toMarker(puntoFinal, Icon(Icons.flag_circle_rounded, color: Colors.redAccent, size: 40));
+  // toMarker(puntoInicio, Icon(Icons.flag_circle_rounded, color: Colors.green, size: 40,));
+  // toMarker(puntoFinal, Icon(Icons.flag_circle_rounded, color: Colors.redAccent, size: 40));
+
+  toMarker(puntoInicio, Icon(Icons.location_on, color: Colors.green, size: 40,));
+  toMarker(puntoFinal, Icon(Icons.location_on, color: Colors.redAccent, size: 40));
 
   print("Punto INICIO: ${puntoInicio}, Punto FINAL: ${puntoFinal}");
 
@@ -64,29 +67,30 @@ toMarkerDet (LatLng punto, Icon icono, HistorialModel data) {
   marcadores.add(marker);
 }
 
-showMiDialog(HistorialModel data) {
-  showDialog(
-      context: GlobalContext.navKey.currentContext!,
-      builder: (BuildContext context) => Dialog(
-        child: SizedBox(
-            height: 200.0,
-            child: infoDialogHistory(data, context)
-        ),
-      )
-  );
-}
+// showMiDialog(HistorialModel data) {
+//   showDialog(
+//       context: GlobalContext.navKey.currentContext!,
+//       builder: (BuildContext context) => Dialog(
+//         child: SizedBox(
+//             height: 200.0,
+//             child: infoDialogHistory(data, context)
+//         ),
+//       )
+//   );
+// }
 
-showMiDialog2(HistorialModel data) {
-  var point = LatLng(double.parse(data.latitud!), double.parse(data.longitud!));
-   showDialog(
-       barrierColor: Colors.transparent,
-       context: GlobalContext.navKey.currentContext!,
-       builder: (BuildContext context) => Dialog(
-         child: SizedBox(
-           height: 180,
-           child: infoDialogHistory(data, context),
-         )
-       )
-   );
+// showMiDialog2(HistorialModel data) {
+//   var point = LatLng(double.parse(data.latitud!), double.parse(data.longitud!));
+//    showDialog(
+//        barrierColor: Colors.transparent,
+//        context: GlobalContext.navKey.currentContext!,
+//        builder: (BuildContext context) => Dialog(
+//          child: SizedBox(
+//            height: 180,
+//            child: infoDialogHistory(data, context),
+//          )
+//        )
+//    );
+//
+// }
 
-}

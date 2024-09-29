@@ -1,10 +1,13 @@
 import 'package:apprutas/Models/historial_model.dart';
 import 'package:apprutas/Models/unidad_model.dart';
 import 'package:apprutas/Screens/HistorialScreen/historial_screen.dart';
+import 'package:apprutas/Screens/MapHistoryScreen/map_history_screen.dart';
 import 'package:apprutas/Styles/theme.dart';
 import 'package:apprutas/Utils/global_context.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_map/flutter_map.dart';
 
 TextTheme txtTheme = Theme.of(GlobalContext.navKey.currentContext!).textTheme;
 //UnidadModel unit = UnidadModel();
@@ -57,11 +60,11 @@ Widget infoDialogHistory(HistorialModel data, BuildContext context) {
                                   children: [
                                     TextSpan(
                                       text: "Fecha y hora: ",
-                                      style: txtTheme.displayMedium,
+                                      style: txtTheme.displayMedium!.copyWith(color: Colors.black),
                                     ),
                                     TextSpan(
                                         text: data.fecha_pc,
-                                        style: txtTheme.bodySmall
+                                        style: txtTheme.bodySmall!.copyWith(color: Colors.black)
                                     )
                                   ]
                               )
@@ -75,11 +78,11 @@ Widget infoDialogHistory(HistorialModel data, BuildContext context) {
                                   children: [
                                     TextSpan(
                                       text: "Latitud: ",
-                                      style: txtTheme.displayMedium,
+                                      style: txtTheme.displayMedium!.copyWith(color: Colors.black),
                                     ),
                                     TextSpan(
                                         text: data.latitud,
-                                        style: txtTheme.bodySmall
+                                        style: txtTheme.bodySmall!.copyWith(color: Colors.black)
                                     )
                                   ]
                               )
@@ -92,16 +95,26 @@ Widget infoDialogHistory(HistorialModel data, BuildContext context) {
                                   children: [
                                     TextSpan(
                                         text: "Longitud: ",
-                                        style: txtTheme.displayMedium
+                                        style: txtTheme.displayMedium!.copyWith(color: Colors.black)
                                     ),
                                     TextSpan(
                                         text: data.longitud,
-                                        style: txtTheme.bodySmall
+                                        style: txtTheme.bodySmall!.copyWith(color: Colors.black)
                                     )
                                   ]
                               )
                           ),
                         ),
+                        // Align(
+                        //   alignment: Alignment.centerLeft,
+                        //   child: InkWell(
+                        //     onTap: () {
+                        //       return null;
+                        //     },
+                        //     child: Text("Cerrar", style: Theme.of(context).textTheme.displayMedium
+                        //         !.copyWith(color: Colors.red),),
+                        //   ),
+                        // ),
                       ],
                     )
                 ),

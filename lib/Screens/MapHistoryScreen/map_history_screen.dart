@@ -10,6 +10,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../Models/historial_model.dart';
+import '../../Widgets/info_dialog_history2.dart';
 
 part 'map_history_controller.dart';
 
@@ -32,13 +33,15 @@ class _MapHistoryScreenState extends State<MapHistoryScreen> {
     super.dispose();
   }
 
+  final PopupController myPopupController = PopupController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
           "Regresar",
-          style: txtTheme.titleMedium,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         leading: Builder(
           builder: (BuildContext context) {
@@ -105,7 +108,9 @@ class _MapHistoryScreenState extends State<MapHistoryScreen> {
                 PopupMarkerLayer(
                     options: PopupMarkerLayerOptions(
                         markers: marcadores,
+                        popupController: myPopupController,
                         popupDisplayOptions: PopupDisplayOptions(
+
                           builder: (BuildContext context, Marker marker) {
                             var data = markersDataMap[marker];
                             if (data == null) {
@@ -115,7 +120,7 @@ class _MapHistoryScreenState extends State<MapHistoryScreen> {
                             }
                             //return Text(data == null ? "Hola Wenas" : "Hola Wenas ${data.fecha_pc}");
                             return data == null ? Text("")
-                                : infoDialogHistory(data, context);
+                                : InfoDialogHistory2(data: data, popupController: myPopupController,); //infoDialogHistory(data, context);
                           }
                       )
                     )

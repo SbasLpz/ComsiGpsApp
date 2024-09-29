@@ -4,6 +4,13 @@ TextEditingController cuentaController = new TextEditingController();
 TextEditingController userController = new TextEditingController();
 TextEditingController passController = new TextEditingController();
 
+var version = "";
+
+Future<String> getVersion() async {
+  var r = await SessionManager.sessionManager.getString("version");
+  return r;
+}
+
 ingresar (BuildContext context) {
   if(cuentaController.text.trim() != "" && userController.text.trim() != "" && passController.text.trim() != "") {
     var res = postLogin(cuentaController.text, userController.text, passController.text);
@@ -15,6 +22,7 @@ ingresar (BuildContext context) {
             MaterialPageRoute(builder: (context) => const NavigationScreen()),
         );
         print("Consulta EXITOSA: ${data.success}, ${data.msg}");
+        SessionManager().setString("cc", passController.text.trim());
       }else {
         showInfoDialog(
             "Credenciales incorrectas",

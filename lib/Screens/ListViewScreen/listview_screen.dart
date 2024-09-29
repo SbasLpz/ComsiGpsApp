@@ -11,6 +11,7 @@ import 'package:apprutas/Services/fotos_api.dart';
 import 'package:apprutas/Services/road_api.dart';
 import 'package:apprutas/Styles/theme.dart';
 import 'package:apprutas/Styles/theme_manager2.dart';
+import 'package:apprutas/Utils/global_context.dart';
 import 'package:apprutas/Widgets/foto_element.dart';
 import 'package:apprutas/Widgets/foto_item.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,10 @@ class _ListviewScreen extends State<ListviewScreen> {
   final GlobalKey _listKey = GlobalKey();
   @override
   void initState() {
+    GlobalContext.appBar.value = "Unidades";
+    setState(() {
+
+    });
     statusManeger.stopUpdater = false;
     statusManeger.intervalUpdate();
     print("Puse los 2 Listener en UnidadesScreen");
@@ -55,7 +60,6 @@ class _ListviewScreen extends State<ListviewScreen> {
     final unitsInfo = context.watch<LastReportManager>();
     final navManager = context.watch<NavigationManager>();
     //final thm = context.watch<ThemeManager2>();
-    bool isChecked = false;
 
     return Scaffold(
       body: Consumer<ThemeManager2>(
@@ -74,8 +78,8 @@ class _ListviewScreen extends State<ListviewScreen> {
                           Expanded(
                             child: SearchBar(
                               controller: searchController,
-                              hintText: "Nombre de la unidad...",
-                              backgroundColor: MaterialStateProperty.all(Color(0xffE5E0C9)),
+                              hintText: "Nombre o ID unidad...",
+                              backgroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.onSecondary),
                               onChanged: (value) {
                                 print("New Value Detected: ${value}");
                                 context.read<ListviewManager2>().search(value);
@@ -92,7 +96,7 @@ class _ListviewScreen extends State<ListviewScreen> {
                             onPressed: () {
                               searchController.text = "";
                               srchManager.resetSearchText();
-                              idsManager.quitarSelecteds();
+                              //idsManager.quitarSelecteds();
                               idsManager1.isChecked = false;
                               idsManager1.quitarSelecteds();
                               print("Presione RESET icon");},
@@ -109,12 +113,15 @@ class _ListviewScreen extends State<ListviewScreen> {
                           Text("Seleccionar todos: "),
                           Checkbox(
                               checkColor: Colors.white,
-                              fillColor: MaterialStateProperty.all(COLOR_SENCONDARY),
-                              side: BorderSide(width: 2, color: COLOR_SENCONDARY),
+                              fillColor: MaterialStateProperty.all(Theme.of(context).colorScheme.tertiary),
+                              side: BorderSide(width: 2, color: Theme.of(context).colorScheme.tertiary),
                               value: idsManager1.isChecked,
                               onChanged: (bool? newValue){
                                 idsManager1.selectAll(srchManager.units, newValue!);
                                 print("Checked dice hola");
+                                if(!newValue){
+                                  idsManager1.quitarSelecteds();
+                                }
                               }
                           ),
                           Align(
@@ -123,12 +130,15 @@ class _ListviewScreen extends State<ListviewScreen> {
                                 style: ButtonStyle(
                                   padding: WidgetStatePropertyAll(EdgeInsets.fromLTRB(20, 10, 20, 10))
                                 ),
-                                icon: Icon(Icons.map, size: 15,),
+                                icon: Icon(Icons.map, size: 15, color: Theme.of(context).colorScheme.onPrimary,),
                                 onPressed: () {
                                   navManager.setIndex(1);
                                   //Navigator.push(context, MaterialPageRoute(builder: (context) =>  MapScreen(),));
                                 },
-                                label: Text("Ver unidades"),
+                                label: Text(
+                                    "Ver unidades",
+                                  style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                                ),
                             ),
                           )
                         ],

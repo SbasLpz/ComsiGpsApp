@@ -44,8 +44,8 @@ Widget buildAlert(List<AlertModel> alerts, BuildContext context){
                             //color: Colors.redAccent,
                             child: Column(
                               children: [
-                                Text("Unidad (ID)", style: TextStyle(fontWeight: FontWeight.w600),),
-                                Text(alert.id_vehiculo.toString(), textAlign: TextAlign.center,)
+                                Text("Placa", style: TextStyle(fontWeight: FontWeight.w600),),
+                                Text(alert.placa.toString(), textAlign: TextAlign.center,)
                               ],
                             ),
                           )
@@ -84,10 +84,10 @@ Widget buildAlert(List<AlertModel> alerts, BuildContext context){
                 ),
                 children: [
                   Container(
-                    color: COLOR_PRIMARY,
+                    color: Theme.of(context).colorScheme.inversePrimary,
                     child: Padding(
                       padding: EdgeInsets.all(25.0),
-                      child: Text(alert.descripcion.toString(), style: TextStyle(color: Colors.white),),
+                      child: Text(alert.descripcion.toString(), style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),),
                     ),
                   )
                 ],

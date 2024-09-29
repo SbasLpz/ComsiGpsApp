@@ -22,7 +22,7 @@ class _UnitInfoScreenState extends State<UnitInfoScreen> {
       appBar: AppBar(
         title: Text(
           "Regresar",
-          style: txtTheme.titleMedium,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
       ),
       body: Padding(
@@ -59,8 +59,8 @@ class _UnitInfoScreenState extends State<UnitInfoScreen> {
             ),
             FittedBox(
               child: DataTable(
-                  dataRowHeight: 80.0,
-                  dataTextStyle: TextStyle(fontSize: 22),
+                  dataRowHeight: 90.0,
+                  //dataTextStyle: TextStyle(fontSize: 20),
                   columns: [
                     DataColumn(
                         label: Expanded(
@@ -87,32 +87,32 @@ class _UnitInfoScreenState extends State<UnitInfoScreen> {
                     DataRow(
                         cells: [
                           DataCell(
-                              Icon(Icons.car_crash)
+                              Icon(Icons.car_crash,)
                           ),
                           DataCell(
-                              Text("Campo 1 de la tabla")
+                              Text("ID Vehiculo", style: TextStyle(fontWeight: FontWeight.bold, fontSize: tam),)
                           ),
                           DataCell(
-                              Text("Campo 2 de la tabla")
+                              Text("id_vehiculo", style: TextStyle(fontSize: tam))
                           ),
                           DataCell(
-                              Text("Campo 3 de la tabla")
+                              Text(widget.unidad.id!, style: TextStyle(fontSize: tam))
                           )
                         ]
                     ),
                     DataRow(
                         cells: [
                           DataCell(
-                              Icon(Icons.developer_board)
+                              Icon(Icons.developer_board,)
                           ),
                           DataCell(
-                              Text("ID GPS", style: TextStyle(fontWeight: FontWeight.bold),)
+                              Text("ID GPS", style: TextStyle(fontWeight: FontWeight.bold, fontSize: tam),)
                           ),
                           DataCell(
-                              Text("id_gps")
+                              Text("id_gps", style: TextStyle(fontSize: tam))
                           ),
                           DataCell(
-                              Text(widget.unidad.id_gps!)
+                              Text(widget.unidad.id_gps!, style: TextStyle(fontSize: tam))
                           )
                         ]
                     ),
@@ -122,13 +122,13 @@ class _UnitInfoScreenState extends State<UnitInfoScreen> {
                               Icon(Icons.map_outlined)
                           ),
                           DataCell(
-                              Text("Ubicación", style: TextStyle(fontWeight: FontWeight.bold),)
+                              Text("Ubicación", style: TextStyle(fontWeight: FontWeight.bold, fontSize: tam),)
                           ),
                           DataCell(
-                              Text("lugar")
+                              Text("lugar", style: TextStyle(fontSize: tam))
                           ),
                           DataCell(
-                              Text(widget.unidad.lugar!.isEmpty ? "-" : widget.unidad.lugar!)
+                              Text(widget.unidad.lugar!.isEmpty ? "-" : widget.unidad.lugar!, style: TextStyle(fontSize: tam))
                           )
                         ]
                     ),
@@ -138,13 +138,13 @@ class _UnitInfoScreenState extends State<UnitInfoScreen> {
                               Icon(Icons.location_on_outlined)
                           ),
                           DataCell(
-                              Text("Latitud", style: TextStyle(fontWeight: FontWeight.bold),)
+                              Text("Latitud", style: TextStyle(fontWeight: FontWeight.bold, fontSize: tam),)
                           ),
                           DataCell(
-                              Text("latitud")
+                              Text("latitud", style: TextStyle(fontSize: tam))
                           ),
                           DataCell(
-                              Text(widget.unidad.lat!.isEmpty ? "-" : widget.unidad.lat!)
+                              Text(widget.unidad.lat!.isEmpty ? "-" : widget.unidad.lat!, style: TextStyle(fontSize: tam))
                           )
                         ]
                     ),
@@ -154,13 +154,13 @@ class _UnitInfoScreenState extends State<UnitInfoScreen> {
                               Icon(Icons.location_on_outlined)
                           ),
                           DataCell(
-                              Text("Longitud", style: TextStyle(fontWeight: FontWeight.bold),)
+                              Text("Longitud", style: TextStyle(fontWeight: FontWeight.bold, fontSize: tam),)
                           ),
                           DataCell(
-                              Text("longitud")
+                              Text("longitud", style: TextStyle(fontSize: tam))
                           ),
                           DataCell(
-                              Text(widget.unidad.long!.isEmpty ? "-" : widget.unidad.long!)
+                              Text(widget.unidad.long!.isEmpty ? "-" : widget.unidad.long!, style: TextStyle(fontSize: tam))
                           )
                         ]
                     ),
@@ -170,13 +170,13 @@ class _UnitInfoScreenState extends State<UnitInfoScreen> {
                               Icon(Icons.access_time)
                           ),
                           DataCell(
-                              Text("Ultimo reporte", style: TextStyle(fontWeight: FontWeight.bold),)
+                              Text("Ultimo reporte", style: TextStyle(fontWeight: FontWeight.bold, fontSize: tam),)
                           ),
                           DataCell(
-                              Text("last")
+                              Text("last", style: TextStyle(fontSize: tam))
                           ),
                           DataCell(
-                              Text(widget.unidad.last!.isEmpty ? "-" : widget.unidad.last!)
+                              Text(widget.unidad.last!.isEmpty ? "-" : widget.unidad.last!, style: TextStyle(fontSize: tam))
                           )
                         ]
                     ),
@@ -186,13 +186,13 @@ class _UnitInfoScreenState extends State<UnitInfoScreen> {
                               Icon(Icons.calendar_month)
                           ),
                           DataCell(
-                              Text("Fecha del ultimo reporte", style: TextStyle(fontWeight: FontWeight.bold),)
+                              Text("Fecha del ultimo reporte", style: TextStyle(fontWeight: FontWeight.bold, fontSize: tam),)
                           ),
                           DataCell(
-                              Text("fecha1")
+                              Text("fecha1", style: TextStyle(fontSize: tam))
                           ),
                           DataCell(
-                              Text(widget.unidad.fecha1!.isEmpty ? "-" : widget.unidad.fecha1!)
+                              Text(widget.unidad.fecha1!.isEmpty ? "-" : widget.unidad.fecha1!, style: TextStyle(fontSize: tam))
                           )
                         ]
                     ),
@@ -202,13 +202,13 @@ class _UnitInfoScreenState extends State<UnitInfoScreen> {
                               Icon(Icons.speed)
                           ),
                           DataCell(
-                              Text("Velocidad", style: TextStyle(fontWeight: FontWeight.bold),)
+                              Text("Velocidad", style: TextStyle(fontWeight: FontWeight.bold, fontSize: tam),)
                           ),
                           DataCell(
-                              Text("velocidad")
+                              Text("velocidad", style: TextStyle(fontSize: tam))
                           ),
                           DataCell(
-                              Text(widget.unidad.velocidad!.isEmpty ? "-" : widget.unidad.velocidad!)
+                              Text(widget.unidad.velocidad!.isEmpty ? "-" : widget.unidad.velocidad!, style: TextStyle(fontSize: tam))
                           )
                         ]
                     ),
@@ -218,13 +218,13 @@ class _UnitInfoScreenState extends State<UnitInfoScreen> {
                               Icon(CupertinoIcons.car)
                           ),
                           DataCell(
-                              Text("Tipo vehiculo", style: TextStyle(fontWeight: FontWeight.bold),)
+                              Text("Tipo vehiculo", style: TextStyle(fontWeight: FontWeight.bold, fontSize: tam),)
                           ),
                           DataCell(
-                              Text("tipo")
+                              Text("tipo", style: TextStyle(fontSize: tam))
                           ),
                           DataCell(
-                              Text(widget.unidad.tipo!.isEmpty ? "-" : widget.unidad.tipo!)
+                              Text(widget.unidad.tipo!.isEmpty ? "-" : widget.unidad.tipo!, style: TextStyle(fontSize: tam))
                           )
                         ]
                     ),
@@ -234,13 +234,13 @@ class _UnitInfoScreenState extends State<UnitInfoScreen> {
                               Icon(Icons.battery_unknown_outlined)
                           ),
                           DataCell(
-                              Text("Bateria", style: TextStyle(fontWeight: FontWeight.bold),)
+                              Text("Bateria", style: TextStyle(fontWeight: FontWeight.bold, fontSize: tam),)
                           ),
                           DataCell(
-                              Text("bateria")
+                              Text("bateria", style: TextStyle(fontSize: tam))
                           ),
                           DataCell(
-                              Text(widget.unidad.bateria!.isEmpty ? "-" : widget.unidad.bateria!+" %")
+                              Text(widget.unidad.bateria!.isEmpty ? "-" : widget.unidad.bateria!+" %", style: TextStyle(fontSize: tam))
                           )
                         ]
                     ),
@@ -250,13 +250,13 @@ class _UnitInfoScreenState extends State<UnitInfoScreen> {
                               Icon(Icons.local_gas_station)
                           ),
                           DataCell(
-                              Text("Combustible", style: TextStyle(fontWeight: FontWeight.bold),)
+                              Text("Combustible", style: TextStyle(fontWeight: FontWeight.bold, fontSize: tam),)
                           ),
                           DataCell(
-                              Text("combustible")
+                              Text("combustible", style: TextStyle(fontSize: tam))
                           ),
                           DataCell(
-                              Text(widget.unidad.combustible!.isEmpty ? "-" : widget.unidad.combustible!)
+                              Text(widget.unidad.combustible!.isEmpty ? "-" : widget.unidad.combustible!, style: TextStyle(fontSize: tam))
                           )
                         ]
                     )

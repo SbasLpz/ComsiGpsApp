@@ -49,7 +49,7 @@ class _HistorialScreenState extends State<HistorialScreen> {
       appBar: AppBar(
         title: Text(
           "Regresar",
-          style: txtTheme.titleMedium,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
       ),
       body: SingleChildScrollView(
@@ -64,7 +64,7 @@ class _HistorialScreenState extends State<HistorialScreen> {
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               SizedBox(
-                height: 25,
+                height: 12,
               ),
               Text(
                 widget.unidad.desc!,
@@ -76,7 +76,7 @@ class _HistorialScreenState extends State<HistorialScreen> {
               ),
               Text(
                 "Establesca los rangos de inicio y fin de la ruta que desea ver.",
-                style: Theme.of(context).textTheme.titleSmall?.copyWith(color: COLOR_GREY, fontWeight: FontWeight.normal),
+                style: Theme.of(context).textTheme.titleSmall?.copyWith(color: COLOR_GREY, fontWeight: FontWeight.normal, fontSize: 15),
                 textAlign: TextAlign.center,
               ),
               SizedBox(
@@ -89,7 +89,7 @@ class _HistorialScreenState extends State<HistorialScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Fecha y hora de inicio",
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -97,7 +97,7 @@ class _HistorialScreenState extends State<HistorialScreen> {
               TextField(
                 controller: dateInputInicio,
                 decoration: InputDecoration(
-                    icon: Icon(Icons.calendar_today), labelText: "Fecha inicio"),
+                    icon: Icon(Icons.calendar_today), labelText: "Fecha inicio", labelStyle: Theme.of(context).textTheme.displaySmall),
                 readOnly: true,
                 onTap: () async {
                   DateTime? selectedDate = await showDatePicker(
@@ -125,7 +125,7 @@ class _HistorialScreenState extends State<HistorialScreen> {
               TextField(
                 controller: timeInputInicio,
                 decoration: InputDecoration(
-                    icon: Icon(Icons.access_time), labelText: "Hora de inicio"),
+                    icon: Icon(Icons.access_time), labelText: "Hora de inicio", labelStyle: Theme.of(context).textTheme.displaySmall),
                 readOnly: true,
                 onTap: () async {
                   TimeOfDay? selectedTime = await showMyTimePicker(
@@ -161,7 +161,7 @@ class _HistorialScreenState extends State<HistorialScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     "Fecha y hora de final",
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -169,7 +169,7 @@ class _HistorialScreenState extends State<HistorialScreen> {
               TextField(
                 controller: dateInputFin,
                 decoration: InputDecoration(
-                    icon: Icon(Icons.calendar_today), labelText: "Fecha fin"),
+                    icon: Icon(Icons.calendar_today), labelText: "Fecha fin", labelStyle: Theme.of(context).textTheme.displaySmall),
                 readOnly: true,
                 onTap: () async {
                   DateTime? selectedDate = await showDatePicker(
@@ -194,7 +194,7 @@ class _HistorialScreenState extends State<HistorialScreen> {
               TextField(
                 controller: timeInputFin,
                 decoration: InputDecoration(
-                    icon: Icon(Icons.access_time), labelText: "Hora de fin"),
+                    icon: Icon(Icons.access_time), labelText: "Hora de fin", labelStyle: Theme.of(context).textTheme.displaySmall),
                 readOnly: true,
                 onTap: () async {
                   TimeOfDay? selectedTime = await showMyTimePicker(

@@ -36,7 +36,7 @@ class _CommandScreenState extends State<CommandScreen> {
       appBar: AppBar(
         title: Text(
           "Regresar",
-          style: txtTheme.titleMedium,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
       ),
       body: Padding(
@@ -45,7 +45,7 @@ class _CommandScreenState extends State<CommandScreen> {
           //color: Colors.green,
           width: double.maxFinite,
           height: 380,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: Color(0xFFE5E0C9)),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: Theme.of(context).colorScheme.onSecondary),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -123,7 +123,7 @@ class _CommandScreenState extends State<CommandScreen> {
                               MaterialPageRoute(builder: (context)=> nv.NavigationScreen())
                           );
                         },
-                        child: Text("Cancelar")
+                        child: Text("Cancelar", style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),)
                     ),
                     SizedBox(width: 10,),
                     manager.selected != null ? OutlinedButton(
@@ -140,6 +140,10 @@ class _CommandScreenState extends State<CommandScreen> {
                             print("----- EXCEPCIÓN ----");
                             Text("Excepción: ${e}");
                           }
+                          manager.selected = null;
+                          setState(() {
+
+                          });
                         },
                         child: Text("Enviar")
                     ) : OutlinedButton(

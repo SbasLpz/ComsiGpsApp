@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:apprutas/Services/road_api.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:session_manager/session_manager.dart';
 
 import '../../Models/unidad_model.dart';
 
@@ -17,9 +19,11 @@ class MapManager extends ChangeNotifier {
   List<UnidadModel> listUnits = [];
   var count = 0;
   var stopTimer = false;
+  int intervalo = 10;
 
   intervalUpdate() {
-    Timer.periodic(Duration(seconds: 10), (timer) {
+    print("INTERVALOR A USAR: ${intervalo}");
+    Timer.periodic(Duration(seconds: intervalo), (timer) {
       if(stopTimer) {
         timer.cancel();
       } else {

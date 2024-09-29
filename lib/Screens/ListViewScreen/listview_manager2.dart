@@ -18,7 +18,8 @@ class ListviewManager2 extends ChangeNotifier{
     if (query.isEmpty){
       units = allUnits;
     } else {
-      units = allUnits.where((f) => f.desc!.toLowerCase().contains(query.toLowerCase())).toList();
+      units = allUnits.where((f) => f.desc!.toLowerCase().contains(query.toLowerCase()) 
+      || f.id!.contains(query)).toList();
     }
     print("buscando... ${query}, encontrados: ${units.length}");
     notifyListeners();

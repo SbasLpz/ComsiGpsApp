@@ -224,7 +224,7 @@ Widget infoDialog2 (UnidadModel unidad, BuildContext context) {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                      unidad.fecha1!.isEmpty ? "No reportada" : convertDateFormat(unidad.fecha1!),
+                                      unidad.fecha1 == "" || unidad.fecha1 == null ? "No reportada" : convertDateFormat(unidad.fecha1!),
                                       style: txtTheme.bodySmall!.copyWith(color:Theme.of(context).colorScheme.onTertiary )
                                   ),
                                 ]

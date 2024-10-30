@@ -132,7 +132,7 @@ class _ListviewScreen extends State<ListviewScreen> {
                                 ),
                                 icon: Icon(Icons.map, size: 15, color: Theme.of(context).colorScheme.onPrimary,),
                                 onPressed: () {
-                                  navManager.setIndex(1);
+                                    navManager.setIndex(1);
                                   //Navigator.push(context, MaterialPageRoute(builder: (context) =>  MapScreen(),));
                                 },
                                 label: Text(

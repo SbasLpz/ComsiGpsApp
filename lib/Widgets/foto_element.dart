@@ -101,11 +101,11 @@ UnidadModel unit = UnidadModel();
                                 minTileHeight: double.minPositive,
                                 leading: Icon(
                                   Icons.circle,
-                                  color: determineUnitStatus(unidad.last!).color,
+                                  color: determineUnitStatus(unidad.last).color,
                                   size: 20,
                                 ),
                                 title: Text(
-                                    determineUnitStatus(unidad.last!).tiempo,
+                                    determineUnitStatus(unidad.last).tiempo,
                                     style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.secondary)
                                 ),
                               )

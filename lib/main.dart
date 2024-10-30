@@ -55,7 +55,6 @@ void main() async {
   //   FirebaseCrashlytics.instance.recordError(error, stack);
   //   return true;
   // };
-
   runApp(
     riverpod.ProviderScope(
         child: MyApp()

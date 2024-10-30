@@ -26,7 +26,10 @@ class UnitStatus {
 
   UnitStatus({required this.color, required this.tiempo});
 }
-UnitStatus determineUnitStatus(String lastReport) {
+UnitStatus determineUnitStatus(String? lastReport) {
+  if(lastReport == null){
+    return UnitStatus(color: Color(0xFF808B96), tiempo: "undefined");
+  }
   Duration tiempo = parsearDuracion(lastReport);
   //print("ULTIMO REPORTE FUE HACE: ${tiempo.inMinutes} minutos. ");
   if(tiempo.inMinutes <= 5){
@@ -57,6 +60,11 @@ Duration parsearDuracion(String tiempo) {
 
 List<UnidadModel> ordenarUnidades(List<UnidadModel> lista) {
   lista.sort((a, b) {
+    if (a.last == null && b.last == null) return 0;
+
+    if (a.last == null) return 1;
+    if (b.last == null) return -1;
+
     Duration dA = parsearDuracion(a.last!);
     Duration dB = parsearDuracion(b.last!);
     return dA.compareTo(dB);

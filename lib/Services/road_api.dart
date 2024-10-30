@@ -13,8 +13,6 @@ import 'package:session_manager/session_manager.dart';
 import '../Models/validation_model.dart';
 
 //Future<ValidationModel> validate = postLogin("", "", "");
-Future<List<UnidadModel>> unidadesFuture = getUnidades();
-
 Future<ValidationModel> postLogin(String cuenta, String user, String pass) async {
   Map<String, dynamic> request = {
     'cuenta': cuenta,
@@ -40,6 +38,8 @@ Future<ValidationModel> postLogin(String cuenta, String user, String pass) async
 
   return ValidationModel.fromJson(body);
 }
+
+Future<List<UnidadModel>> unidadesFuture = getUnidades();
 
 Future<List<UnidadModel>> getUnidades() async {
   String token = await SessionManager().getString("tokenUser");

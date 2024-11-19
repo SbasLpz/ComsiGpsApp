@@ -53,10 +53,36 @@ class _AlertsScreenState extends State<AlertsScreen> {
                                 //final lista = snapshot.data;
                                 alertsManager;
                                 alertas = snapshot.data!;
-                                return buildAlert(alertas, context);
+                                if (alertas.length <= 0){
+                                  return Center(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text("Tu bandeja de alertas esta al día.", style: TextStyle(fontSize: 15),),
+                                        Image.asset(
+                                          'assets/images/no_imbox.png',
+                                          width: 200,
+                                          height: 200,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                } else {
+                                  return buildAlert(alertas, context);
+                                }
                               } else {
-                                return Center(
-                                  child: Text("No hay alertas disponibles"),
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("Error desconocido: ${snapshot.data}"),
+                                    Image.asset(
+                                      'assets/images/error.png',
+                                      width: 200,
+                                      height: 200,
+                                    ),
+                                  ],
                                 );
                               }
                             }

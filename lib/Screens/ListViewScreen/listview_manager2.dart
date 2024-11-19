@@ -19,7 +19,7 @@ class ListviewManager2 extends ChangeNotifier{
       units = allUnits;
     } else {
       units = allUnits.where((f) => f.desc!.toLowerCase().contains(query.toLowerCase()) 
-      || f.id!.contains(query)).toList();
+      || f.id_gps!.toString().contains(query)).toList();
     }
     print("buscando... ${query}, encontrados: ${units.length}");
     notifyListeners();

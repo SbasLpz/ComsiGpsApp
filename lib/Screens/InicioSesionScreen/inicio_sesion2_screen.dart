@@ -63,7 +63,7 @@ class _InicioSesionScreenState extends State<InicioSesion2Screen> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Image.asset('assets/images/logo_off2.png', width: 230, height: 230,),
-                      SizedBox(height: 40,),
+                      SizedBox(height: 15,),
                       Text(
                         "CONTAINER",
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(letterSpacing: 3, color: COLOR_SENCONDARY)

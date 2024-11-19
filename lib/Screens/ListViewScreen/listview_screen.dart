@@ -117,7 +117,8 @@ class _ListviewScreen extends State<ListviewScreen> {
                               side: BorderSide(width: 2, color: Theme.of(context).colorScheme.tertiary),
                               value: idsManager1.isChecked,
                               onChanged: (bool? newValue){
-                                idsManager1.selectAll(srchManager.units, newValue!);
+                                //idsManager1.selectAll(srchManager.units, newValue!);
+                                idsManager1.selectAll(srchManager.allUnits, newValue!);
                                 print("Checked dice hola");
                                 if(!newValue){
                                   idsManager1.quitarSelecteds();

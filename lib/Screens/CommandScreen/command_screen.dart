@@ -44,7 +44,7 @@ class _CommandScreenState extends State<CommandScreen> {
         child: Container(
           //color: Colors.green,
           width: double.maxFinite,
-          height: 380,
+          height: 410,
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: Theme.of(context).colorScheme.onSecondary),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -127,24 +127,27 @@ class _CommandScreenState extends State<CommandScreen> {
                     ),
                     SizedBox(width: 10,),
                     manager.selected != null ? OutlinedButton(
-                        onPressed: () async{
-                          var cmd = comandos.firstWhere((cm)=>cm.descripcion == manager.selected);
-                          try {
-                            var res = await sendCommand(widget.id_vehiculo, cmd.command!);
-                            if(res.success == true){
-                              manager.alert("Comando enviado con exito!");
-                            } else {
-                              manager.alert("Algo salio mal: ${res.msg.toString()}");
+                          onPressed: () async{
+                            manager.changeEstaCargando(true);
+                            var cmd = comandos.firstWhere((cm)=>cm.descripcion == manager.selected);
+                            try {
+                              var res = await sendCommand(widget.id_vehiculo, cmd.command!);
+                              if(res.success == true){
+                                manager.alert("Comando enviado con exito!");
+                              } else {
+                                manager.alert("Algo salio mal: ${res.msg.toString()}");
+                              }
+                              manager.changeEstaCargando(false);
+                            } catch(e){
+                              manager.changeEstaCargando(false);
+                              print("----- EXCEPCIÓN ----");
+                              Text("Excepción: ${e}");
                             }
-                          } catch(e){
-                            print("----- EXCEPCIÓN ----");
-                            Text("Excepción: ${e}");
-                          }
-                          manager.selected = null;
-                          setState(() {
-
-                          });
-                        },
+                            manager.selected = null;
+                            setState(() {
+  
+                            });
+                          },
                         child: Text("Enviar")
                     ) : OutlinedButton(
                       onPressed: null,
@@ -154,7 +157,7 @@ class _CommandScreenState extends State<CommandScreen> {
                 ),
               ),
               SizedBox(height: 30,),
-              Text(manager.infoCmd)
+              !manager.estaCargando ? Text(manager.infoCmd) : CircularProgressIndicator()
             ],
           ),
         ),

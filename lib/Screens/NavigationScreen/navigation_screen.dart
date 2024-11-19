@@ -128,13 +128,13 @@ class _NavigationScreen extends State<NavigationScreen> {
                   children: [
                     SizedBox(height: 20,),
                     SizedBox(
-                      height: 50,
-                      width: 110,
+                      height: 60,
+                      width: 116,
                       child: Container(
                         decoration: BoxDecoration(
                             image: DecorationImage(
                                 image: AssetImage('assets/images/logo_white.png'),
-                                fit: BoxFit.cover
+                                fit: BoxFit.fill
                             )
                         ),
                       ),

@@ -7,6 +7,7 @@ class CommandManager extends ChangeNotifier{
     //CommandModel? selected;
     String? selected;
     var infoCmd = "";
+    bool estaCargando = false;
 
     toggleButton(String? newValue) {
       selected = newValue;
@@ -15,6 +16,11 @@ class CommandManager extends ChangeNotifier{
 
     alert(String valor){
       infoCmd = valor;
+      notifyListeners();
+    }
+
+    changeEstaCargando(bool newValue) {
+      estaCargando = newValue;
       notifyListeners();
     }
 }

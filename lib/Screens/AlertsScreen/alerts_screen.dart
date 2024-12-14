@@ -1,7 +1,6 @@
 import 'package:apprutas/Models/alert_model.dart';
 import 'package:apprutas/Models/unidad_model.dart';
 import 'package:apprutas/Screens/AlertsScreen/alerts_manager.dart';
-import 'package:apprutas/Services/fotos_api.dart';
 import 'package:apprutas/Services/road_api.dart';
 import 'package:apprutas/Widgets/alert_element.dart';
 import 'package:flutter/material.dart';

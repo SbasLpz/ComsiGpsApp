@@ -7,7 +7,6 @@ import 'package:apprutas/Screens/ListViewScreen/listview_manager2.dart';
 import 'package:apprutas/Screens/MapScreen/map_screen.dart';
 import 'package:apprutas/Screens/NavigationScreen/navigation_manager.dart';
 import 'package:apprutas/Screens/NavigationScreen/navigation_screen.dart';
-import 'package:apprutas/Services/fotos_api.dart';
 import 'package:apprutas/Services/road_api.dart';
 import 'package:apprutas/Styles/theme.dart';
 import 'package:apprutas/Styles/theme_manager2.dart';
@@ -179,8 +178,17 @@ class _ListviewScreen extends State<ListviewScreen> {
                               srchManager.allUnits = mydata!;
                               return buildFotos(unidades!, context, _listKey);
                             } else {
-                              return Center(
-                                child: Text("Algo salio mal..."),
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text("Ocurrio un problema: ${snapshot.data}"),
+                                  Image.asset(
+                                    'assets/images/noData.png',
+                                    width: 200,
+                                    height: 200,
+                                  ),
+                                ],
                               );
                             }
                           },

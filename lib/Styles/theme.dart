@@ -75,16 +75,16 @@ class LightThemeAttrs implements ThemeAttrs {
           shape: WidgetStateProperty.all(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
         )),
-    navigationBarTheme: NavigationBarThemeData(
-      indicatorColor: COLOR_PRIMARY,
-      backgroundColor: Color(0xffe8e8e8),
-      iconTheme: MaterialStateProperty.resolveWith<IconThemeData>((states){
-        if (states.contains(MaterialState.selected)) {
-          return IconThemeData(color: Color(0xffF4F4F4)); // Color del icono seleccionado
-        }
-        return IconThemeData(color: COLOR_SENCONDARY);
-      }),
-    ),
+    // navigationBarTheme: NavigationBarThemeData(
+    //   indicatorColor: COLOR_PRIMARY,
+    //   backgroundColor: Color(0xffe8e8e8),
+    //   iconTheme: MaterialStateProperty.resolveWith<IconThemeData>((states){
+    //     if (states.contains(MaterialState.selected)) {
+    //       return IconThemeData(color: Color(0xffF4F4F4)); // Color del icono seleccionado
+    //     }
+    //     return IconThemeData(color: COLOR_SENCONDARY);
+    //   }),
+    // ),
     outlinedButtonTheme: OutlinedButtonThemeData(
         style: ButtonStyle(
           padding: WidgetStateProperty.all(
@@ -164,16 +164,16 @@ class DarkThemeAttrs implements ThemeAttrs {
           shape: WidgetStateProperty.all(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
         )),
-    navigationBarTheme: NavigationBarThemeData(
-          indicatorColor: COLOR_PRIMARY,
-          backgroundColor: Colors.black26,
-          iconTheme: MaterialStateProperty.resolveWith<IconThemeData>((states){
-            if (states.contains(MaterialState.selected)) {
-              return IconThemeData(color: Color(0xffF4F4F4)); // Color del icono seleccionado
-            }
-            return IconThemeData(color: DARK_TER);
-          }),
-    ),
+    // navigationBarTheme: NavigationBarThemeData(
+    //       indicatorColor: COLOR_PRIMARY,
+    //       backgroundColor: Colors.black26,
+    //       iconTheme: MaterialStateProperty.resolveWith<IconThemeData>((states){
+    //         if (states.contains(MaterialState.selected)) {
+    //           return IconThemeData(color: Color(0xffF4F4F4)); // Color del icono seleccionado
+    //         }
+    //         return IconThemeData(color: DARK_TER);
+    //       }),
+    // ),
     outlinedButtonTheme: OutlinedButtonThemeData(
         style: ButtonStyle(
           padding: WidgetStateProperty.all(

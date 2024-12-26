@@ -194,8 +194,17 @@ class _MapScreen extends State<MapScreen>  {
             );
 
           } else {
-            return Center(
-              child: Text("Sin unidades disponibles"),
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Ocurrio un problema: ${snapshot.data}"),
+                Image.asset(
+                  'assets/images/noData.png',
+                  width: 200,
+                  height: 200,
+                ),
+              ],
             );
           }
         },

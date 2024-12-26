@@ -55,7 +55,7 @@ Future<List<UnidadModel>> getUnidades() async {
   //print("Code Response: ${response.statusCode}");
   //print("Response SUCCESS: ${json.decode(response.body)['success']}");
 
-  print("ACTUALICE LAS UBICACIONES");
+  print("♠♠♠ ♠♠ ♠ ACTUALICE LAS UBICACIONES");
 
   return dataResp.map((unit) => UnidadModel.fromJson(unit)).toList();
 }

@@ -31,6 +31,7 @@ UnidadModel unit = UnidadModel();
         final unidad = unidades[index];
         var loc = unidad.lat.toString()+", "+unidad.long.toString();
         //final unidad = searchManager.units.isEmpty ? searchManager.allUnits[index] : searchManager.units[index];
+        //calculateUnitStatus(unidad.fecha1);
         return InkWell(
           onTap: () {
             unitsManager.selectedItems(int.parse(unidad.id_gps!));

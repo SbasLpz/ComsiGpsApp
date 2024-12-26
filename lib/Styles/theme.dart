@@ -85,6 +85,16 @@ class LightThemeAttrs implements ThemeAttrs {
           shape: WidgetStateProperty.all(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
         )),
+        navigationBarTheme: NavigationBarThemeData(
+            indicatorColor: COLOR_PRIMARY,
+          backgroundColor: Color(0xffececec),
+          iconTheme: MaterialStateProperty.resolveWith<IconThemeData>((states){
+            if (states.contains(MaterialState.selected)) {
+              return IconThemeData(color: mycolors.colorScheme.onPrimary); // Color del icono seleccionado
+            }
+            return IconThemeData(color: mycolors.colorScheme.secondary);
+          }),
+        ),
         cardTheme: CardTheme(color: Color(0xffE2E2E2)),
     timePickerTheme: TimePickerThemeData(
       dayPeriodColor: Colors.redAccent,
@@ -154,6 +164,16 @@ class DarkThemeAttrs implements ThemeAttrs {
           shape: WidgetStateProperty.all(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
         )),
+    navigationBarTheme: NavigationBarThemeData(
+      indicatorColor: COLOR_PRIMARY,
+      backgroundColor: Color(0xff4a4a4a),
+      iconTheme: MaterialStateProperty.resolveWith<IconThemeData>((states){
+        if (states.contains(MaterialState.selected)) {
+          return IconThemeData(color: mycolors.colorScheme.onPrimary); // Color del icono seleccionado
+        }
+        return IconThemeData(color: mycolors.colorScheme.secondary);
+      }),
+    ),
     timePickerTheme: TimePickerThemeData(
         dialHandColor: Colors.blue,
     ),

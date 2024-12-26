@@ -27,6 +27,7 @@ class UnitStatus {
   UnitStatus({required this.color, required this.tiempo});
 }
 UnitStatus determineUnitStatus(String? lastReport) {
+  //print("@@♠4♠4♠4♠4♠♠ Refresque el LastREPORT de la UNIDAD ---|||");
   if(lastReport == null){
     return UnitStatus(color: Color(0xFF808B96), tiempo: "undefined");
   }
@@ -38,6 +39,12 @@ UnitStatus determineUnitStatus(String? lastReport) {
   } else {
     return UnitStatus(color: Color(0xFF808B96), tiempo: lastReport);
   }
+}
+
+UnitStatus calculateUnitStatus(String? dateLatReport) {
+  var currentDate = DateTime.now();
+  print("DEVICE current DateTime is $currentDate");
+  return UnitStatus(color: Colors.black, tiempo: currentDate.toString());
 }
 
 Duration parsearDuracion(String tiempo) {

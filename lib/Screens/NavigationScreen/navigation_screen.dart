@@ -82,17 +82,7 @@ class _NavigationScreen extends State<NavigationScreen> {
           },
         ),
       ),
-      bottomNavigationBar: navManager.currentPageIndexNavBar0 != -1 ? NavigationBarTheme(
-        data: NavigationBarThemeData(
-          indicatorColor: COLOR_PRIMARY,
-          iconTheme: MaterialStateProperty.resolveWith<IconThemeData>((states){
-            if (states.contains(MaterialState.selected)) {
-              return IconThemeData(color: Theme.of(context).colorScheme.onPrimary); // Color del icono seleccionado
-            }
-            return IconThemeData(color: Theme.of(context).colorScheme.secondary);
-          }),
-        ),
-        child: NavigationBar(
+      bottomNavigationBar: navManager.currentPageIndexNavBar0 != -1 ? NavigationBar(
           onDestinationSelected: (int index){
             setState(() {
               navManager.setIndex(index);
@@ -114,7 +104,6 @@ class _NavigationScreen extends State<NavigationScreen> {
                 label: "Alertas"
             )
           ],
-        ),
       ) : null,
       drawer: Drawer(
         child: ListView (

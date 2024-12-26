@@ -27,8 +27,8 @@ List<LatLng> pointsToPoly(List<HistorialModel> lista) {
   // toMarker(puntoInicio, Icon(Icons.flag_circle_rounded, color: Colors.green, size: 40,));
   // toMarker(puntoFinal, Icon(Icons.flag_circle_rounded, color: Colors.redAccent, size: 40));
 
-  toMarker(puntoInicio, Icon(Icons.location_on, color: Colors.green, size: 40,));
-  toMarker(puntoFinal, Icon(Icons.location_on, color: Colors.redAccent, size: 40));
+  toMarker(puntoFinal, Icon(Icons.circle, color: Colors.green, size: 24,));
+  toMarker(puntoInicio, Icon(Icons.circle, color: Colors.redAccent, size: 24));
 
   print("Punto INICIO: ${puntoInicio}, Punto FINAL: ${puntoFinal}");
 

@@ -50,6 +50,7 @@ dependencies:
   package_info_plus: ^8.0.1
   shared_preferences: ^2.0.15
   upgrader: ^10.0.0
+
   flutter:
     sdk: flutter
 

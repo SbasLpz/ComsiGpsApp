@@ -2,6 +2,7 @@ import 'package:apprutas/Models/unidad_model.dart';
 import 'package:apprutas/Screens/CommandScreen/command_screen.dart';
 import 'package:apprutas/Screens/HistorialScreen/historial_screen.dart';
 import 'package:apprutas/Screens/InfoUnitScreen/unit_info_screen.dart';
+import 'package:apprutas/Screens/MapScreen/map_manager.dart';
 import 'package:apprutas/Screens/MapScreen/map_screen.dart';
 import 'package:apprutas/Services/road_api.dart';
 import 'package:apprutas/Styles/theme.dart';
@@ -10,6 +11,7 @@ import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 
 TextTheme txtTheme = Theme.of(GlobalContext.navKey.currentContext!).textTheme;
 
@@ -350,6 +352,21 @@ Widget infoDialog2 (UnidadModel unidad, BuildContext context) {
                                   );
                                 },
                                 icon: Icon(Icons.history)
+                            )
+                        ),
+                        Expanded(
+                            child: Consumer<MapManager>(
+                              builder: (context, mpMan, child){
+                                return IconButton(
+                                  onPressed: () {
+                                    mpMan.trackSingleUnit(unidad.id_gps!);
+                                    Navigator.of(GlobalContext.navKey.currentContext!).pop();
+                                  },
+                                  icon: Icon(Icons.remove_red_eye_rounded),
+                                  color: mpMan.trackUnit ? Colors.white : Colors.grey,
+                                  style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(mpMan.trackUnit ? Colors.blueAccent : Colors.transparent)),
+                                );
+                              },
                             )
                         ),
                         Expanded(

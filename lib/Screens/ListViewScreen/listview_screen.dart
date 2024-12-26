@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:core';
 import 'dart:ui';
 import 'package:apprutas/Models/unidad_model.dart';
 import 'package:apprutas/Screens/ListViewScreen/last_report_manager.dart';
@@ -35,14 +36,17 @@ class _ListviewScreen extends State<ListviewScreen> {
   final GlobalKey _listKey = GlobalKey();
   @override
   void initState() {
-    GlobalContext.appBar.value = "Unidades";
-    setState(() {
 
-    });
+    // setState(() {
+    //
+    // });
     statusManeger.stopUpdater = false;
     statusManeger.intervalUpdate();
     print("Puse los 2 Listener en UnidadesScreen");
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      GlobalContext.appBar.value = "Unidades";
+    });
   }
   
   @override
@@ -97,9 +101,13 @@ class _ListviewScreen extends State<ListviewScreen> {
                               searchController.text = "";
                               srchManager.resetSearchText();
                               //idsManager.quitarSelecteds();
+                              //srchManager.units.clear();
+
                               idsManager1.isChecked = false;
                               idsManager1.quitarSelecteds();
-                              print("Presione RESET icon");},
+                              print("Presione RESET icon");
+                              unidadesFuture;
+                              },
                             icon: Icon(Icons.refresh),
                           ),
                         ],
@@ -171,12 +179,23 @@ class _ListviewScreen extends State<ListviewScreen> {
                                 child: CircularProgressIndicator(),
                               );
                             } else if (snapshot.hasData){
+                              //print("\n Snapshot DATA refreshed \n");
                               var mydata = ordenarUnidades(snapshot.data!);
                               if(unitsInfo.unidadesInfo.isNotEmpty) {
                                 mydata = ordenarUnidades(unitsInfo.unidadesInfo);
+                                //print("☻ LAST from MILTON ☻: "+unitsInfo.unidadesInfo.where((u)=>u.desc == "TCI2428 MILTON MUNGUIA " ).first!.last!);
                               }
-                              final unidades = srchManager.units.isEmpty ? mydata : ordenarUnidades(srchManager.units);
+                              var unidades = srchManager.units.isEmpty ? mydata : ordenarUnidades(srchManager.units);
+
+                              if(srchManager.units.isEmpty) {
+                                //print("☺☺ ☺ The If for Unidades i equal to mydata ☺☺ ☺");
+                              } else {
+                                //mydata = mydata.where((item) => srchManager.units.any((unit) => unit.id_gps == item.id_gps)).toList();
+                                var dataUpdated = mydata.where((item) => srchManager.units.any((unit) => unit.id_gps == item.id_gps)).toList();
+                                unidades = dataUpdated;
+                              }
                               srchManager.allUnits = mydata!;
+//                              print("Size of Unidades =a $unidades");
                               return buildFotos(unidades!, context, _listKey);
                             } else {
                               return Center(

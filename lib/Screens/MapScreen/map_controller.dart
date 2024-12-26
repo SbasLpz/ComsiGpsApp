@@ -5,14 +5,21 @@ List<LocationModel> lista = LocationModel.locationsList();
 ListviewManager unitsManager = ListviewManager();
 TextTheme txtTheme = Theme.of(GlobalContext.navKey.currentContext!).textTheme;
 MapManager mpMan = MapManager();
+MapController mpController = MapController();
+
+List<Marker> markerList = [];
+bool isControllerEnable = false;
 
 List<Marker> listToMarkerList(List<UnidadModel> lista) {
-  List<Marker> markerList = [];
-
+  //List<Marker> markerList = [];
+  markerList.clear();
+  print("•• • //Borre los datos • ••");
+  //mpMan.markersList.clear();
   lista.forEach((UnidadModel loca){
     var point = LatLng(double.parse(loca.lat!), double.parse(loca.long!));
 
       var marker = Marker(
+        key: Key(loca.id_gps!),
         point: point,
         width: 30,
         height: 30,
@@ -26,9 +33,11 @@ List<Marker> listToMarkerList(List<UnidadModel> lista) {
     );
 
     markerList.add(marker);
+    mpMan.markersList.add(marker);
+    //print("***** KEY ${loca.id_gps}");
   });
 
-  print("OOPPAA --- /////");
+  print("---------->>>> Marker List lenght: ${markerList.length}");
   return markerList;
 }
 
@@ -76,3 +85,7 @@ Future<int?> getIntevalo() async {
   int? intervalo = await SessionManager().getInt("intervalo");
   return intervalo;
 }
+
+
+
+

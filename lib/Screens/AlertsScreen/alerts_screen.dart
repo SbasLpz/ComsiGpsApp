@@ -53,7 +53,7 @@ class _AlertsScreenState extends State<AlertsScreen> {
                                 //final lista = snapshot.data;
                                 alertsManager;
                                 alertas = snapshot.data!;
-                                if (alertas.length <= 0){
+                                if (alertas.length <= 0) {
                                   return Center(
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.center,

@@ -9,9 +9,16 @@ class NavigationManager extends ChangeNotifier{
   NavigationManager._internal();
   // ------- Instancia unica compartida - Singleton ------
   int currentPageIndexNavBar0 = 0;
+  String username = "";
 
   setIndex(int inx){
     currentPageIndexNavBar0 = inx;
     notifyListeners();
   }
+
+  setUserName(String user){
+    username = user;
+    notifyListeners();
+  }
+
 }

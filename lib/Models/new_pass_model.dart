@@ -1,14 +1,17 @@
 class NewPassModel {
-  bool? success;
-  String? msg;
+  String? status;
+  String? message;
+  String? data;
 
   NewPassModel({
-    this.success,
-    this.msg,
+    this.status,
+    this.message,
+    this.data,
   });
 
   NewPassModel.fromJson(Map<String, dynamic> json) {
-    success = json['success'];
-    msg = json['msg'];
+    status = json['status'];
+    message = json['message'];
+    data = json['data'];
   }
 }

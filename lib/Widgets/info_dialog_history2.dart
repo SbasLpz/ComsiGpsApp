@@ -1,14 +1,15 @@
 
+import 'package:apprutas/Models/historial_data_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map_marker_popup/extension_api.dart';
 
-import '../Models/historial_model.dart';
+
 import '../Utils/global_context.dart';
 
 class InfoDialogHistory2 extends StatefulWidget {
   const InfoDialogHistory2({super.key, required this.data, required this.popupController});
 
-  final HistorialModel data;
+  final HistorialDataModel data;
   final PopupController popupController;
 
   @override
@@ -68,11 +69,11 @@ class _InfoDialogHistory2State extends State<InfoDialogHistory2> {
                                 text: TextSpan(
                                     children: [
                                       TextSpan(
-                                        text: "Fecha y hora: ",
+                                        text: "Fecha: ",
                                         style: txtTheme.displayMedium!.copyWith(color: Colors.black),
                                       ),
                                       TextSpan(
-                                          text: widget.data.fecha_pc,
+                                          text: widget.data.fecha,
                                           style: txtTheme.bodySmall!.copyWith(color: Colors.black)
                                       )
                                     ]
@@ -86,11 +87,11 @@ class _InfoDialogHistory2State extends State<InfoDialogHistory2> {
                                 text: TextSpan(
                                     children: [
                                       TextSpan(
-                                        text: "Latitud: ",
+                                        text: "Fecha GPS: ",
                                         style: txtTheme.displayMedium!.copyWith(color: Colors.black),
                                       ),
                                       TextSpan(
-                                          text: widget.data.latitud,
+                                          text: widget.data.fecha_gps,
                                           style: txtTheme.bodySmall!.copyWith(color: Colors.black)
                                       )
                                     ]
@@ -103,11 +104,11 @@ class _InfoDialogHistory2State extends State<InfoDialogHistory2> {
                                 text: TextSpan(
                                     children: [
                                       TextSpan(
-                                          text: "Longitud: ",
+                                          text: "Punto más cercano: ",
                                           style: txtTheme.displayMedium!.copyWith(color: Colors.black)
                                       ),
                                       TextSpan(
-                                          text: widget.data.longitud,
+                                          text: widget.data.punto_cercano,
                                           style: txtTheme.bodySmall!.copyWith(color: Colors.black)
                                       )
                                     ]

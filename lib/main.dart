@@ -6,7 +6,6 @@ import 'package:apprutas/Screens/CommandScreen/command_manager.dart';
 import 'package:apprutas/Screens/CommandScreen/command_screen.dart';
 import 'package:apprutas/Screens/HistorialScreen/validator_manager.dart';
 import 'package:apprutas/Screens/InicioSesionScreen/inicio_sesion2_screen.dart';
-import 'package:apprutas/Screens/InicioSesionScreen/inicio_sesion_screen.dart';
 import 'package:apprutas/Screens/ListViewScreen/last_report_manager.dart';
 import 'package:apprutas/Screens/ListViewScreen/listview_manager.dart';
 import 'package:apprutas/Screens/ListViewScreen/listview_manager2.dart';
@@ -55,6 +54,12 @@ void main() async {
   //   FirebaseCrashlytics.instance.recordError(error, stack);
   //   return true;
   // };
+
+  FlutterError.onError = (FlutterErrorDetails details) {
+    FlutterError.dumpErrorToConsole(details);
+    // También lo imprimimos en logcat explícitamente
+    print('FLUTTER ERROR: ${details.exception}');
+  };
   runApp(
     riverpod.ProviderScope(
         child: MyApp()

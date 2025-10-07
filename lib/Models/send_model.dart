@@ -1,14 +1,14 @@
 class SendModel {
-  bool? success;
-  String? msg;
+  String? status;
+  String? message;
 
   SendModel({
-    this.success,
-    this.msg,
+    this.status,
+    this.message,
   });
 
   SendModel.fromJson(Map<String, dynamic> json) {
-    success = json['success'];
-    msg = json['msg'];
+    status = json['status'];
+    message = json['message'];
   }
 }

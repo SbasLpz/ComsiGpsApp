@@ -1,3 +1,4 @@
+import 'package:apprutas/Models/unidad_data_model.dart';
 import 'package:apprutas/Models/unidad_model.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -10,10 +11,10 @@ class ListviewManager extends ChangeNotifier {
   ListviewManager._internal();
   // ------- Instancia unica compartida - Singleton ------
 
-  Set<int> selectedIds = {};
+  Set<String> selectedIds = {};
   bool isChecked = false;
 
-  void selectedItems(int id) {
+  void selectedItems(String id) {
     if(selectedIds.contains(id)){
       selectedIds.remove(id);
     } else {
@@ -29,11 +30,11 @@ class ListviewManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void selectAll(List<UnidadModel> units, bool value) {
+  void selectAll(List<UnidadDataModel> units, bool value) {
     isChecked = value;
     print("SELECT ALL VAL: ${value}");
-    for(UnidadModel unidad in units){
-      selectedIds.add(int.parse(unidad.id_gps!));
+    for(UnidadDataModel unidad in units){
+      selectedIds.add(unidad.IDGPS!.toString().trim());
     }
     notifyListeners();
   }

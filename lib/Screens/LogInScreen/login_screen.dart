@@ -45,16 +45,6 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                       obscureText: false,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(),
-                          labelText: "Nombre de la cuenta"
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 250.0,
-                    child: TextField(
-                      obscureText: false,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(),
                           labelText: "Usuario"
                       ),
                     ),

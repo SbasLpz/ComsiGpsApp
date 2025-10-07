@@ -1,11 +1,12 @@
 import 'package:apprutas/Models/foto_model.dart';
+import 'package:apprutas/Models/unidad_data_model.dart';
 import 'package:apprutas/Models/unidad_model.dart';
 import 'package:flutter/cupertino.dart';
 
 class ListviewManager2 extends ChangeNotifier{
 
-  List<UnidadModel> units = [];
-  List<UnidadModel> allUnits = [];
+  List<UnidadDataModel> units = [];
+  List<UnidadDataModel> allUnits = [];
 
   bool isChecked = false;
 
@@ -18,8 +19,11 @@ class ListviewManager2 extends ChangeNotifier{
     if (query.isEmpty){
       units = allUnits;
     } else {
-      units = allUnits.where((f) => f.desc!.toLowerCase().contains(query.toLowerCase()) 
-      || f.id_gps!.toString().contains(query)).toList();
+      //|| f.IDGPS.toString().toLowerCase().contains(query)
+      units = allUnits.where((f) => f.Descripcion.toString().toLowerCase().contains(query.toLowerCase())
+      || f.Placa.toString().toLowerCase().contains(query) || f.nombrePiloto.toString().toLowerCase().contains(query)
+          || f.IDGPS.toString().toLowerCase().contains(query)
+      ).toList();
     }
     print("buscando... ${query}, encontrados: ${units.length}");
     notifyListeners();

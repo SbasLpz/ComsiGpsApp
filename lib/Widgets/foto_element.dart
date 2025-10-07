@@ -1,4 +1,5 @@
 
+import 'package:apprutas/Models/unidad_data_model.dart';
 import 'package:apprutas/Models/unidad_model.dart';
 import 'package:apprutas/Screens/HistorialScreen/historial_screen.dart';
 import 'package:apprutas/Screens/ListViewScreen/listview_manager.dart';
@@ -19,26 +20,28 @@ TextTheme txtTheme = Theme.of(GlobalContext.navKey.currentContext!).textTheme;
 
 UnidadModel unit = UnidadModel();
 
-  Widget buildFotos(List<UnidadModel> unidades, BuildContext context, Key key) {
+  Widget buildFotos(List<UnidadDataModel> unidades, BuildContext context, Key key) {
     final unitsManager = context.watch<ListviewManager>();
 
     //print("Cantidad Units: ${searchManager.units.length}, AllUnits ${searchManager.allUnits.length}");
     return ListView.builder(
-      key: key,
+      //key: key,
       itemCount: unidades.length,
       //itemCount: searchManager.units.isEmpty ? searchManager.allUnits.length : searchManager.units.length,
       itemBuilder: (context, index) {
         final unidad = unidades[index];
-        var loc = unidad.lat.toString()+", "+unidad.long.toString();
+        //var loc = unidad.lat.toString()+", "+unidad.long.toString();
         //final unidad = searchManager.units.isEmpty ? searchManager.allUnits[index] : searchManager.units[index];
         //calculateUnitStatus(unidad.fecha1);
         return InkWell(
+
           onTap: () {
-            unitsManager.selectedItems(int.parse(unidad.id_gps!));
+            unitsManager.selectedItems(unidad.IDGPS!.toString().trim());
             //listviewManager.selectedItems(unidad.id!);
-            mostrarSnackbar(context, int.parse(unidad.id_gps!));
+            mostrarSnackbar(context, unidad.IDGPS!.toString().trim());
           },
           child: Card(
+              key: ValueKey(unidad.IDGPS ?? unidad.Descripcion),
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
                 child: Column(
@@ -49,14 +52,14 @@ UnidadModel unit = UnidadModel();
                         children: [
                           Expanded(
                             child: Text(
-                              unidad.desc.toString(),
+                              unidad.Descripcion!,
                               style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Theme.of(context).colorScheme.secondary)
                             ),
                             flex: 3,
                           ),
                           Flexible(
                               flex: 1,
-                              child: unitsManager.selectedIds.contains(int.parse(unidad.id_gps!)) || unitsManager.isChecked == true ?
+                              child: unitsManager.selectedIds.contains(unidad.IDGPS!.toString().trim()) || unitsManager.isChecked == true ?
                               Align(
                                 alignment: Alignment.topRight,
                                   child: Padding(
@@ -91,7 +94,7 @@ UnidadModel unit = UnidadModel();
                                   size: 20,
                                 ),
                                 title: Text(
-                                    unidad.placa.toString(),
+                                    unidad.Placa.toString(),
                                     style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.secondary)
                                 ),
                               )
@@ -102,11 +105,11 @@ UnidadModel unit = UnidadModel();
                                 minTileHeight: double.minPositive,
                                 leading: Icon(
                                   Icons.circle,
-                                  color: determineUnitStatus(unidad.last).color,
+                                  color: determineUnitStatus(unidad.tiempoReporte.toString().trim()).color,
                                   size: 20,
                                 ),
                                 title: Text(
-                                    determineUnitStatus(unidad.last).tiempo,
+                                    determineUnitStatus(unidad.tiempoReporte.toString().trim()).tiempo,
                                     style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.secondary)
                                 ),
                               )
@@ -128,13 +131,13 @@ UnidadModel unit = UnidadModel();
                                   minTileHeight: double.minPositive,
                                   contentPadding: EdgeInsets.fromLTRB(15, 0, 0, 0),
                                   leading: Icon(
-                                    Icons.location_on_sharp,
+                                    Icons.person,
                                     color: Theme.of(context).colorScheme.secondary,
                                     size: 20,
                                   ),
                                   title: Text(
-                                      unidad.lugar!.isNotEmpty ? "${unidad.lugar}" : unidad.lat.toString()+","+unidad.long.toString(),
-                                      //unidad.lat.toString()+",fsdfdsfsdf "+unidad.long.toString(),
+                                      unidad.nombrePiloto.toString(),
+                                    //unidad.data!.lat.toString()+","+unidad.data!.long.toString(),
                                       style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.secondary)
                                   ),
                                 ),
@@ -151,7 +154,7 @@ UnidadModel unit = UnidadModel();
                                   size: 20,
                                 ),
                                 title: Text(
-                                    unidad.id_gps.toString(),
+                                    unidad.IDGPS.toString(),
                                     style: Theme.of(context).textTheme.bodySmall!.copyWith(color: Theme.of(context).colorScheme.secondary)
                                 ),
                               )

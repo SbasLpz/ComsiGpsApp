@@ -10,6 +10,7 @@ TextTheme txtTheme = Theme.of(GlobalContext.navKey.currentContext!).textTheme;
 bool isDark = Theme.of(GlobalContext.navKey.currentContext!).brightness == Brightness.dark;
 
 List<Widget> widgetOptionsDawer = [
+  //ListviewScreen(),
   AjustesScreen(),
   Center(
     child: Text("Cerrar sesión"),
@@ -20,8 +21,16 @@ List<Widget> widgetOptionsDawer = [
 List<Widget> widgetOptionsNavBar = [
   ListviewScreen(),
   MapScreen(),
+  //ListviewScreen(),
+  //MapScreen(),
   AlertsScreen()
 ];
+
+
+Future<void> _loadUserName() async {
+  String username = await SessionManager().getString("username");
+  NavigationManager().setUserName(username);
+}
 
 Future<void> saveThemeMode(bool isDarkMode) async {
   final prefs = await SharedPreferences.getInstance();

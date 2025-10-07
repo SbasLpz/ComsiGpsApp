@@ -3,9 +3,11 @@ import 'package:apprutas/Screens/NavigationScreen/navigation_screen.dart';
 import 'package:apprutas/Services/road_api.dart';
 import 'package:apprutas/Styles/theme.dart';
 import 'package:apprutas/Utils/global_context.dart';
+import 'package:apprutas/Utils/session_manager_custom.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:apprutas/Utils/Global/strings.dart' as globalStr;
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:session_manager/session_manager.dart';
 
 import '../RecuperarScreen/recuperar_screen.dart';
@@ -31,7 +33,6 @@ class _InicioSesionScreenState extends State<InicioSesion2Screen> {
 
   @override
   void dispose() {
-    cuentaController.dispose();
     userController.dispose();
     passController.dispose();
     super.dispose();
@@ -43,11 +44,12 @@ class _InicioSesionScreenState extends State<InicioSesion2Screen> {
       body: Stack(
         children: [
           Container(
+            //color: COLOR_PRIMARY,
             decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/images/background_red.jpg'),
-                  fit: BoxFit.cover
-              )
+                image: DecorationImage(
+                    image: AssetImage('assets/images/bc_login.jpeg'),
+                    fit: BoxFit.cover
+                )
             ),
           ),
           SingleChildScrollView(
@@ -62,25 +64,26 @@ class _InicioSesionScreenState extends State<InicioSesion2Screen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Image.asset('assets/images/logo_off2.png', width: 230, height: 230,),
-                      SizedBox(height: 15,),
-                      Text(
-                        "CONTAINER",
-                        style: Theme.of(context).textTheme.titleLarge!.copyWith(letterSpacing: 3, color: COLOR_SENCONDARY)
-                      ),
-                      Text(
-                        "TRACKING APP",
-                        style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold, color: COLOR_PRIMARY, fontSize: 23),
-                      ),
+                      Image.asset('assets/images/logo_comsi.png', width: 180, height: 180,),
+                      // SizedBox(height: 15,),
+                      // Text(
+                      //   "COMSI",
+                      //   style: Theme.of(context).textTheme.titleLarge!.copyWith(letterSpacing: 3, color: DARK_TER)
+                      // ),
+                      // Text(
+                      //   "MONITOREO DE RUTA",
+                      //   style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold, color: DARK_TER, fontSize: 23),
+                      // ),
                       SizedBox(
                         width: double.maxFinite,
-                        height: 60,
+                        height: 20,
                       ),
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: Container(
                           decoration: BoxDecoration(
-                            color: COLOR_SENCONDARY,
+                            //color: COLOR_PRIMARY,
+                            color: Colors.black.withOpacity(0.6),
                             borderRadius: BorderRadius.circular(20)
                           ),
                           child: Padding(
@@ -91,19 +94,12 @@ class _InicioSesionScreenState extends State<InicioSesion2Screen> {
                                 Wrap(
                                   runSpacing: 20.0,
                                   children: [
-                                    TextField(
-                                      controller: cuentaController,
-                                      cursorColor: COLOR_SENCONDARY,
-                                      style: TextStyle(fontSize: 13, color: COLOR_SENCONDARY),
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(50),),
-                                        labelText: "Cuenta",
-                                        fillColor: Theme.of(context).colorScheme.onPrimary,
-                                        filled: true,
-                                          labelStyle: TextStyle(fontSize: 13, color: COLOR_SENCONDARY),
-                                        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(50),borderSide: BorderSide(color: COLOR_SENCONDARY)),
-                                        floatingLabelStyle: TextStyle(color: Color(0xffF4F4F4)),
-                                          floatingLabelBehavior: FloatingLabelBehavior.never
+                                    SizedBox(
+                                      width: double.infinity,
+                                      child: Text(
+                                        "COMSI - GPS",
+                                        textAlign: TextAlign.center,
+                                        style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold, color: DARK_TER, fontSize: 23),
                                       ),
                                     ),
                                     TextField(
@@ -139,25 +135,25 @@ class _InicioSesionScreenState extends State<InicioSesion2Screen> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(
-                                  width: double.maxFinite,
-                                  height: 10,
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (context) => const RecuperarScreen()),
-                                    );
-                                  },
-                                  child: Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Text(
-                                      "¿Olvido su contraseña?",
-                                      style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),
-                                    ),
-                                  ),
-                                ),
+                                // SizedBox(
+                                //   width: double.maxFinite,
+                                //   height: 10,
+                                // ),
+                                // InkWell(
+                                //   onTap: () {
+                                //     Navigator.push(
+                                //       context,
+                                //       MaterialPageRoute(builder: (context) => const RecuperarScreen()),
+                                //     );
+                                //   },
+                                //   child: Align(
+                                //     alignment: Alignment.centerRight,
+                                //     child: Text(
+                                //       "¿Olvido su contraseña?",
+                                //       style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white),
+                                //     ),
+                                //   ),
+                                // ),
                                 SizedBox(
                                   width: double.maxFinite,
                                   height: 20,
@@ -168,6 +164,7 @@ class _InicioSesionScreenState extends State<InicioSesion2Screen> {
                                       style: ButtonStyle(
                                           padding: WidgetStateProperty.all(
                                           EdgeInsets.symmetric(horizontal: 40.0, vertical: 14.0)),
+                                          backgroundColor: WidgetStateProperty.all(COLOR_BLUE),
                                           shape: WidgetStateProperty.all(
                                               RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)))
                                       ),
@@ -175,7 +172,7 @@ class _InicioSesionScreenState extends State<InicioSesion2Screen> {
                                         ingresar(context);
                                         //FirebaseCrashlytics.instance.crash();
                                       },
-                                      child: Text("Ingresar", style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),)
+                                      child: Text("Acceder", style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),)
                                   ),
                                 )
                               ],
@@ -187,7 +184,7 @@ class _InicioSesionScreenState extends State<InicioSesion2Screen> {
                         height: 30,
                       ),
                       Text(GlobalContext.version, style: TextStyle(color: Colors.white),),
-                      Text("Powered by RoadControl", style: TextStyle(color: Colors.white))
+                      Text("Hecho por COMSI", style: TextStyle(color: Colors.white))
                     ],
                   ),
                 ),

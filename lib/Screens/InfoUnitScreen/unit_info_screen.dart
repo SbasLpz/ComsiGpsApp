@@ -1,5 +1,7 @@
+import 'package:apprutas/Models/info_data_model.dart';
 import 'package:apprutas/Models/unidad_model.dart';
 import 'package:apprutas/Styles/theme.dart';
+import 'package:apprutas/Utils/global_context.dart';
 import 'package:apprutas/Widgets/foto_element.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,15 +11,32 @@ part 'unit_info_controller.dart';
 class UnitInfoScreen extends StatefulWidget {
   const UnitInfoScreen({super.key, required this.unidad});
 
-  final UnidadModel unidad;
+  final InfoDataModel unidad;
 
   @override
   State<UnitInfoScreen> createState() => _UnitInfoScreenState();
 }
 
 class _UnitInfoScreenState extends State<UnitInfoScreen> {
+
   @override
   Widget build(BuildContext context) {
+    var latlong = GlobalContext.getLatLng(widget.unidad.Coordenadas!);
+    var lat = latlong["lat"];
+    var long = latlong["long"];
+
+    var vehiculo = getValueFromDescripcion(widget.unidad.Descripcion!, "Vehiculo");
+    var placa = getValueFromDescripcion(widget.unidad.Descripcion!, "Placa");
+    var idgps = getValueFromDescripcion(widget.unidad.Descripcion!, "IDGPS");
+
+    var ignicion = "DESCONOCIDO";
+    if(widget.unidad.ignicion == 0){
+      ignicion = "APAGADO";
+    }
+    if(widget.unidad.ignicion == 1){
+      ignicion = "ENCENDIDO";
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -31,20 +50,27 @@ class _UnitInfoScreenState extends State<UnitInfoScreen> {
           child: Column(
             children: [
               Container(
-                color: COLOR_PRIMARY,
                 width: double.maxFinite,
                 child: Text(
-                  "Detalles",
+                  "Información",
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 30, color: Colors.white),
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 30, color: COLOR_PRIMARY),
                 ),
               ),
               SizedBox(
                 height: 20,
               ),
               Text(
-                widget.unidad.desc!,
+                vehiculo,
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(fontSize: 20),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              Text(
+                "Placa: ${placa} ; ID GPS: ${idgps}",
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(fontSize: 16),
                 textAlign: TextAlign.center,
               ),
               SizedBox(
@@ -65,17 +91,7 @@ class _UnitInfoScreenState extends State<UnitInfoScreen> {
                     columns: [
                       DataColumn(
                           label: Expanded(
-                            child: Text(""),
-                          )
-                      ),
-                      DataColumn(
-                          label: Expanded(
                             child: Text("Parámetro"),
-                          )
-                      ),
-                      DataColumn(
-                          label: Expanded(
-                            child: Text("Nombre"),
                           )
                       ),
                       DataColumn(
@@ -88,176 +104,100 @@ class _UnitInfoScreenState extends State<UnitInfoScreen> {
                       DataRow(
                           cells: [
                             DataCell(
-                                Icon(Icons.car_crash,)
+                                Text("Piloto", style: TextStyle(fontWeight: FontWeight.bold, fontSize: tam),)
                             ),
                             DataCell(
-                                Text("ID Vehiculo", style: TextStyle(fontWeight: FontWeight.bold, fontSize: tam),)
-                            ),
-                            DataCell(
-                                Text("id_vehiculo", style: TextStyle(fontSize: tam))
-                            ),
-                            DataCell(
-                                Text(widget.unidad.id!, style: TextStyle(fontSize: tam))
+                                //Text(widget.unidad.id!, style: TextStyle(fontSize: tam))
+                                Text(widget.unidad.Conductor == null || widget.unidad.Conductor!.isEmpty
+                                    ? "-" : widget.unidad.Conductor!, style: TextStyle(fontSize: tam))
                             )
                           ]
                       ),
                       DataRow(
                           cells: [
                             DataCell(
-                                Icon(Icons.developer_board,)
+                                Text("Lugar", style: TextStyle(fontWeight: FontWeight.bold, fontSize: tam),)
                             ),
                             DataCell(
-                                Text("ID GPS", style: TextStyle(fontWeight: FontWeight.bold, fontSize: tam),)
-                            ),
-                            DataCell(
-                                Text("id_gps", style: TextStyle(fontSize: tam))
-                            ),
-                            DataCell(
-                                Text(widget.unidad.id_gps!, style: TextStyle(fontSize: tam))
+                                Text(widget.unidad.Direccion == null || widget.unidad.Direccion!.isEmpty
+                                    ? "-" : widget.unidad.Direccion!, style: TextStyle(fontSize: tam))
                             )
                           ]
                       ),
                       DataRow(
                           cells: [
                             DataCell(
-                                Icon(Icons.map_outlined)
+                                Text("Ignición", style: TextStyle(fontWeight: FontWeight.bold, fontSize: tam),)
                             ),
                             DataCell(
-                                Text("Ubicación", style: TextStyle(fontWeight: FontWeight.bold, fontSize: tam),)
-                            ),
-                            DataCell(
-                                Text("lugar", style: TextStyle(fontSize: tam))
-                            ),
-                            DataCell(
-                                Text(widget.unidad.lugar!.isEmpty ? "-" : widget.unidad.lugar!, style: TextStyle(fontSize: tam))
+                                Text(ignicion, style: TextStyle(fontSize: tam))
                             )
                           ]
                       ),
                       DataRow(
                           cells: [
                             DataCell(
-                                Icon(Icons.location_on_outlined)
+                                Text("Coordenadas", style: TextStyle(fontWeight: FontWeight.bold, fontSize: tam),)
                             ),
                             DataCell(
-                                Text("Latitud", style: TextStyle(fontWeight: FontWeight.bold, fontSize: tam),)
-                            ),
-                            DataCell(
-                                Text("latitud", style: TextStyle(fontSize: tam))
-                            ),
-                            DataCell(
-                                Text(widget.unidad.lat!.isEmpty ? "-" : widget.unidad.lat!, style: TextStyle(fontSize: tam))
+                                //Text(widget.unidad.long!.isEmpty ? "-" : widget.unidad.long!, style: TextStyle(fontSize: tam))
+                                Text(widget.unidad.Coordenadas == null || widget.unidad.Coordenadas!.isEmpty
+                                    ? "-" : widget.unidad.Coordenadas!, style: TextStyle(fontSize: tam))
                             )
                           ]
                       ),
                       DataRow(
                           cells: [
-                            DataCell(
-                                Icon(Icons.location_on_outlined)
-                            ),
-                            DataCell(
-                                Text("Longitud", style: TextStyle(fontWeight: FontWeight.bold, fontSize: tam),)
-                            ),
-                            DataCell(
-                                Text("longitud", style: TextStyle(fontSize: tam))
-                            ),
-                            DataCell(
-                                Text(widget.unidad.long!.isEmpty ? "-" : widget.unidad.long!, style: TextStyle(fontSize: tam))
-                            )
-                          ]
-                      ),
-                      DataRow(
-                          cells: [
-                            DataCell(
-                                Icon(Icons.access_time)
-                            ),
-                            DataCell(
-                                Text("Ultimo reporte", style: TextStyle(fontWeight: FontWeight.bold, fontSize: tam),)
-                            ),
-                            DataCell(
-                                Text("last", style: TextStyle(fontSize: tam))
-                            ),
-                            DataCell(
-                                Text(widget.unidad.last!.isEmpty ? "-" : widget.unidad.last!, style: TextStyle(fontSize: tam))
-                            )
-                          ]
-                      ),
-                      DataRow(
-                          cells: [
-                            DataCell(
-                                Icon(Icons.calendar_month)
-                            ),
-                            DataCell(
-                                Text("Fecha del ultimo reporte", style: TextStyle(fontWeight: FontWeight.bold, fontSize: tam),)
-                            ),
-                            DataCell(
-                                Text("fecha1", style: TextStyle(fontSize: tam))
-                            ),
-                            DataCell(
-                                Text(widget.unidad.fecha1!.isEmpty ? "-" : widget.unidad.fecha1!, style: TextStyle(fontSize: tam))
-                            )
-                          ]
-                      ),
-                      DataRow(
-                          cells: [
-                            DataCell(
-                                Icon(Icons.speed)
-                            ),
                             DataCell(
                                 Text("Velocidad", style: TextStyle(fontWeight: FontWeight.bold, fontSize: tam),)
                             ),
                             DataCell(
-                                Text("velocidad", style: TextStyle(fontSize: tam))
-                            ),
-                            DataCell(
-                                Text(widget.unidad.velocidad!.isEmpty ? "-" : widget.unidad.velocidad!, style: TextStyle(fontSize: tam))
+                                Text(widget.unidad.velocidad == null || widget.unidad.velocidad!.isEmpty
+                                    ? "-" : widget.unidad.velocidad! + " km/h", style: TextStyle(fontSize: tam))
                             )
                           ]
                       ),
                       DataRow(
                           cells: [
                             DataCell(
-                                Icon(CupertinoIcons.car)
+                                Text("Ultimo reporte", style: TextStyle(fontWeight: FontWeight.bold, fontSize: tam),)
                             ),
                             DataCell(
-                                Text("Tipo vehiculo", style: TextStyle(fontWeight: FontWeight.bold, fontSize: tam),)
-                            ),
-                            DataCell(
-                                Text("tipo", style: TextStyle(fontSize: tam))
-                            ),
-                            DataCell(
-                                Text(widget.unidad.tipo!.isEmpty ? "-" : widget.unidad.tipo!, style: TextStyle(fontSize: tam))
+                                Text(widget.unidad.tiempoReporte == null || widget.unidad.tiempoReporte!.isEmpty 
+                                    ? "-" : minutesToTime(int.parse(widget.unidad.tiempoReporte!.trim())), style: TextStyle(fontSize: tam))
                             )
                           ]
                       ),
                       DataRow(
                           cells: [
                             DataCell(
-                                Icon(Icons.battery_unknown_outlined)
+                                Text("Fecha GPS", style: TextStyle(fontWeight: FontWeight.bold, fontSize: tam),)
                             ),
+                            DataCell(
+                                Text(widget.unidad.fecha_gps == null || widget.unidad.fecha_gps!.isEmpty
+                                    ? "-" : widget.unidad.fecha_gps!, style: TextStyle(fontSize: tam))
+                            )
+                          ]
+                      ),
+                      DataRow(
+                          cells: [
+                            DataCell(
+                                Text("Fecha Servidor", style: TextStyle(fontWeight: FontWeight.bold, fontSize: tam),)
+                            ),
+                            DataCell(
+                                Text(widget.unidad.fecha_servidor == null || widget.unidad.fecha_servidor!.isEmpty
+                                    ? "-" : widget.unidad.fecha_servidor!, style: TextStyle(fontSize: tam))
+                            )
+                          ]
+                      ),
+                      DataRow(
+                          cells: [
                             DataCell(
                                 Text("Bateria", style: TextStyle(fontWeight: FontWeight.bold, fontSize: tam),)
                             ),
                             DataCell(
-                                Text("bateria", style: TextStyle(fontSize: tam))
-                            ),
-                            DataCell(
-                                Text(widget.unidad.bateria!.isEmpty ? "-" : widget.unidad.bateria!+" %", style: TextStyle(fontSize: tam))
-                            )
-                          ]
-                      ),
-                      DataRow(
-                          cells: [
-                            DataCell(
-                                Icon(Icons.local_gas_station)
-                            ),
-                            DataCell(
-                                Text("Combustible", style: TextStyle(fontWeight: FontWeight.bold, fontSize: tam),)
-                            ),
-                            DataCell(
-                                Text("combustible", style: TextStyle(fontSize: tam))
-                            ),
-                            DataCell(
-                                Text(widget.unidad.combustible!.isEmpty ? "-" : widget.unidad.combustible!, style: TextStyle(fontSize: tam))
+                                Text(widget.unidad.bateria == null || widget.unidad.bateria!.isEmpty
+                                    ? "-" : widget.unidad.bateria!+" %", style: TextStyle(fontSize: tam))
                             )
                           ]
                       )

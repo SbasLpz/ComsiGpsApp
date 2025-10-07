@@ -79,17 +79,32 @@ consultar(BuildContext context, String id) {
     return;
   }
 
-  DateTime finalDateTimeInicio = DateTime(fechaInicio.year, fechaInicio.month, fechaInicio.day, horaInicio.hour, horaInicio.minute);
-  DateTime finalDateTimeFin = DateTime(fechaFin.year, fechaFin.month, fechaFin.day, horaFin.hour, horaFin.minute);
+  //DateTime finalDateTimeInicio = DateTime(fechaInicio.year, fechaInicio.month, fechaInicio.day, horaInicio.hour, horaInicio.minute);
+  //DateTime finalDateTimeFin = DateTime(fechaFin.year, fechaFin.month, fechaFin.day, horaFin.hour, horaFin.minute);
 
-  String fmtFinalDateTimeInicio = DateFormat("yyyy-MM-dd HH:mm:ss").format(finalDateTimeInicio);
-  String fmtFinalDateTimeFin = DateFormat("yyyy-MM-dd HH:mm:ss").format(finalDateTimeFin);
+  DateTime finalDateInicio = DateTime(fechaInicio.year, fechaInicio.month, fechaInicio.day, horaInicio.hour, horaInicio.minute);
+  //DateTime finalTimeInicio = DateTime(horaInicio.hour, horaInicio.minute);
+  DateTime finalDateFin = DateTime(fechaFin.year, fechaFin.month, fechaFin.day, horaFin.hour, horaFin.minute);
+  //DateTime finalTimeFin = DateTime(horaFin.hour, horaFin.minute);
 
-  print("OBJETOS FormatDateTimes: ${fmtFinalDateTimeInicio}, ${fmtFinalDateTimeFin}");
+  print("finalDateTimeInicio: ${finalDateInicio}");
+
+  String fmtFinalDateInicio = DateFormat("yyyy-MM-dd").format(finalDateInicio);
+  String fmtFinalTimeInicio = DateFormat("HH:mm:ss").format(finalDateInicio);
+  //print("fmtFinalTimeInicio: ${fmtFinalTimeInicio}");
+  String fmtFinalDateFin = DateFormat("yyyy-MM-dd").format(finalDateFin);
+  String fmtFinalTimeFin = DateFormat("HH:mm:ss").format(finalDateFin);
+
+  //String fmtFinalDateTimeInicio = DateFormat("yyyy-MM-dd HH:mm:ss").format(finalDateTimeInicio);
+  //String fmtFinalDateTimeFin = DateFormat("yyyy-MM-dd HH:mm:ss").format(finalDateTimeFin);
+
+  print("OBJETOS FormatDates & Times: ${fmtFinalDateInicio}, ${fmtFinalDateFin}, ${fmtFinalTimeInicio}, ${fmtFinalTimeFin}");
+  //print("OBJETOS FormatDateTimes: ${fmtFinalDateTimeInicio}, ${fmtFinalDateTimeFin}");
 
   Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => MapHistoryScreen(id: id, fechaIni: fmtFinalDateTimeInicio, fechaFin: fmtFinalDateTimeFin))
+      MaterialPageRoute(builder: (context) => MapHistoryScreen(
+          idgps: id, fechaIni: fmtFinalDateInicio, horaIni: fmtFinalTimeInicio, fechaFin: fmtFinalDateFin, horaFin: fmtFinalTimeFin,))
   );
 }
 

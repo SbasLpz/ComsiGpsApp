@@ -1,6 +1,5 @@
 part of 'inicio_sesion2_screen.dart';
 
-TextEditingController cuentaController = new TextEditingController();
 TextEditingController userController = new TextEditingController();
 TextEditingController passController = new TextEditingController();
 
@@ -12,16 +11,22 @@ Future<String> getVersion() async {
 }
 
 ingresar (BuildContext context) {
-  if(cuentaController.text.trim() != "" && userController.text.trim() != "" && passController.text.trim() != "") {
-    var res = postLogin(cuentaController.text, userController.text, passController.text);
+  if(userController.text.trim() != "" && passController.text.trim() != "") {
+    var res = postLogin(userController.text, passController.text);
     res.then((data) {
-      if(data.success!) {
-        SessionManager().setString("tokenUser", data.token.toString());
+      if(data.status == "success" && data.data != null) {
+        SessionManager().setString("tokenUser", data.data!.token.toString());
+        SessionManager().setString("idGrupo", data.data!.idGrupo.toString());
+        SessionManager().setString("siccap", data.data!.siccap.toString());
+        print("USERNAME IS ${data.data!.usuario}");
+        SessionManager().setString("username", data.data!.usuario.toString());
+        SessionManagerCustom.saveLoginData(data);
+
         Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const NavigationScreen()),
         );
-        print("Consulta EXITOSA: ${data.success}, ${data.msg}");
+        print("Consulta EXITOSA: ${data.status}, ${data.message}");
         SessionManager().setString("cc", passController.text.trim());
       }else {
         showInfoDialog(
@@ -30,7 +35,7 @@ ingresar (BuildContext context) {
             'Entendido',
             context);
 
-        print("Consulta FALLIDA: ${data.success}, ${data.msg}, ${data.msg_vencido}");
+        print("Consulta FALLIDA: ${data.status}, ${data.message} ");
       }
     });
   } else {

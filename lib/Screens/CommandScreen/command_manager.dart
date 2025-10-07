@@ -9,6 +9,11 @@ class CommandManager extends ChangeNotifier{
     var infoCmd = "";
     bool estaCargando = false;
 
+    bool hayComandos = false;
+
+    bool showMessage = false;
+    String message = "";
+
     toggleButton(String? newValue) {
       selected = newValue;
       notifyListeners();
@@ -23,4 +28,19 @@ class CommandManager extends ChangeNotifier{
       estaCargando = newValue;
       notifyListeners();
     }
+
+    changeHayComandos(bool newValue) {
+      hayComandos = newValue;
+      notifyListeners();
+    }
+
+    changeShowMessage(bool newValue) {
+      showMessage = newValue;
+      notifyListeners();
+    }
+    setMessage(String newValue) {
+      message = newValue;
+      notifyListeners();
+    }
+
 }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:core';
 import 'dart:ui';
+import 'package:apprutas/Models/unidad_data_model.dart';
 import 'package:apprutas/Models/unidad_model.dart';
 import 'package:apprutas/Screens/ListViewScreen/last_report_manager.dart';
 import 'package:apprutas/Screens/ListViewScreen/listview_manager.dart';
@@ -68,7 +69,7 @@ class _ListviewScreen extends State<ListviewScreen> {
       body: Consumer<ThemeManager2>(
         builder: (context, themeManeger, child){
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            setState(() {});
+            //setState(() {});
           });
           return ConstrainedBox(
               constraints: BoxConstraints.expand(),
@@ -178,23 +179,30 @@ class _ListviewScreen extends State<ListviewScreen> {
                                 child: CircularProgressIndicator(),
                               );
                             } else if (snapshot.hasData){
+                              var dataList = snapshot.data;
+
+                              if(dataList == null) {
+                                //print("DATALIST DEL SNAPSHOT 222 ES NULL");
+                              } else {
+                                //print("DATALIST DEL SNAPSHOT HAS DATA (LAST ONE): ${dataList.last.Descripcion}");
+                              }
                               //print("\n Snapshot DATA refreshed \n");
-                              var mydata = ordenarUnidades(snapshot.data!);
+                              var mydata = ordenarUnidades2(dataList!);
                               if(unitsInfo.unidadesInfo.isNotEmpty) {
-                                mydata = ordenarUnidades(unitsInfo.unidadesInfo);
+                                mydata = ordenarUnidades2(dataList);
                                 //print("☻ LAST from MILTON ☻: "+unitsInfo.unidadesInfo.where((u)=>u.desc == "TCI2428 MILTON MUNGUIA " ).first!.last!);
                               }
-                              var unidades = srchManager.units.isEmpty ? mydata : ordenarUnidades(srchManager.units);
-
+                              var unidades = srchManager.units.isEmpty ? mydata : ordenarUnidades2(srchManager.units);
+                              //print("Size of Unidades 2222 $unidades");
                               if(srchManager.units.isEmpty) {
                                 //print("☺☺ ☺ The If for Unidades i equal to mydata ☺☺ ☺");
                               } else {
                                 //mydata = mydata.where((item) => srchManager.units.any((unit) => unit.id_gps == item.id_gps)).toList();
-                                var dataUpdated = mydata.where((item) => srchManager.units.any((unit) => unit.id_gps == item.id_gps)).toList();
+                                var dataUpdated = mydata.where((item) => srchManager.units.any((unit) => unit.IDGPS == item.IDGPS)).toList();
                                 unidades = dataUpdated;
                               }
                               srchManager.allUnits = mydata!;
-//                              print("Size of Unidades =a $unidades");
+                              //print("Size of Unidades =a $unidades");
                               return buildFotos(unidades!, context, _listKey);
                             } else {
                               return Column(

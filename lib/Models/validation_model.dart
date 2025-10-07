@@ -1,30 +1,30 @@
+import 'package:apprutas/Models/user_data_model.dart';
+
 class ValidationModel {
-  bool? success;
-  String? msg;
-  String? token;
-  String? nombres;
-  String? apellidos;
-  int? msg_vencido;
-  int? dias_vencido;
+  String? status;
+  String? message;
+  UserDataModel? data;
 
   ValidationModel({
-    this.success,
-    this.msg,
-    this.token,
-    this.nombres,
-    this.apellidos,
-    this.msg_vencido,
-    this.dias_vencido
+    this.status,
+    this.message,
+    this.data,
   });
 
   ValidationModel.fromJson(Map<String, dynamic> json) {
-    //print("AAAAA: ${json["success"] as bool}");
-    success = json["success"] as bool;
-    msg = json["msg"];
-    token = json["token"];
-    nombres = json["nombres"];
-    apellidos = json["apellidos"];
-    msg_vencido = json["msg_vencido"];
-    dias_vencido = json["dias_vencido"];
+    status = json["status"];
+    message = json["message"];
+    if (json["data"] != null) {
+      // Si la data no es nula, se crea un objeto UserDataModel a partir de ella
+      data = UserDataModel.fromJson(json["data"]);
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "status": status,
+      "message": message,
+      "data": data?.toJson(), // ⚡ Ojo: tu UserDataModel también necesita un toJson()
+    };
   }
 }

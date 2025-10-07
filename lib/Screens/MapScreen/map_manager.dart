@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'dart:ffi';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:apprutas/Models/unidad_data_model.dart';
+//import 'package:flutter_map/flutter_map.dart';
 import 'package:apprutas/Services/road_api.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:session_manager/session_manager.dart';
 
 import '../../Models/unidad_model.dart';
@@ -16,8 +17,8 @@ class MapManager extends ChangeNotifier {
   }
   MapManager._internal();
   // ------- Instancia unica compartida - Singleton ------
-  Future<List<UnidadModel>> listaUnits = getUnidades();
-  List<UnidadModel> listUnits = [];
+  Future<List<UnidadDataModel>> listaUnits = getUnidades();
+  List<UnidadDataModel> listUnits = [];
 
   List<Marker> markersList = [];
 

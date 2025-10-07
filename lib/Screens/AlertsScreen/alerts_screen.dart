@@ -1,3 +1,4 @@
+import 'package:apprutas/Models/alert_data_model.dart';
 import 'package:apprutas/Models/alert_model.dart';
 import 'package:apprutas/Models/unidad_model.dart';
 import 'package:apprutas/Screens/AlertsScreen/alerts_manager.dart';
@@ -38,38 +39,94 @@ class _AlertsScreenState extends State<AlertsScreen> {
                 padding: const EdgeInsets.all(25.0),
                 child: Column(
                   children: [
-                    Text("Screeen de Alertas"),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: SearchBar(
+                            controller: searchController,
+                            hintText: "Buscar con base en la descripcion",
+                            backgroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.onSecondary),
+                            onChanged: (value) {
+                              print("New Value Detected: ${value}");
+                              context.read<AlertsManager>().search(value);
+                            },
+                            leading: IconButton(
+                                onPressed: () {
+                                  //print("Controllerop: ${searchController.text}");
+                                },
+                                icon: Icon(Icons.search)
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            searchController.text = "";
+                            alertsManager.resetSearchText();
+
+                            alertasFuture;
+                            setState(() {
+
+                            });
+                          },
+                          icon: Icon(Icons.refresh),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 30,),
                     Expanded(
                         child: FutureBuilder(
                             future: getAlerts(),
                             builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
+                              if (snapshot.connectionState == ConnectionState.waiting) {
                                 return Center(
                                   child: CircularProgressIndicator(),
                                 );
                               } else if (snapshot.hasData) {
                                 //final lista = snapshot.data;
                                 alertsManager;
-                                alertas = snapshot.data!;
-                                if (alertas.length <= 0) {
+
+                                if (snapshot.data == null) {
                                   return Center(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Text("Tu bandeja de alertas esta al día.", style: TextStyle(fontSize: 15),),
-                                        Image.asset(
-                                          'assets/images/no_imbox.png',
-                                          width: 200,
-                                          height: 200,
-                                        ),
-                                      ],
-                                    ),
+                                    child: Text("Error desconocido ${snapshot.data}"),
                                   );
                                 } else {
-                                  return buildAlert(alertas, context);
+                                  if (snapshot.data!.success == false || snapshot.data!.success == null) {
+                                    return Center(
+                                      child: Text("El server respondio: ${snapshot.data!.message}"),
+                                    );
+                                  } else {
+                                    alertas = snapshot.data!.data!;
+
+                                    if (alertas.length <= 0) {
+                                      return Center(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text("Tu bandeja de alertas esta al día.", style: TextStyle(fontSize: 15),),
+                                            Image.asset(
+                                              'assets/images/no_imbox.png',
+                                              width: 200,
+                                              height: 200,
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    } else {
+                                      var alerts = alertas;
+
+                                      if(!alertsManager.alertFiltradas.isEmpty){
+                                        var dataUpdated = alerts.where((item) => alertsManager.alertFiltradas.any((unit) => unit.Descripcion == item.Descripcion)).toList();
+                                        alerts = dataUpdated;
+                                      }
+
+                                      alertsManager.alertAll = snapshot.data!.data!;
+
+                                      return buildAlert(alerts, context);
+                                    }
+                                  }
                                 }
+
                               } else {
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,

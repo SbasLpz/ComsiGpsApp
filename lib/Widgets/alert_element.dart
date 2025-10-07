@@ -1,3 +1,4 @@
+import 'package:apprutas/Models/alert_data_model.dart';
 import 'package:apprutas/Models/alert_model.dart';
 import 'package:apprutas/Screens/AlertsScreen/alerts_manager.dart';
 import 'package:apprutas/Styles/theme.dart';
@@ -7,7 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../Models/book_model.dart';
 
-Widget buildAlert(List<AlertModel> alerts, BuildContext context){
+Widget buildAlert(List<AlertDataModel> alerts, BuildContext context){
 
   final alertsManaeger = context.watch<AlertsManager>();
 
@@ -20,7 +21,7 @@ Widget buildAlert(List<AlertModel> alerts, BuildContext context){
 
           },
           child: Dismissible(
-            key: ValueKey(alert.id_log),
+            key: ValueKey(index),
             direction: DismissDirection.startToEnd,
             onDismissed: (direction) {
               alertsManaeger.toDeleteItem(index);
@@ -39,55 +40,41 @@ Widget buildAlert(List<AlertModel> alerts, BuildContext context){
                   child: Row(
                     children: [
                       Expanded(
-                          flex: 3,
+                          flex: 5,//3
                           child: Container(
                             //color: Colors.redAccent,
                             child: Column(
                               children: [
-                                Text("Placa", style: TextStyle(fontWeight: FontWeight.w600),),
-                                Text(alert.placa.toString(), textAlign: TextAlign.center,)
+                                Text("", style: TextStyle(fontWeight: FontWeight.w600),),
+                                Text(alert.NombreEvento.toString(), textAlign: TextAlign.center,)
                               ],
                             ),
                           )
                       ),
-                      Expanded(
-                          flex: 2,
-                          child: Column(
-                            children: [
-                              Text("Fecha", style: TextStyle(fontWeight: FontWeight.w600)),
-                              Center(
-                                  child: Text(
-                                    "${alert.fecha1}",
-                                    textAlign: TextAlign.center,
-                                  )
-                              )
-                            ],
-                          )
-                      ),
                       // Expanded(
-                      //     flex: 1,
-                      //     child: Container(
-                      //       //color: Colors.lightBlueAccent,
-                      //       child: RotatedBox(
-                      //           quarterTurns: -45,
-                      //           child: IconButton(
-                      //             icon: Icon(Icons.arrow_back_ios_rounded),
-                      //             onPressed: () {
-                      //
-                      //             },
-                      //           )
-                      //       ),
+                      //     flex: 2,
+                      //     child: Column(
+                      //       children: [
+                      //         Text("Fecha", style: TextStyle(fontWeight: FontWeight.w600)),
+                      //         Center(
+                      //             child: Text(
+                      //               "${alert.FechaServidor}",
+                      //               textAlign: TextAlign.center,
+                      //             )
+                      //         )
+                      //       ],
                       //     )
-                      // )
+                      // ),
                     ],
                   ),
                 ),
                 children: [
                   Container(
+                    width: double.infinity,
                     color: Theme.of(context).colorScheme.inversePrimary,
                     child: Padding(
                       padding: EdgeInsets.all(25.0),
-                      child: Text(alert.descripcion.toString(), style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),),
+                      child: Text(alert.Descripcion.toString()+"\n\nFecha: ${alert.FechaServidor}", style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),),
                     ),
                   )
                 ],

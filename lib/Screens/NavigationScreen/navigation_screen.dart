@@ -14,6 +14,7 @@ import 'package:apprutas/Utils/global_context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:session_manager/session_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 part 'navigation_controller.dart';
@@ -41,11 +42,12 @@ class _NavigationScreen extends State<NavigationScreen> {
   //bool light = true;
   bool darkMode = thmManager.thMode == ThemeMode.dark;
   bool darkMode2 = thmManager2.myAttrs.mode == ThemeMode.dark;
-  
+
   @override
   void initState() {
     // TODO: implement initState
     _loadThemeMode();
+    _loadUserName();
     super.initState();
   }
 
@@ -109,32 +111,37 @@ class _NavigationScreen extends State<NavigationScreen> {
         child: ListView (
           padding: EdgeInsets.zero,
           children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: COLOR_PRIMARY
-              ),
-              child: Column(
-                  children: [
-                    SizedBox(height: 20,),
-                    SizedBox(
-                      height: 60,
-                      width: 116,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage('assets/images/logo_white.png'),
-                                fit: BoxFit.fill
-                            )
+            SizedBox(
+              height: 260,
+              child: DrawerHeader(
+                decoration: BoxDecoration(
+                    color: Colors.transparent
+                ),
+                child: Column(
+                    children: [
+                      SizedBox(height: 20,),
+                      SizedBox(
+                        height: 116,
+                        width: 116,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage('assets/images/logo_comsi.png'),
+                                  fit: BoxFit.fill
+                              )
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 20,),
-                    Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Text("Opciones de la app", style: TextStyle(color: Colors.white),)
-                    ),
-                  ]),
+                      SizedBox(height: 20,),
+                      //color: Theme.of(context).colorScheme.onPrimaryContainer
+                      Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Text(navManager.username, style: TextStyle(color: Colors.black),)
+                      )
+                    ]),
+              ),
             ),
+
             ListTile(
               leading: Icon(Icons.settings),
               selected: currentPageIndexDrawer == 0,

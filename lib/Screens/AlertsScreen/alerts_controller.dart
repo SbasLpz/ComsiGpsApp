@@ -1,3 +1,5 @@
 part of 'alerts_screen.dart';
 
-List<AlertModel> alertas = [];
+List<AlertDataModel> alertas = [];
+
+final searchController = TextEditingController();

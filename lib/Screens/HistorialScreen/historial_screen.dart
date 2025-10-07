@@ -1,3 +1,4 @@
+import 'package:apprutas/Models/unidad_data_model.dart';
 import 'package:apprutas/Models/unidad_model.dart';
 import 'package:apprutas/Screens/HistorialScreen/validator_manager.dart';
 import 'package:apprutas/Screens/MapHistoryScreen/map_history_screen.dart';
@@ -12,7 +13,7 @@ part 'historial_controller.dart';
 class HistorialScreen extends StatefulWidget {
   const HistorialScreen({super.key, required this.unidad});
 
-  final UnidadModel unidad;
+  final UnidadDataModel unidad;
 
   @override
   State<HistorialScreen> createState() => _HistorialScreenState();
@@ -31,7 +32,7 @@ class _HistorialScreenState extends State<HistorialScreen> {
 
   @override
   void dispose() {
-    validManager.initDate = DateTime(2023);
+    validManager.initDate = DateTime(DateTime.now().year);
     validManager.initTime = TimeOfDay(hour: 00, minute: 00);
     validManager.endTime = TimeOfDay(hour: 00, minute: 00);
     validManager.sameDay = false;
@@ -67,7 +68,7 @@ class _HistorialScreenState extends State<HistorialScreen> {
                 height: 12,
               ),
               Text(
-                widget.unidad.desc!,
+                widget.unidad.Descripcion!,
                 style: Theme.of(context).textTheme.titleMedium,
                 textAlign: TextAlign.center,
               ),
@@ -227,7 +228,7 @@ class _HistorialScreenState extends State<HistorialScreen> {
               ),
               ElevatedButton(
                   onPressed: () {
-                    final idUnidad = widget.unidad.id;
+                    final idUnidad = widget.unidad.IDGPS;
                     //ingresar(context);
                     if(dateInputInicio.text.isEmpty || timeInputInicio.text.isEmpty
                     || dateInputFin.text.isEmpty || timeInputFin.text.isEmpty) {

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:apprutas/Models/unidad_data_model.dart';
 import 'package:apprutas/Models/unidad_model.dart';
 import 'package:apprutas/Services/road_api.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,7 +15,7 @@ class LastReportManager extends ChangeNotifier {
   LastReportManager._internal();
   // ------- Instancia unica compartida - Singleton ------
 
-  List<UnidadModel> unidadesInfo = [];
+  List<UnidadDataModel> unidadesInfo = [];
   var stopUpdater = false;
 
   intervalUpdate() {

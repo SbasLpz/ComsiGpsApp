@@ -2,7 +2,7 @@ import 'package:apprutas/Utils/Global/colors.dart';
 import 'package:flutter/material.dart';
 
 //const COLOR_PRIMARY = Color(0xff7E26FF);
-const COLOR_PRIMARY = Color(0xffE5412D);
+const COLOR_PRIMARY = Color(0xff1565C0);
 const COLOR_GREY = Color(0xff818181);
 const COLOR_SENCONDARY = Color(0xff393939);
 const COLOR_TER = Color(0xff4D4D4D);
@@ -10,6 +10,7 @@ const COLOR_DARK = Color(0xff1B3239);
 const DARK_PRIMARY = Color(0xff393939);
 const DARK_SECONDARY = Color(0xff4D4D4D);
 const DARK_TER = Color(0xffE2E2E2);
+const COLOR_BLUE = Color(0xff2A2B7A);
 
 abstract class ThemeAttrs {
   ThemeMode get mode;

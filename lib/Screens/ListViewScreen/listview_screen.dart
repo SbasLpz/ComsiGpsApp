@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:core';
 import 'dart:ui';
 import 'package:apprutas/Models/unidad_data_model.dart';
-import 'package:apprutas/Models/unidad_model.dart';
 import 'package:apprutas/Screens/ListViewScreen/last_report_manager.dart';
 import 'package:apprutas/Screens/ListViewScreen/listview_manager.dart';
 import 'package:apprutas/Screens/ListViewScreen/listview_manager2.dart';

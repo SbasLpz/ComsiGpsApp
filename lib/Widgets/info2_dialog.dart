@@ -5,6 +5,7 @@ import 'package:apprutas/Screens/HistorialScreen/historial_screen.dart';
 import 'package:apprutas/Screens/InfoUnitScreen/unit_info_screen.dart';
 import 'package:apprutas/Screens/MapScreen/map_manager.dart';
 import 'package:apprutas/Screens/MapScreen/map_screen.dart';
+import 'package:apprutas/Screens/RecentScreen/map_recent_screen.dart';
 import 'package:apprutas/Screens/SiccapScreen/siccap_screen.dart';
 import 'package:apprutas/Services/road_api.dart';
 import 'package:apprutas/Styles/theme.dart';
@@ -25,7 +26,7 @@ Widget infoDialog2 (UnidadDataModel unidad, String siccap, BuildContext context)
   return Container(
     color: Theme.of(context).colorScheme.surface,
     child: Padding(
-      padding: EdgeInsets.all(15.0),
+      padding: EdgeInsets.fromLTRB(22.0, 16.0, 14.0, 16.0),
       child: Container(
         //color: Colors.white,
         child: FutureBuilder(
@@ -67,58 +68,18 @@ Widget infoDialog2 (UnidadDataModel unidad, String siccap, BuildContext context)
                         children: [
                           SizedBox(
                             width: widd,
-                            child: Container(
-                              //color: Colors.redAccent,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "Dirección:",
-                                    style: txtTheme.displayMedium!.copyWith(color: Theme.of(context).colorScheme.secondary),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 30.0,),
-                          Expanded(
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  //Text("Aldea sibada kokokok, gfhghgggg, CR a 100002255 km", style: txtTheme.bodySmall!.copyWith(color:Theme.of(context).colorScheme.primary ))
-                                  Text(
-                                      miUnidad.Coordenadas!.isEmpty ? "Sin ubicación" : miUnidad.Coordenadas!,
-                                      style: txtTheme.bodySmall!.copyWith(color:Theme.of(context).colorScheme.onTertiary )
-                                  )
-                                ]
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    //color: Colors.purpleAccent,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, padd, 0, padd),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: widd,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "ID del GPS:",
+                                  "GPS:",
                                   style: txtTheme.displayMedium!.copyWith(color: Theme.of(context).colorScheme.secondary),
                                 ),
                               ],
                             ),
                           ),
-                          SizedBox(width: 30.0,),
+                          SizedBox(width: 20.0,),
                           Expanded(
                             child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -147,13 +108,129 @@ Widget infoDialog2 (UnidadDataModel unidad, String siccap, BuildContext context)
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
+                                  "Placa:",
+                                  style: txtTheme.displayMedium!.copyWith(color: Theme.of(context).colorScheme.secondary),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(width: 20.0,),
+                          Expanded(
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                      unidad.Placa ?? "-",
+                                      style: txtTheme.bodySmall!.copyWith(color:Theme.of(context).colorScheme.onTertiary )),
+                                ]
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    //color: Colors.purpleAccent,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, padd, 0, padd),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: widd,
+                            child: Container(
+                              //color: Colors.redAccent,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "En misión:",
+                                    style: txtTheme.displayMedium!.copyWith(color: Theme.of(context).colorScheme.secondary),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 20.0,),
+                          Expanded(
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  //Text("Aldea sibada kokokok, gfhghgggg, CR a 100002255 km", style: txtTheme.bodySmall!.copyWith(color:Theme.of(context).colorScheme.primary ))
+                                  Text(
+                                      miUnidad.enmision!.isEmpty ? "-" : miUnidad.enmision!,
+                                      style: txtTheme.bodySmall!.copyWith(color:Theme.of(context).colorScheme.onTertiary )
+                                  )
+                                ]
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    //color: Colors.purpleAccent,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, padd, 0, padd),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: widd,
+                            child: Container(
+                              //color: Colors.redAccent,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Dirección:",
+                                    style: txtTheme.displayMedium!.copyWith(color: Theme.of(context).colorScheme.secondary),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 20.0,),
+                          Expanded(
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  //Text("Aldea sibada kokokok, gfhghgggg, CR a 100002255 km", style: txtTheme.bodySmall!.copyWith(color:Theme.of(context).colorScheme.primary ))
+                                  Text(
+                                      miUnidad.Coordenadas!.isEmpty ? "Sin ubicación" : miUnidad.Coordenadas!,
+                                      style: txtTheme.bodySmall!.copyWith(color:Theme.of(context).colorScheme.onTertiary )
+                                  )
+                                ]
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Container(
+                    //color: Colors.purpleAccent,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, padd, 0, padd),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: widd,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
                                   "Conductor:",
                                   style: txtTheme.displayMedium!.copyWith(color: Theme.of(context).colorScheme.secondary),
                                 ),
                               ],
                             ),
                           ),
-                          SizedBox(width: 30.0,),
+                          SizedBox(width: 20.0,),
                           Expanded(
                             child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -171,43 +248,6 @@ Widget infoDialog2 (UnidadDataModel unidad, String siccap, BuildContext context)
                       ),
                     ),
                   ),
-                  // Container(
-                  //   //color: Colors.purpleAccent,
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.fromLTRB(0, padd, 0, padd),
-                  //     child: Row(
-                  //       children: [
-                  //         SizedBox(
-                  //           width: widd,
-                  //           child: Column(
-                  //             crossAxisAlignment: CrossAxisAlignment.start,
-                  //             mainAxisAlignment: MainAxisAlignment.center,
-                  //             children: [
-                  //               Text(
-                  //                 "Placa:",
-                  //                 style: txtTheme.displayMedium!.copyWith(color: Theme.of(context).colorScheme.secondary),
-                  //               ),
-                  //             ],
-                  //           ),
-                  //         ),
-                  //         SizedBox(width: 30.0,),
-                  //         Expanded(
-                  //           child: Column(
-                  //               crossAxisAlignment: CrossAxisAlignment.start,
-                  //               mainAxisAlignment: MainAxisAlignment.center,
-                  //               children: [
-                  //                 Text(
-                  //                     unidad.placa!.isEmpty ? "000000" : unidad.placa!,
-                  //                     //"000000",
-                  //                     style: txtTheme.bodySmall!.copyWith(color:Theme.of(context).colorScheme.onTertiary )
-                  //                 ),
-                  //               ]
-                  //           ),
-                  //         )
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
                   Container(
                     //color: Colors.purpleAccent,
                     child: Padding(
@@ -221,20 +261,20 @@ Widget infoDialog2 (UnidadDataModel unidad, String siccap, BuildContext context)
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "Fecha del GPS:",
+                                  "Fecha GPS:",
                                   style: txtTheme.displayMedium!.copyWith(color: Theme.of(context).colorScheme.secondary),
                                 ),
                               ],
                             ),
                           ),
-                          SizedBox(width: 30.0,),
+                          SizedBox(width: 20.0,),
                           Expanded(
                             child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                      miUnidad.fecha_gps == "" || miUnidad.fecha_gps == null ? "No reportada" : convertDateFormat(miUnidad.fecha_gps!),
+                                      miUnidad.fecha_gps == "" || miUnidad.fecha_gps == null ? "No reportada" : miUnidad.fecha_gps!,
                                       style: txtTheme.bodySmall!.copyWith(color:Theme.of(context).colorScheme.onTertiary )
                                   ),
                                 ]
@@ -257,20 +297,56 @@ Widget infoDialog2 (UnidadDataModel unidad, String siccap, BuildContext context)
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "Fecha del servidor:",
+                                  "F. Servidor:",
                                   style: txtTheme.displayMedium!.copyWith(color: Theme.of(context).colorScheme.secondary),
                                 ),
                               ],
                             ),
                           ),
-                          SizedBox(width: 30.0,),
+                          SizedBox(width: 20.0,),
                           Expanded(
                             child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                      miUnidad.fecha_servidor == "" || miUnidad.fecha_servidor == null ? "No reportada" : convertDateFormat(miUnidad.fecha_servidor!),
+                                      miUnidad.fecha_servidor == "" || miUnidad.fecha_servidor == null ? "No reportada" :miUnidad.fecha_servidor!,
+                                      style: txtTheme.bodySmall!.copyWith(color:Theme.of(context).colorScheme.onTertiary )
+                                  ),
+                                ]
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    //color: Colors.purpleAccent,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, padd, 0, padd),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: widd,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Velocidad:",
+                                  style: txtTheme.displayMedium!.copyWith(color: Theme.of(context).colorScheme.secondary),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(width: 20.0,),
+                          Expanded(
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                      miUnidad.velocidad == "" || miUnidad.velocidad == null ? "-" : miUnidad.velocidad!,
                                       style: txtTheme.bodySmall!.copyWith(color:Theme.of(context).colorScheme.onTertiary )
                                   ),
                                 ]
@@ -299,7 +375,7 @@ Widget infoDialog2 (UnidadDataModel unidad, String siccap, BuildContext context)
                               ],
                             ),
                           ),
-                          SizedBox(width: 30.0,),
+                          SizedBox(width: 20.0,),
                           Expanded(
                             child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -316,43 +392,77 @@ Widget infoDialog2 (UnidadDataModel unidad, String siccap, BuildContext context)
                       ),
                     ),
                   ),
+                  Container(
+                    //color: Colors.purpleAccent,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, padd, 0, padd),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: widd,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Ignicion:",
+                                  style: txtTheme.displayMedium!.copyWith(color: Theme.of(context).colorScheme.secondary),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(width: 20.0,),
+                          Expanded(
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                      "${getIgnicionVal(miUnidad.ignicion)}",
+                                      style: txtTheme.bodySmall!.copyWith(color:Theme.of(context).colorScheme.onTertiary )
+                                  ),
+                                ]
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
                   SizedBox(height: 10,),
                   Container(
                     //color: Colors.orangeAccent,
-                    child: Row(
+                    child: Wrap(
+                      spacing: 10.0,
                       children: [
-                        Expanded(
-                          child: IconButton(
-                              onPressed: (){
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => UnitInfoScreen(unidad: miUnidad,))
-                                );
-                              },
-                              icon: Icon(Icons.info_outline, color: Colors.blue[800],)
-                          ),
-                        ),
-                        Expanded(
-                          child: IconButton(
+                        IconButton(
                             onPressed: (){
                               Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => CommandScreen(idgps: unidad.IDGPS!,))
+                                  MaterialPageRoute(builder: (context) => UnitInfoScreen(unidad: miUnidad,))
                               );
                             },
-                            icon: Icon(Icons.terminal),
-                          ),
+                            icon: Icon(Icons.info_outline, color: Colors.blue[800],),
+                          tooltip: "Info",
                         ),
-                        Expanded(
-                            child: IconButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (context) => HistorialScreen(unidad: unidad,))
-                                  );
-                                },
-                                icon: Icon(Icons.history)
-                            )
+                        IconButton(
+                          onPressed: (){
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => CommandScreen(idgps: unidad.IDGPS!, modelo: miUnidad.modelo))
+                            );
+                          },
+                          icon: Icon(Icons.terminal),
+                          tooltip: "Comandos",
+                        ),
+                        IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => HistorialScreen(unidad: unidad,))
+                              );
+                            },
+                            icon: Icon(Icons.calendar_month),
+                          tooltip: "Historial",
                         ),
                         // Expanded(
                         //     child: Consumer<MapManager>(
@@ -369,59 +479,41 @@ Widget infoDialog2 (UnidadDataModel unidad, String siccap, BuildContext context)
                         //       },
                         //     )
                         // ),
-                        Expanded(
-                            child: IconButton(
-                              onPressed: () {
+                        IconButton(
+                          onPressed: () {
 
-                              },
-                              icon: () {
-                                int batteryLevel = miUnidad.bateria == null ? -1 : int.parse(miUnidad.bateria!);
-                                //int batteryLevel = int.parse("97");
-                                if(batteryLevel >= 90){
-                                  return Icon(Icons.battery_std_sharp, color: Colors.green,);
-                                } else if (batteryLevel >= 60 && batteryLevel < 90){
-                                  return Icon(Icons.battery_4_bar_rounded, color: Colors.green[400],);
-                                } else if (batteryLevel >= 40 && batteryLevel < 60){
-                                  return Icon(Icons.battery_3_bar, color: Colors.orangeAccent,);
-                                } else if (batteryLevel >= 20 && batteryLevel < 40){
-                                  return Icon(Icons.battery_2_bar, color: Colors.orangeAccent,);
-                                } else if (batteryLevel >= 0 && batteryLevel < 20){
-                                  return Icon(Icons.battery_1_bar, color: Colors.redAccent,);
-                                } else {
-                                  return Icon(Icons.battery_unknown_outlined, color: Colors.grey,);
-                                }
-                              }(),
-                            )
+                          },
+                          icon: () {
+                            int batteryLevel = miUnidad.bateria == null ? -1 : int.parse(miUnidad.bateria!);
+                            //int batteryLevel = int.parse("97");
+                            if(batteryLevel >= 90){
+                              return Icon(Icons.battery_std_sharp, color: Colors.green,);
+                            } else if (batteryLevel >= 60 && batteryLevel < 90){
+                              return Icon(Icons.battery_4_bar_rounded, color: Colors.green[400],);
+                            } else if (batteryLevel >= 40 && batteryLevel < 60){
+                              return Icon(Icons.battery_3_bar, color: Colors.orangeAccent,);
+                            } else if (batteryLevel >= 20 && batteryLevel < 40){
+                              return Icon(Icons.battery_2_bar, color: Colors.orangeAccent,);
+                            } else if (batteryLevel >= 0 && batteryLevel < 20){
+                              return Icon(Icons.battery_1_bar, color: Colors.redAccent,);
+                            } else {
+                              return Icon(Icons.battery_unknown_outlined, color: Colors.grey,);
+                            }
+                          }(),
+                          tooltip: "Nivel batería",
                         ),
-                        // Expanded(
-                        //   child: siccap == "1"
-                        //       ? Center(
-                        //     child: Container(
-                        //       color: Colors.yellow,
-                        //       width: 100,
-                        //       height: 70,
-                        //       child: IconButton(
-                        //           iconSize: 50,
-                        //           onPressed: () {
-                        //             print("Botón SICCAP presionado");
-                        //             Navigator.push(
-                        //                 context,
-                        //                 MaterialPageRoute(builder: (context) => SiccapScreen(idgps: unidad.IDGPS!))
-                        //             );
-                        //           },
-                        //           icon: Image.asset(
-                        //             "assets/images/btn_siccap.png",
-                        //
-                        //             width: 100,
-                        //             height: 70,
-                        //           ),
-                        //
-                        //       ),
-                        //     ),
-                        //   )
-                        //       : const SizedBox.shrink(), // no renderiza nada si no cumple
-                        // )
-                        Expanded(
+                        IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => MapRecentScreen(idgps: unidad.IDGPS!))
+                              );
+                            },
+                            icon: Icon(Icons.history)
+                        ),
+                        SizedBox(
+                          height: 60,
+                          width: 90,
                           child: siccap == "1"
                               ? Center(
                             child: GestureDetector(
@@ -434,18 +526,20 @@ Widget infoDialog2 (UnidadDataModel unidad, String siccap, BuildContext context)
                                   ),
                                 );
                               },
-                              child: SizedBox(
-                                width: 120, // aumenta el tamaño aquí
-                                height: 90,
-                                child: Image.asset(
-                                  "assets/images/btn_siccap.png",
-                                  fit: BoxFit.contain, // o .cover si quieres llenarlo
-                                ),
+                              child: Image.asset(
+                                "assets/images/btn_siccap.png",
+                                fit: BoxFit.contain, // o .cover si quieres llenarlo
                               ),
                             ),
                           )
                               : const SizedBox.shrink(),
-                        )
+                        ),
+                        IconButton(
+                            onPressed: () {
+                              makePhoneCall(miUnidad.Telefono);
+                            },
+                            icon: Icon(Icons.call)
+                        ),
 
                       ],
                     ),

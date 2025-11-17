@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:core';
+import 'dart:developer';
 import 'dart:ui';
 import 'package:apprutas/Models/unidad_data_model.dart';
 import 'package:apprutas/Screens/ListViewScreen/last_report_manager.dart';
@@ -115,7 +116,9 @@ class _ListviewScreen extends State<ListviewScreen> {
                         width: double.maxFinite,
                         height: 10,
                       ),
-                      Row(
+                      Wrap(
+                        spacing: 6,
+                        crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
                           Text("Seleccionar todos: "),
                           Checkbox(
@@ -125,15 +128,20 @@ class _ListviewScreen extends State<ListviewScreen> {
                               value: idsManager1.isChecked,
                               onChanged: (bool? newValue){
                                 //idsManager1.selectAll(srchManager.units, newValue!);
-                                idsManager1.selectAll(srchManager.allUnits, newValue!);
+
+                                if (searchController.text.isEmpty) {
+                                  idsManager1.selectAll(srchManager.allUnits, newValue!);
+                                } else {
+                                  idsManager1.selectAll(srchManager.units, newValue!);
+                                }
                                 print("Checked dice hola");
                                 if(!newValue){
                                   idsManager1.quitarSelecteds();
                                 }
                               }
                           ),
-                          Align(
-                            alignment: Alignment.centerRight,
+                          Container(
+                            //alignment: Alignment.centerRight,
                             child: ElevatedButton.icon(
                                 style: ButtonStyle(
                                   padding: WidgetStatePropertyAll(EdgeInsets.fromLTRB(20, 10, 20, 10))
@@ -144,7 +152,7 @@ class _ListviewScreen extends State<ListviewScreen> {
                                   //Navigator.push(context, MaterialPageRoute(builder: (context) =>  MapScreen(),));
                                 },
                                 label: Text(
-                                    "Ver unidades",
+                                    "Ver mapa",
                                   style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
                                 ),
                             ),
@@ -178,7 +186,7 @@ class _ListviewScreen extends State<ListviewScreen> {
                                 child: CircularProgressIndicator(),
                               );
                             } else if (snapshot.hasData){
-                              var dataList = snapshot.data;
+                              var dataList = snapshot.data!.data;
 
                               if(dataList == null) {
                                 //print("DATALIST DEL SNAPSHOT 222 ES NULL");
@@ -187,6 +195,7 @@ class _ListviewScreen extends State<ListviewScreen> {
                               }
                               //print("\n Snapshot DATA refreshed \n");
                               var mydata = ordenarUnidades2(dataList!);
+
                               if(unitsInfo.unidadesInfo.isNotEmpty) {
                                 mydata = ordenarUnidades2(dataList);
                                 //print("☻ LAST from MILTON ☻: "+unitsInfo.unidadesInfo.where((u)=>u.desc == "TCI2428 MILTON MUNGUIA " ).first!.last!);
@@ -202,7 +211,8 @@ class _ListviewScreen extends State<ListviewScreen> {
                               }
                               srchManager.allUnits = mydata!;
                               //print("Size of Unidades =a $unidades");
-                              return buildFotos(unidades!, context, _listKey);
+                              print("First Unidades element is: ${unidades.first.IDGPS}");
+                              return buildFotos(unidades!, snapshot.data!.sicap, context, _listKey);
                             } else {
                               return Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,

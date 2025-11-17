@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:apprutas/Styles/theme.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:ui' as ui;
 import 'dart:typed_data';
@@ -29,10 +30,26 @@ class MapScreen extends StatefulWidget {
   State<MapScreen> createState() => _MapScreen();
 
 }
-
+enum iconosName {
+  amarillo,
+  verde,
+  rojo,
+  morado,
+  patverde,
+  normal,
+  patnormal,
+  pickNormal,
+  pickVerde,
+  moto,
+  motoVerde
+}
 class _MapScreen extends State<MapScreen>  {
 
   var puedesMover = false;
+  var _isLoadingIcons = true;
+
+  bool _isMapCreated = false;
+
   @override
   void initState() {
     //SessionManager().setInt("intervalo", 10);
@@ -47,7 +64,8 @@ class _MapScreen extends State<MapScreen>  {
       GlobalContext.appBar.value = "Mapa";
     });
 
-    _loadCustomIcon();
+    _loadCustomIcons();
+
     getSiccap();
   }
 
@@ -57,11 +75,30 @@ class _MapScreen extends State<MapScreen>  {
   //     customIcon = BitmapDescriptor.fromBytes(markerIconBytes);
   //   });
   // }
-  Future<void> _loadCustomIcon() async {
-    final Uint8List markerIconBytes = await getBytesFromAsset('assets/images/boat_icon.png', 60);
-    customIcon = BitmapDescriptor.fromBytes(markerIconBytes);
-    setState(() {}); // fuerza a rebuild cuando ya está listo
+
+  Future<void> _loadCustomIcons() async {
+    var iconSize = 75;
+    var assets = {iconosName.amarillo: "assets/images/NormalAmarillo.png", iconosName.verde: "assets/images/NormalVerde.png",
+    iconosName.rojo: "assets/images/NormalRojo.png", iconosName.morado: "assets/images/NormalMorado.png", iconosName.patverde: "assets/images/Patverde.png",
+      iconosName.normal: "assets/images/Normal.png", iconosName.patnormal: "assets/images/PatNormal.png", iconosName.pickNormal: "assets/images/PickNormal.png",
+    iconosName.pickVerde: "assets/images/Pickverde.png", iconosName.moto: "assets/images/moto.png", iconosName.motoVerde: "assets/images/motoVerde.png"};
+
+    for (final x in assets.entries) {
+      if({iconosName.normal, iconosName.amarillo, iconosName.morado, iconosName.rojo, iconosName.verde}.contains(x.key)) {
+        iconSize = 75;
+      } else {
+        iconSize = 90;
+      }
+      Uint8List bytes = await getBytesFromAsset(x.value, iconSize);
+      BitmapDescriptor icono = BitmapDescriptor.fromBytes(bytes);
+
+      iconosMap[icono] = x.key;
+    }
+    setState(() {
+      _isLoadingIcons = false;
+    });
   }
+
 
   Future<void> getSiccap() async {
     siccap = await SessionManager().getString("siccap");
@@ -71,6 +108,7 @@ class _MapScreen extends State<MapScreen>  {
   void dispose() {
     mpMan.stopTimer = true;
     mpMan.trackUnit = false;
+    //mpMan.listUnits.clear();
     //mpController.dispose();
     //mpMan.dispose();
     super.dispose();
@@ -94,17 +132,30 @@ class _MapScreen extends State<MapScreen>  {
       print("Unidad con ID: ${unit}");
     });
 
-    final mapManager = context.watch<MapManager>();
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Provider.of<MapManager>(context, listen: false).changeMapsView();
+        },
+        backgroundColor: COLOR_PRIMARY,
+        child: Icon(Icons.satellite_alt_rounded, color: Colors.white,),
+      ),
+
       body: FutureBuilder(
+
         future: unidadesFuture,
         builder: (context, snapshot) {
-          if(snapshot.connectionState == ConnectionState.waiting || customIcon == null) {
+
+          if(snapshot.connectionState == ConnectionState.waiting || _isLoadingIcons) {
             return Center(
               child: CircularProgressIndicator(),
             );
           } else if (snapshot.hasData) {
-            List<UnidadDataModel> defData = mapManager.count == 0 ? snapshot.data! : mapManager.listUnits;
+            //final mapManager = context.watch<MapManager>();
+            final mapManager = context.watch<MapManager>();
+
+            List<UnidadDataModel> defData = mapManager.count == 0 ? snapshot.data!.data! : mapManager.listUnits;
             List<UnidadDataModel> listaUnits = unidades.length == 0 ? defData : listaFiltrada(unidades, defData);
             print("LISTAUNIDADES CANT: ${listaUnits.length}");
             //var zoom = 6.0;
@@ -113,10 +164,13 @@ class _MapScreen extends State<MapScreen>  {
             //     : LatLng(9.9996, -84.1572);
             var coords = GlobalContext.getLatLng(listaUnits.first.Coordenadas!);
             var latlngCoords = LatLng(double.parse(coords['lat']!), double.parse(coords['long']!));
-            var latlngCoordsDef = LatLng(double.parse("9.9996"), double.parse("-84.1572"));
-            mpMan.initLocation = listaUnits.length == 0 ? latlngCoords
-                : latlngCoordsDef;
 
+            var latlngCoordsDef = LatLng(double.parse("9.9996"), double.parse("-84.1572"));
+
+            mapManager.initLocation = listaUnits.length == 0 ? latlngCoordsDef
+                : latlngCoords;
+
+            print("PASE DEL CHANGE _INIT");
            // mpMan.mapZoom = 6.0;
             //theZoom.value = 6.0;
 
@@ -155,7 +209,10 @@ class _MapScreen extends State<MapScreen>  {
                   if(marcador != null) {
 
                     mpMan.initLocation = marcador.position;
-                    mapController.moveCamera(CameraUpdate.newLatLngZoom(marcador.position, 13.0));
+                    mapControllerCompleter.future.then((controller) {
+                      controller.moveCamera(CameraUpdate.newLatLngZoom(marcador.position, 13.0));
+                    });
+
                   } else {
                     print("*************** ********* MARCADOOOOOOOOOOR EN NULLL");
                   }
@@ -173,28 +230,101 @@ class _MapScreen extends State<MapScreen>  {
               print(">>>--->>>> Seguimiento • DETENIDO ");
             }
 
-            print("••• COORDS init = ${mpMan.initLocation} & zoom = ${mpMan.mapZoom}");
+            print("••• COORDS init = ${mapManager.initLocation} & zoom = ${mapManager.mapZoom}");
+
+            // WidgetsBinding.instance.addPostFrameCallback((_) {
+            //   // calcula nuevaPos antes
+            //   var coords = GlobalContext.getLatLng(listaUnits.first.Coordenadas!);
+            //   var latlngCoords = LatLng(double.parse(coords['lat']!), double.parse(coords['long']!));
+            //
+            //   // esto esperará hasta que el controller esté listo
+            //   mapControllerCompleter.future.then((controller) {
+            //     // protección adicional por si el widget fue desmontado
+            //     if (!mounted) return;
+            //     print("Estoy en el MapControllerCompleter !!!!!!!!!!!!");
+            //     if(listaUnits.length == 1) {
+            //       print("OA OAOA OAOA");
+            //       controller.animateCamera(CameraUpdate.newLatLngZoom(latlngCoords, 13.0));
+            //       mapManager.chagneZoom(13.0);
+            //     } else if (listaUnits.length != 1){
+            //       print("AE AE AE AE AE AE AE AE AE AE AE AE AE AE AE AE AE AE AE AE EA AEE AE AE AE");
+            //       controller.animateCamera(
+            //           CameraUpdate.newLatLngZoom(LatLng(9.9996, -84.1572), 6.0)
+            //       );
+            //     }
+            //
+            //   }).catchError((e) {
+            //     // por si algo falla (p.ej. el completer fue completado con error)
+            //     print('No se pudo mover la cámara: $e');
+            //   });
+            // });
+
+            if (_isMapCreated) {
+              print("_isMapCreated ES ${_isMapCreated}");
+              print("La cantidad de unidadesd ES ${listaUnits.length} -*-");
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                mapControllerCompleter.future.then((controller) {
+
+                  if(listaUnits.length == 1) {
+                    var coords = GlobalContext.getLatLng(listaUnits.first.Coordenadas!);
+                    var latlngCoords = LatLng(double.parse(coords['lat']!), double.parse(coords['long']!));
+                    controller.moveCamera(CameraUpdate.newLatLngZoom(latlngCoords, 15.0));
+                  } else {
+                    print("De momento no hago nada");
+                  }
+                });
+              });
+
+            }
 
             return GoogleMap(
                 initialCameraPosition: CameraPosition(
-                  target: mpMan.initLocation,
-                  zoom: mpMan.mapZoom,
+                  target: mapManager.initLocation,
+                  //zoom: mapManager.mapZoom,
+                  zoom: mapManager.mapZoom
                 ),
+                mapType: mapManager.tipoMapaActual,
                 onMapCreated: (GoogleMapController controller) {
-                  mapController = controller;
-                  if(listaUnits.length == 1) {
-                    var latloong = GlobalContext.getLatLng(listaUnits.first.Coordenadas!);
-                    mpMan.mapZoom = 13.0;
-                    mpMan.initLocation = LatLng(double.parse(latloong['lat']!), double.parse(latloong['long']!));
-                    mapController.moveCamera(CameraUpdate.newLatLngZoom(mpMan.initLocation, 13.0));
-                  } else {
-                    mpMan.mapZoom = 6.0;
-                    //_center = LatLng(9.9996, -84.1572);
-                    mapController.moveCamera(CameraUpdate.newLatLngZoom(mpMan.initLocation, 6.0));
+
+                  if (mapControllerCompleter.isCompleted) {
+                    mapControllerCompleter = Completer<GoogleMapController>();
                   }
+
+                  mapControllerCompleter.complete(controller);
+
+                  print("Al parece me RECONSTRUI :=)");
+
+                  setState(() {
+                    _isMapCreated = true;
+                  });
+                  // mapControllerCompleter.future.then((controller) {
+                  //   if(listaUnits.length == 1) {
+                  //     print("ESTOY EN TEORIA MOVIENDO LA CAMARA A LA NBUEBA POSICION DEL MARCADOR");
+                  //     var latloong = GlobalContext.getLatLng(listaUnits.first.Coordenadas!);
+                  //     mapManager.chagneZoom(13.0);
+                  //
+                  //     mapManager.initLocation = LatLng(double.parse(latloong['lat']!), double.parse(latloong['long']!));
+                  //     //mapManager.changeInitLocation(LatLng(double.parse(latloong['lat']!), double.parse(latloong['long']!)));
+                  //     controller.moveCamera(CameraUpdate.newLatLngZoom(mapManager.initLocation, 13.0));
+                  //   } else {
+                  //     mapManager.chagneZoom(6.0);
+                  //
+                  //     //_center = LatLng(9.9996, -84.1572);
+                  //     controller.moveCamera(CameraUpdate.newLatLngZoom(mapManager.initLocation, 6.0));
+                  //   }
+                  // });
+
+
                 },
                 markers: Set<Marker>.of(listToMarkerList(listaUnits))
+                // markers: {
+                //   ...listToMarkerList(listaUnits)
+                // },
+
+
+                //markers: mpMan.count > 0 ? Set<Marker>.of(listToMarkerList(listaFiltrada(unidades, mpMan.listUnits))) :Set<Marker>.of(listToMarkerList(listaUnits))
             );
+
           } else {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.center,

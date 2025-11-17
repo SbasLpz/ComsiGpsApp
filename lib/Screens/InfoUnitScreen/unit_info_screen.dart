@@ -61,6 +61,14 @@ class _UnitInfoScreenState extends State<UnitInfoScreen> {
                 height: 20,
               ),
               Text(
+                "Tipo: ${widget.unidad.tipo_vehiculo}",
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(fontSize: 16),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(
+                height: 16,
+              ),
+              Text(
                 vehiculo,
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(fontSize: 20),
                 textAlign: TextAlign.center,

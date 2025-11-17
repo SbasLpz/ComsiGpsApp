@@ -101,7 +101,9 @@ List<UnidadDataModel> ordenarUnidades(List<UnidadDataModel> lista) {
 }
 
 List<UnidadDataModel> ordenarUnidades2(List<UnidadDataModel> lista) {
-  lista.sort((a, b) {
+  final result = List<UnidadDataModel>.from(lista);
+
+  result.sort((a, b) {
     if (a.tiempoReporte == null && b.tiempoReporte == null) return 0;
     if (a.tiempoReporte == null) return 1;
     if (b.tiempoReporte == null) return -1;
@@ -123,7 +125,7 @@ List<UnidadDataModel> ordenarUnidades2(List<UnidadDataModel> lista) {
     return minutosA.compareTo(minutosB);
   });
 
-  return lista;
+  return result;
 }
 
 // String minutesToTime(int minutos) {

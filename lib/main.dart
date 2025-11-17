@@ -12,10 +12,12 @@ import 'package:apprutas/Screens/ListViewScreen/listview_manager2.dart';
 import 'package:apprutas/Screens/ListViewScreen/listview_screen.dart';
 import 'package:apprutas/Screens/LogInScreen/login_screen.dart';
 import 'package:apprutas/Screens/LogInScreen/login_screen_widget.dart';
+import 'package:apprutas/Screens/MapHistoryScreen/map_history_manager.dart';
 import 'package:apprutas/Screens/MapScreen/map_manager.dart';
 import 'package:apprutas/Screens/NavigationScreen/navigation_manager.dart';
 import 'package:apprutas/Screens/NavigationScreen/navigation_screen.dart';
 import 'package:apprutas/Screens/MapScreen/map_screen.dart';
+import 'package:apprutas/Screens/RecentScreen/map_recent_manager.dart';
 import 'package:apprutas/Screens/home_screen.dart';
 import 'package:apprutas/Services/road_api.dart';
 import 'package:apprutas/Styles/theme.dart';
@@ -23,13 +25,14 @@ import 'package:apprutas/Styles/theme_manager2.dart';
 import 'package:apprutas/Utils/global_context.dart';
 import 'package:apprutas/Widgets/foto_item.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:session_manager/session_manager.dart';
 import 'package:upgrader/upgrader.dart';
+import 'package:minimize_flutter_app/minimize_flutter_app.dart';
 
 import 'Styles/theme_manager.dart';
 
@@ -101,14 +104,14 @@ class _MyAppState extends State<MyApp> {
     SessionManager.sessionManager.setString("version", packageInfo.version);
     GlobalContext.version = "v-"+packageInfo.version;
     print("VERSION : ${packageInfo.version}");
-    print('ready in 3...');
-    await Future.delayed(const Duration(seconds: 1));
-    print('ready in 2...');
-    await Future.delayed(const Duration(seconds: 1));
-    print('ready in 1...');
-    await Future.delayed(const Duration(seconds: 1));
-    print('go!');
-    FlutterNativeSplash.remove();
+    // print('ready in 3...');
+    // await Future.delayed(const Duration(seconds: 1));
+    // print('ready in 2...');
+    // await Future.delayed(const Duration(seconds: 1));
+    // print('ready in 1...');
+    // await Future.delayed(const Duration(seconds: 1));
+    // print('go!');
+    // FlutterNativeSplash.remove();
   }
 
   @override
@@ -141,6 +144,12 @@ class _MyAppState extends State<MyApp> {
         ),
         provider.ChangeNotifierProvider(
           create: (context) => NavigationManager(),
+        ),
+        provider.ChangeNotifierProvider(
+          create: (context) => MapHistoryManager(),
+        ),
+        provider.ChangeNotifierProvider(
+          create: (context) => MapRecentManager(),
         )
       ],
       // child: MaterialApp(

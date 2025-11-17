@@ -4,7 +4,6 @@ import 'package:apprutas/Services/road_api.dart';
 import 'package:apprutas/Styles/theme.dart';
 import 'package:apprutas/Utils/global_context.dart';
 import 'package:apprutas/Utils/session_manager_custom.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:apprutas/Utils/Global/strings.dart' as globalStr;
 import 'package:package_info_plus/package_info_plus.dart';
@@ -28,6 +27,7 @@ class _InicioSesionScreenState extends State<InicioSesion2Screen> {
     // getVersion().then((res){
     //   version = res;
     // });
+    SessionManager().setString("session", "");
     super.initState();
   }
 
@@ -100,6 +100,21 @@ class _InicioSesionScreenState extends State<InicioSesion2Screen> {
                                         "COMSI - GPS",
                                         textAlign: TextAlign.center,
                                         style: Theme.of(context).textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold, color: DARK_TER, fontSize: 23),
+                                      ),
+                                    ),
+                                    TextField(
+                                      controller: idController,
+                                      cursorColor: COLOR_SENCONDARY,
+                                      style: TextStyle(fontSize: 13, color: COLOR_SENCONDARY),
+                                      decoration: InputDecoration(
+                                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(50)),
+                                          labelText: "ID",
+                                          fillColor: Theme.of(context).colorScheme.onPrimary,
+                                          filled: true,
+                                          labelStyle: TextStyle(fontSize: 13, color: COLOR_SENCONDARY),
+                                          focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(50),borderSide: BorderSide(color: COLOR_SENCONDARY)),
+                                          floatingLabelStyle: TextStyle(color: Colors.red),
+                                          floatingLabelBehavior: FloatingLabelBehavior.never
                                       ),
                                     ),
                                     TextField(

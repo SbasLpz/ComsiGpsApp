@@ -30,7 +30,8 @@ class LastReportManager extends ChangeNotifier {
 
   updateUnitState() async {
     print("°°|°° Data de las Unidades ACTUALIZADA para su STATE °°|°°");
-    unidadesInfo = await getUnidades();
+    var getUnidades1 = await getUnidades();
+    unidadesInfo = getUnidades1.data!;
     notifyListeners();
   }
 }

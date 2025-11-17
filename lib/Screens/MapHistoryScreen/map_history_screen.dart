@@ -2,14 +2,20 @@
 import 'dart:ui' as ui;
 
 import 'package:apprutas/Models/historial_data_model.dart';
+import 'package:apprutas/Models/unidad_data_model.dart';
+import 'package:apprutas/Screens/MapHistoryScreen/map_history_manager.dart';
 import 'package:apprutas/Screens/NavigationScreen/navigation_screen.dart';
 import 'package:apprutas/Services/road_api.dart';
 import 'package:apprutas/Styles/theme.dart';
 import 'package:apprutas/Utils/global_context.dart';
+import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:shape_maker/shape_maker.dart';
+import 'package:shape_maker/shape_maker_painter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../Models/historial_model.dart';
@@ -33,17 +39,32 @@ class MapHistoryScreen extends StatefulWidget {
 
 class _MapHistoryScreenState extends State<MapHistoryScreen> {
 
+  late Future<HistorialModel> _futurePostHistory;
+  late List<HistorialDataModel> listaPuntos;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
     _loadCustomIcon();
+
+    _futurePostHistory = postHistory(widget.idgps, widget.fechaIni, widget.horaIni, widget.fechaFin, widget.horaFin);
+
+    _futurePostHistory.then((lista) {
+      listaPuntos = lista.data!;
+      createMarkers(listaPuntos);
+    });
+
+
   }
 
   @override
   void dispose() {
     marcadores.clear();
+    sinMarcadores.clear();
+    puntos.clear();
+    _customInfoWindowC.dispose();
     super.dispose();
   }
 
@@ -63,6 +84,7 @@ class _MapHistoryScreenState extends State<MapHistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -80,19 +102,16 @@ class _MapHistoryScreenState extends State<MapHistoryScreen> {
           },
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.popUntil(context, (route) => route.isFirst);
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => NavigationScreen()),
-            );
-          },
+        onPressed: () {
+          Provider.of<MapHistoryManager>(context, listen: false).changeMapsView();
+        },
         backgroundColor: COLOR_PRIMARY,
-        child: Icon(Icons.map, color: Colors.white,),
+        child: Icon(Icons.satellite_alt_rounded, color: Colors.white,),
       ),
       body: FutureBuilder(
-        future: postHistory(widget.idgps, widget.fechaIni, widget.horaIni, widget.fechaFin, widget.horaFin),
+        future: _futurePostHistory,
         builder: (context, snapshot) {
           //|| startIcon == null || lastIcon == null
           if(snapshot.connectionState == ConnectionState.waiting || locIcon == null || startIcon == null || lastIcon == null) {
@@ -106,80 +125,65 @@ class _MapHistoryScreenState extends State<MapHistoryScreen> {
                   child: Text("No hubo ruta en esos intervalos"),
                 );
               } else {
-                List<HistorialDataModel> listaPuntos = snapshot.data!.data!;
+                //List<HistorialDataModel> listaPuntos = snapshot.data!.data!;
+                //Set<Polyline> polyline = Set<Polyline>.of(pointsToPoly());
 
                 var firstPoint = LatLng(double.parse(listaPuntos!.first.latitud!),
                     double.parse(listaPuntos!.first.longitud!));
 
-                return GoogleMap(
-                    initialCameraPosition: CameraPosition(
-                      target: firstPoint,
-                      zoom: 13,
-                    ),
-                    onMapCreated: (GoogleMapController controller) {
-                      //mapController = controller;
-                      if(listaPuntos.length > 0) {
-                        print("LISTA DE MARCADORES HIST: ${marcadores.length}");
-                      } else {
+                return Consumer<MapHistoryManager>(
+                  builder: (context, mapManager, child) {
+                    Set<Marker> currentMarkers = mapManager.showMarkers ? marcadores : sinMarcadores;
+                    return Stack(
+                      children: [
+                        GoogleMap(
+                          initialCameraPosition: CameraPosition(
+                            target: firstPoint,
+                            zoom: 10,
+                          ),
+                          mapType: mapManager.tipoMapaActual,
+                          onTap: (position) {
+                            _customInfoWindowC.hideInfoWindow!();
+                          },
+                          onCameraMove: (position) {
+                            _customInfoWindowC.onCameraMove!();
+                          },
+                          onMapCreated: (GoogleMapController controller) {
+                            //mapController = controller;
+                            mapControllerG = controller;
+                            _customInfoWindowC.googleMapController = controller;
+                            if(listaPuntos.length > 0) {
+                              print("LISTA DE MARCADORES HIST: ${marcadores.length}");
+                            } else {
 
-                      }
-                    },
-                    polylines: Set<Polyline>.of(pointsToPoly(listaPuntos)),
-                    markers: Set<Marker>.of(marcadores),
+                            }
+                          },
+                          onCameraIdle: () {
+                            mapControllerG.getZoomLevel().then((zoom) {
+                              if (zoom < 13.0) {
+                                mapManager.changeMarkersState(false);
+                                //_updateMarkers(false);
+                                print("Current Zoom is: $zoom so Markers should be gone!!!");
+                              } else {
+                                //_updateMarkers(true);
+                                mapManager.changeMarkersState(true);
+                                print("THE Zoom is: $zoom so Markers should NOT be gone!!!");
+                              }
+                            });
+                          },
+                          polylines: Set<Polyline>.of(pointsToPoly()),
+                          markers: currentMarkers,
+                        ),
+                        CustomInfoWindow(
+                          controller: _customInfoWindowC,
+                          width: 250,
+                          height: 200,
+                          offset: 20,
+                        ),
+                      ],
+                    );
+                  }
                 );
-                // return FlutterMap(
-                //   options: MapOptions(
-                //     initialCenter: firstPoint,
-                //     initialZoom: 13,
-                //   ),
-                //   children: [
-                    // TileLayer(
-                    //   urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                    //   userAgentPackageName: 'com.example.app',
-                    // ),
-                    // RichAttributionWidget(
-                    //   attributions: [
-                    //     TextSourceAttribution(
-                    //       'OpenStreetMap contributors',
-                    //       onTap: () => launchUrl(Uri.parse('https://openstreetmap.org/copyright')),
-                    //     ),
-                    //   ],
-                    // ),
-                    // PolylineLayer(
-                    //     polylines: [
-                    //       Polyline(
-                    //           points: pointsToPoly(listaPuntos!),
-                    //           color: Colors.lightBlue,
-                    //           borderStrokeWidth: 2.0,
-                    //           borderColor: Colors.lightBlue
-                    //       )
-                    //     ]
-                    // ),
-                    // PopupMarkerLayer(
-                    //     options: PopupMarkerLayerOptions(
-                    //         markers: marcadores,
-                    //         popupController: myPopupController,
-                    //         popupDisplayOptions: PopupDisplayOptions(
-                    //
-                    //             builder: (BuildContext context, Marker marker) {
-                    //               var data = markersDataMap[marker];
-                    //               if (data == null) {
-                    //                 print("DATA KEY NULL.");
-                    //               } else {
-                    //                 print("DATA KEY FOUND. ${data.fecha_gps}");
-                    //               }
-                    //               //return Text(data == null ? "Hola Wenas" : "Hola Wenas ${data.fecha_pc}");
-                    //               return data == null ? Text("")
-                    //                   : InfoDialogHistory2(data: data, popupController: myPopupController,); //infoDialogHistory(data, context);
-                    //             }
-                    //         )
-                    //     )
-                    // ),
-                    // MarkerLayer(
-                    //     markers: marcadores,
-                    // ),
-                  //],
-                //);
               }
             } else {
               return Center(

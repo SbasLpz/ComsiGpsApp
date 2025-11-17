@@ -15,6 +15,7 @@ class HistorialScreen extends StatefulWidget {
 
   final UnidadDataModel unidad;
 
+
   @override
   State<HistorialScreen> createState() => _HistorialScreenState();
 }

@@ -1,5 +1,6 @@
 part of 'inicio_sesion2_screen.dart';
 
+TextEditingController idController = new TextEditingController();
 TextEditingController userController = new TextEditingController();
 TextEditingController passController = new TextEditingController();
 
@@ -22,9 +23,14 @@ ingresar (BuildContext context) {
         SessionManager().setString("username", data.data!.usuario.toString());
         SessionManagerCustom.saveLoginData(data);
 
-        Navigator.push(
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(builder: (context) => const NavigationScreen()),
+        // );
+
+        Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const NavigationScreen()),
+            MaterialPageRoute(builder: (context) => const NavigationScreen())
         );
         print("Consulta EXITOSA: ${data.status}, ${data.message}");
         SessionManager().setString("cc", passController.text.trim());

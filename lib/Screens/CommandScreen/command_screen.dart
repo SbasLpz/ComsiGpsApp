@@ -12,9 +12,10 @@ import '../../Models/command_model.dart';
 part 'command_controller.dart';
 
 class CommandScreen extends StatefulWidget {
-  const CommandScreen({super.key, required String this.idgps});
+  const CommandScreen({super.key, required String this.idgps, required String? this.modelo});
 
   final String idgps;
+  final String? modelo;
 
   @override
   State<CommandScreen> createState() => _CommandScreenState();
@@ -71,6 +72,13 @@ class _CommandScreenState extends State<CommandScreen> {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               SizedBox(
+                height: 10,
+              ),
+              Text(
+                "Modelo: ${widget.modelo}",
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+              ),
+              SizedBox(
                 height: 30,
               ),
               Padding(
@@ -94,6 +102,7 @@ class _CommandScreenState extends State<CommandScreen> {
                         print("listaComandos: ${listaComandos.length}");
                         manager.changeHayComandos(res.status == "success");
                         return manager.hayComandos ? DropdownButtonFormField<String>(
+                            isExpanded: true,
                             decoration: InputDecoration(
                               labelText: 'Comandos',
                               border: OutlineInputBorder(
@@ -102,6 +111,7 @@ class _CommandScreenState extends State<CommandScreen> {
                             ),
                             hint: listaComandos.length == 0 ? Text("No disponibles") : Text("Seleccione un comando"),
                             value: manager.selected,
+
                             items: listaComandos.map<DropdownMenuItem<String>>((CommandDataModel cmd){
                               return DropdownMenuItem<String>(
                                   value: cmd.descripcion,
@@ -111,7 +121,7 @@ class _CommandScreenState extends State<CommandScreen> {
                             onChanged: (String? newValue){
                               manager.toggleButton(newValue);
                             }
-                        ) : Center(child: Text("Este dispositivo NO tiene comanods disponibles"),);
+                        ) : Center(child: Text("Este dispositivo NO tiene comandos disponibles"),);
                       } else {
                         return Center(
                           child: Text("No se pudo conectar al servidor."),

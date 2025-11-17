@@ -1,7 +1,9 @@
 class SiccapDataModel {
   String? tipoServicio;
   String? idgps;
+  String? descripcion;
   String? enMision;
+  String? empresa;
   String? fechaAsignado;
   String? fechaFin;
   String? rui;
@@ -9,9 +11,11 @@ class SiccapDataModel {
   String? referencia;
   String? piloto;
   String? telefono;
+  String? telefonoCustodio;
   String? direccionDestino;
   String? paisDestino;
   String? contenedor;
+  String? placaCabezal;
   String? placaTc;
   String? color;
   String? indicarivo;
@@ -22,7 +26,9 @@ class SiccapDataModel {
   SiccapDataModel({
     this.tipoServicio,
     this.idgps,
+    this.descripcion,
     this.enMision,
+    this.empresa,
     this.fechaAsignado,
     this.fechaFin,
     this.rui,
@@ -30,9 +36,11 @@ class SiccapDataModel {
     this.referencia,
     this.piloto,
     this.telefono,
+    this.telefonoCustodio,
     this.direccionDestino,
     this.paisDestino,
     this.contenedor,
+    this.placaCabezal,
     this.placaTc,
     this.color,
     this.indicarivo,
@@ -44,7 +52,9 @@ class SiccapDataModel {
   SiccapDataModel.fromJson(Map<String, dynamic> json) {
     tipoServicio = json['tipoServicio'];
     idgps = json['idgps'];
+    descripcion = json['descripcion'];
     enMision = json['enMision'];
+    empresa = json['empresa'];
     fechaAsignado = json['fechaAsignado'];
     fechaFin = json['fechaFin'];
     rui = json['rui'];
@@ -52,9 +62,11 @@ class SiccapDataModel {
     referencia = json['referencia'];
     piloto = json['piloto'];
     telefono = json['telefono'];
+    telefonoCustodio = json['telefonoCustodio'];
     direccionDestino = json['direccionDestino'];
     paisDestino = json['paisDestino'];
     contenedor = json['contenedor'];
+    placaCabezal = json['placaCabezal'];
     placaTc = json['placaTc'];
     color = json['color'];
     indicarivo = json['indicarivo'];

@@ -2,6 +2,7 @@ import 'package:apprutas/Models/foto_model.dart';
 import 'package:apprutas/Models/unidad_data_model.dart';
 import 'package:apprutas/Models/unidad_model.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ListviewManager2 extends ChangeNotifier{
 
@@ -21,8 +22,11 @@ class ListviewManager2 extends ChangeNotifier{
     } else {
       //|| f.IDGPS.toString().toLowerCase().contains(query)
       units = allUnits.where((f) => f.Descripcion.toString().toLowerCase().contains(query.toLowerCase())
-      || f.Placa.toString().toLowerCase().contains(query) || f.nombrePiloto.toString().toLowerCase().contains(query)
-          || f.IDGPS.toString().toLowerCase().contains(query)
+          || f.asignado.toString().toLowerCase().contains(query.toLowerCase())
+          || f.empresa.toString().toLowerCase().contains(query.toLowerCase())
+          || f.descripcion_ordenada.toString().toLowerCase().contains(query.toLowerCase())
+      || f.Placa.toString().toLowerCase().contains(query.toLowerCase()) || f.nombrePiloto.toString().toLowerCase().contains(query.toLowerCase())
+          || f.IDGPS.toString().toLowerCase().contains(query.toLowerCase()),
       ).toList();
     }
     print("buscando... ${query}, encontrados: ${units.length}");

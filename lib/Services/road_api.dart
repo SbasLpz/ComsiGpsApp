@@ -4,8 +4,8 @@ import 'package:apprutas/Models/alert_model.dart';
 import 'package:apprutas/Models/command_model.dart';
 import 'package:apprutas/Models/historial_model.dart';
 import 'package:apprutas/Models/info_data_model.dart';
-import 'package:apprutas/Models/link_model.dart';
 import 'package:apprutas/Models/new_pass_model.dart';
+import 'package:apprutas/Models/recent_model.dart';
 import 'package:apprutas/Models/recover_model.dart';
 import 'package:apprutas/Models/send_model.dart';
 import 'package:apprutas/Models/siccap_model.dart';
@@ -54,9 +54,9 @@ Future<ValidationModel> postLogin(String user, String pass) async {
   return ValidationModel.fromJson(body);
 }
 
-Future<List<UnidadDataModel>> unidadesFuture = getUnidades();
+Future<UnidadModel> unidadesFuture = getUnidades();
 
-Future<List<UnidadDataModel>> getUnidades() async {
+Future<UnidadModel> getUnidades() async {
   print("ESTOY EN getUnidades()");
   final String? stringData  = await SessionManagerCustom.getLoginData();
   print("StringData: "+stringData!);
@@ -76,7 +76,7 @@ Future<List<UnidadDataModel>> getUnidades() async {
   //print("Token de Usuario a usar: ${token}");
   var url = Uri.parse("https://www.comsigps.com/api_v2/listadoGeneral.php");
 
-  var res = await http.post(
+  var response = await http.post(
     url,
     body: jsonEncode(request)
   );
@@ -85,14 +85,27 @@ Future<List<UnidadDataModel>> getUnidades() async {
   //final response = await http.get(url, headers: {});
   //final List body = json.decode(response.body);
 
-  final List<dynamic> dataResp = res.statusCode == 200 ? json.decode(res.body)['data'] : [];
+  //final body = json.decode(response.body);
   //print("DataResp number of units: ${dataResp.length}");
   //print("Code Response: ${response.statusCode}");
   //print("Response SUCCESS: ${json.decode(response.body)['success']}");
 
-  print("♠♠♠ Unidades obtenidas ♠♠♠: ${const JsonEncoder.withIndent("  ").convert(jsonDecode(res.body))}");
+  //print("♠♠♠ Unidades obtenidas ♠♠♠: ${const JsonEncoder.withIndent("  ").convert(jsonDecode(res.body))}");
 
-  return dataResp.map((unit) => UnidadDataModel.fromJson(unit)).toList();
+  if (response.statusCode == 200) {
+    final body = jsonDecode(response.body);
+    print("♠♠♠ Unidades obtenidas ♠♠♠ ${const JsonEncoder.withIndent("  ").convert(jsonDecode(response.body))}");
+    return UnidadModel.fromJson(body);
+  } else {
+    print("---> Error HTTP Unidades Lista: ${response.statusCode} ||");
+    return UnidadModel(
+      success: false,
+      message: "Error HTTP: ${response.statusCode}",
+      data: [],
+    );
+  }
+
+  //return dataResp.map((unit) => UnidadModel.fromJson(unit));
 }
 
 Future<HistorialModel> postHistory(String idgps, String fehaIni, String horaInicio, String fechaFin, String horaFinal) async {
@@ -110,7 +123,7 @@ Future<HistorialModel> postHistory(String idgps, String fehaIni, String horaInic
   final response = await http.post(url, headers: {}, body: jsonEncode(request));
 
   //final List<dynamic> dataResp = response.statusCode == 200 ? json.decode(response.body)['data'] : [];
-  final body = jsonDecode(response.body);
+  //final body = jsonDecode(response.body);
 
   if (response.statusCode == 200) {
     final body = jsonDecode(response.body);
@@ -124,8 +137,6 @@ Future<HistorialModel> postHistory(String idgps, String fehaIni, String horaInic
       data: [],
     );
   }
-
-  return HistorialModel.fromJson(body);
 }
 
 Future<AlertModel> alertasFuture = getAlerts();
@@ -280,4 +291,26 @@ Future<List<InfoDataModel>> getOneVehicle(String idgps) async {
   print("♠♠♠ Unidades obtenidas GET ONE VEHICLE♠♠♠: ${const JsonEncoder.withIndent("  ").convert(jsonDecode(response.body))}");
   //print("Envie: ${id}. SUCCESS del GET ONE VEHICLE: ${UnidadModel.fromJson(body).success}");
   return dataResp.map((unit)=>InfoDataModel.fromJson(unit)).toList();
+}
+
+
+Future<RecentModel> getHistorialRecent(String idgps) async {
+  String token = await SessionManager().getString("tokenUser");
+  Map<String, dynamic> request = {
+    'token': token,
+    'idgps': idgps
+  };
+  print("Token de Usuario a usar HISTORIAL RECENT: ${token}, idgps: ${idgps} SICCAP");
+  var url = Uri.parse("https://www.comsigps.com/api_v2/historial2.php");
+
+  final response = await http.post(url, headers: {}, body: jsonEncode(request));
+  //print("SICCAP HELLO ${response.statusCode}");
+  print("RAW RESPONSE BODY Historial Recent: ${response.body}");
+  print("RAW RESPONSE BODY Historial Recent: ${response.body}");
+  final body = jsonDecode(response.body);
+  //final List<dynamic> dataResp = response.statusCode == 200 ? json.decode(response.body)['data'] : [];
+
+  print("SUCCESS del GET Recetn History DATA: ${RecentModel.fromJson(body).status}");
+  //print(" Recetn History DATA LENGHT: ${RecentModel.fromJson(body).data!.length}");
+  return RecentModel.fromJson(body);
 }

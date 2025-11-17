@@ -6,19 +6,20 @@ ListviewManager unitsManager = ListviewManager();
 TextTheme txtTheme = Theme.of(GlobalContext.navKey.currentContext!).textTheme;
 MapManager mpMan = MapManager();
 //MapController mpController = MapController();
+Map<BitmapDescriptor, iconosName> iconosMap = {};
 
-late GoogleMapController mapController;
+//late GoogleMapController mapController;
+//late GoogleMapController mapController;
+Completer<GoogleMapController> mapControllerCompleter = Completer<GoogleMapController>();
+
 String siccap = "";
 
 LatLng _center = LatLng(9.9996, -84.1572);
 
-void _onMapCreated(GoogleMapController controller) {
-  mapController = controller;
-}
+
 
 List<Marker> markerList = [];
 bool isControllerEnable = false;
-BitmapDescriptor? customIcon;
 
 Future<Uint8List> getBytesFromAsset(String path, int width) async {
   ByteData data = await rootBundle.load(path);
@@ -27,7 +28,37 @@ Future<Uint8List> getBytesFromAsset(String path, int width) async {
   return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
 }
 
+BitmapDescriptor determineIcons (String icono) {
+  //var xds = iconosMap.forEach((icono, name) => name == iconosName.amarillo ? icono : null);
+  //var xds2 = iconosMap.entries.firstWhere((element) => element.value == iconosName.amarillo).key;
 
+  switch (icono){
+    case "NormalAmarillo.png":
+      return iconosMap.entries.firstWhere((element) => element.value == iconosName.amarillo).key;
+    case "NormalVerde.png":
+      return iconosMap.entries.firstWhere((element) => element.value == iconosName.verde).key;
+    case "NormalRojo.png":
+      return iconosMap.entries.firstWhere((element) => element.value == iconosName.rojo).key;
+    case "NormalMorado.png":
+      return iconosMap.entries.firstWhere((element) => element.value == iconosName.morado).key;
+    case "Patverde.png":
+      return iconosMap.entries.firstWhere((element) => element.value == iconosName.patverde).key;
+    case "Normal.png":
+      return iconosMap.entries.firstWhere((element) => element.value == iconosName.normal).key;
+    case "PatNormal.png":
+      return iconosMap.entries.firstWhere((element) => element.value == iconosName.patnormal).key;
+    case "PickNormal.png":
+      return iconosMap.entries.firstWhere((element) => element.value == iconosName.pickNormal).key;
+    case "Pickverde.png":
+      return iconosMap.entries.firstWhere((element) => element.value == iconosName.pickVerde).key;
+      case "moto.png":
+      return iconosMap.entries.firstWhere((element) => element.value == iconosName.moto).key;
+      case "motoVerde.png":
+      return iconosMap.entries.firstWhere((element) => element.value == iconosName.motoVerde).key;
+    default:
+      return iconosMap.entries.firstWhere((element) => element.value == iconosName.amarillo).key;
+  }
+}
 
 List<Marker> listToMarkerList(List<UnidadDataModel> lista) {
   print("La lista me llego con esta cantidad: ${lista.length}");
@@ -38,13 +69,17 @@ List<Marker> listToMarkerList(List<UnidadDataModel> lista) {
   lista.forEach((UnidadDataModel loca){
 
     var latlong = GlobalContext.getLatLng(loca.Coordenadas!);
+    print("LatLng COORDS: ${loca.Coordenadas}");
+    print("COORDS ICON TO MAKE: ${loca.icono}");
     print("LatLng (A ver si aca se cae): ${latlong['lat']}, ${latlong['long']}");
     var point = LatLng(double.parse(latlong['lat']!), double.parse(latlong['long']!));
 
       var marker = Marker(
           markerId:  MarkerId(loca.IDGPS ?? UniqueKey().toString()),
           position: point,
-          icon: customIcon!,
+          // Estan invertido ANARANJADO es Asignado y VERDE sin asignar
+          //icon: loca.asignado == null || loca.asignado == "" || loca.asignado == "No" ? customIcon! : customIconNoAsig!,
+          icon: determineIcons(loca.icono ?? "-"),
           onTap: () {
             print("Buenas tardes -");
             showMiDialog(loca);
@@ -106,6 +141,40 @@ String convertDateFormat(String date) {
 Future<int?> getIntevalo() async {
   int? intervalo = await SessionManager().getInt("intervalo");
   return intervalo;
+}
+
+String getIgnicionVal(int? igni) {
+  String value = "";
+
+  switch (igni) {
+    case 0:
+      value = "Apagado";
+      break;
+    case 1:
+      value = "Encendido";
+      break;
+    case 3:
+      value = "Desconocido";
+      break;
+      default:
+      value = "Sin conocer";
+      break;
+  }
+
+  return value;
+}
+
+void makePhoneCall(String? tel) async {
+
+  if(tel != null) {
+    var url = Uri.parse("tel:" + tel.trim());
+    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+      Fluttertoast.showToast(msg: "No se pudo llamar al ${tel}");
+    }
+  } else {
+    Fluttertoast.showToast(msg: "Número de tel. inválido: '${tel}'");
+  }
+
 }
 
 

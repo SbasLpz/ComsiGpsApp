@@ -17,7 +17,8 @@ class MapManager extends ChangeNotifier {
   }
   MapManager._internal();
   // ------- Instancia unica compartida - Singleton ------
-  Future<List<UnidadDataModel>> listaUnits = getUnidades();
+  Future<UnidadModel> unidadesFuture = getUnidades();
+  //Future<List<UnidadDataModel>> listaUnits = getUnidades();
   List<UnidadDataModel> listUnits = [];
 
   List<Marker> markersList = [];
@@ -31,6 +32,13 @@ class MapManager extends ChangeNotifier {
 
   var initLocation = LatLng(9.9996, -84.1572);
   var mapZoom = 6.0;
+
+  MapType tipoMapaActual = MapType.normal;
+
+  changeInitLocation(LatLng newInit) {
+    initLocation = newInit;
+    notifyListeners();
+  }
 
   intervalUpdate() {
     print("INTERVALOR A USAR: ${intervalo}");
@@ -46,7 +54,8 @@ class MapManager extends ChangeNotifier {
 
   exe() async {
     print("******Provider Manager: Se actalizo la data de los marcadores");
-    listUnits = await getUnidades();
+    var getUnidades1 = await getUnidades();
+    listUnits = getUnidades1.data!;
     count++;
     print("Counter: $count");
     notifyListeners();
@@ -61,8 +70,25 @@ class MapManager extends ChangeNotifier {
   }
 
   changeInitZoom (LatLng initLoc, double zoom) {
+    if (initLoc == initLocation && zoom == mapZoom) {
+      return;
+    }
     initLocation = initLoc;
     mapZoom = zoom;
+    notifyListeners();
+  }
+
+  chagneZoom (double newZoom) {
+    if (mapZoom == newZoom) {
+      return;
+    }
+    mapZoom = newZoom;
+    notifyListeners();
+  }
+
+  void changeMapsView() {
+    //showSatyellite = !showSatyellite;
+    tipoMapaActual = tipoMapaActual == MapType.normal ? MapType.satellite : MapType.normal;
     notifyListeners();
   }
 }

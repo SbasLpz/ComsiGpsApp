@@ -1,0 +1,1 @@
+C:\Users\Usuario\AndroidStudioProjects\RutasFluttterCOMSI\build\app\intermediates\cxx\RelWithDebInfo\2w1o571t\obj\arm64-v8a

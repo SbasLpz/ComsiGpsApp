@@ -1,0 +1,5 @@
+enum EnumScreens{
+  NavigationScreen,
+  ListviewScreeen,
+
+}

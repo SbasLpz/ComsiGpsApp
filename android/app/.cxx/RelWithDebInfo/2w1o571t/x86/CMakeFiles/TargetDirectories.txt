@@ -1,0 +1,2 @@
+C:/Users/Usuario/AndroidStudioProjects/RutasFluttterCOMSI/android/app/.cxx/RelWithDebInfo/2w1o571t/x86/CMakeFiles/edit_cache.dir
+C:/Users/Usuario/AndroidStudioProjects/RutasFluttterCOMSI/android/app/.cxx/RelWithDebInfo/2w1o571t/x86/CMakeFiles/rebuild_cache.dir
